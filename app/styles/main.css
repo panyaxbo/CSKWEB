@@ -4,7 +4,29 @@
   color: #000;
   padding: 0.2em 0;
 }
+@media (min-width: 768px) {
+  .modal-dialog {
+    width: 745px;
+    margin: 30px auto;
+    z-index: 1000000;
+  }
+  .modal-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+  }
+  .modal-sm {
+    width: 300px;
+  }
+}
+/* Override model sizing in bootstrap-css*/
+.modal-lg {
 
+    width: 1250px;
+}
+
+.header-link {
+  color: #FFFFFF;
+}
 body {
   padding: 0;
 }
@@ -109,8 +131,8 @@ footer {
     margin-top: 8px;
 }
 
-.navbar-inverse {
-    background-color: rgba(34, 34, 34, 0.80);
+.cskweb-navbar {
+    background-color: rgba(35, 35, 35, 0.80);
     border: none;
 
 }
@@ -130,6 +152,14 @@ footer {
   margin-top: -11px;
 }
 
-.ngdialog.ngdialog-theme-default .ngdialog-content {
-    width: 900px;
+.ngdialog.dialogwidth1000 .ngdialog-content{
+  width : 1000px;
+}
+
+.ngdialog.dialogwidth780 .ngdialog-content{
+  width : 780px;
+}
+
+.block-ui-container {
+  z-index: 999999;
 }

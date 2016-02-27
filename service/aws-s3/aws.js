@@ -743,7 +743,7 @@ router.get('/downloadUserImageProfile/:UserId/:Username', function(req, res) {
 */
   user_s3fsImpl.readFile(home_bucket + user_bucket + Username + '.png').then(function(data, status) {
     if (!data) {
-        res.sendStatus(200);
+        res.sendStatus(404);
         return;
     } else if (data){ 
       console.log(data);

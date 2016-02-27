@@ -8,24 +8,15 @@
     <meta name="author" content="{{'TITLE.AUTHOR' | translate}}">
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="/favicon.ico">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="bower_components/pnotify/dist/pnotify.brighttheme.css" />
-    <link rel="stylesheet" href="bower_components/pnotify/dist/pnotify.buttons.css" />
-    <link rel="stylesheet" href="bower_components/pnotify/dist/pnotify.css" />
-    <link rel="stylesheet" href="bower_components/pnotify/dist/pnotify.history.css" />
-    <link rel="stylesheet" href="bower_components/pnotify/dist/pnotify.mobile.css" />
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/bower_components/bootstrap-social-buttons/social-buttons-3.css" />
     <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css" />
-    <link rel="stylesheet" href="bower_components/ng-dialog/css/ngDialog.css" />
-    <link rel="stylesheet" href="bower_components/ng-dialog/css/ngDialog-theme-default.css" />
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.min.css" />
+
     <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
+    <link rel="stylesheet" href="styles/step.css">
+
   </head>
   <body>
 
@@ -58,22 +49,12 @@
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-translate/angular-translate.js"></script>
     <script src="bower_components/oauth-js/dist/oauth.min.js"></script>
-    <script src="bower_components/pnotify/dist/pnotify.animate.js"></script>
-    <script src="bower_components/pnotify/dist/pnotify.buttons.js"></script>
-    <script src="bower_components/pnotify/dist/pnotify.callbacks.js"></script>
-    <script src="bower_components/pnotify/dist/pnotify.confirm.js"></script>
-    <script src="bower_components/pnotify/dist/pnotify.js"></script>
-    <script src="bower_components/pnotify/dist/pnotify.desktop.js"></script>
-    <script src="bower_components/pnotify/dist/pnotify.history.js"></script>
-    <script src="bower_components/pnotify/dist/pnotify.mobile.js"></script>
-    <script src="bower_components/pnotify/dist/pnotify.nonblock.js"></script>
-    <script src="bower_components/angular-pnotify/src/angular-pnotify.js"></script>
     <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="bower_components/ng-dialog/js/ngDialog.js"></script>
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/ng-password-strength/dist/scripts/ng-password-strength.js"></script>
     <script src="bower_components/angular-recaptcha/release/angular-recaptcha.js"></script>
     <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angular-block-ui/dist/angular-block-ui.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -91,8 +72,16 @@
     <script src="services/email-service.js"></script>
     <script src="services/locale-service.js"></script>
     <script src="services/product-service.js"></script>
+    <script src="services/province-service.js"></script>
+    <script src="services/district-service.js"></script>
+    <script src="services/sub-district-service.js"></script>
+    <script src="services/weight-rate-service.js"></script>
+    <script src="services/user-service.js"></script>
+    <script src="services/crypto-service.js"></script>
     <script src="constants/constants.js"></script>
     <script src="scripts/main.js"></script>
+    <script src="scripts/csk-modal.js"></script>
+    <script src="scripts/step.js"></script>
     <!-- endbuild -->
 </body>
 </html>

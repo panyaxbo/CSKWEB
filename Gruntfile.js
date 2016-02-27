@@ -51,7 +51,7 @@ module.exports = function (grunt) {
         tasks: ['express:dev'],
         options: {
           spawn: false,
-          livereload: true
+          livereload: 35728
         }
       },
       jsTest: {
@@ -82,12 +82,16 @@ module.exports = function (grunt) {
       options: {
         port: 9999,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost',
-        livereload: 35555
+        hostname: 'localhost'
       },
       livereload: {
         options: {
-          open: true,
+       //   open: true,
+          open: {
+            server: {
+              url: 'http://localhost:<%= connect.options.port %>'
+            }
+          },
           middleware: function (connect) {
             return [
               connect.static('.tmp'),

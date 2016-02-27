@@ -49,6 +49,7 @@ var cryptojs = require('../cryptojs/cryptojs');
 var base64 = require('../base64/base64');
 var paypal = require('../paypal/paypal');
 var currency = require('../currency/currency');
+var weight = require('./route/weight-rate');
 //app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -83,9 +84,10 @@ app.use('/cryptojs', cryptojs);
 app.use('/base64', base64);
 app.use('/paypal', paypal);
 app.use('/currency', currency);
+app.use('/weight', weight);
 
 var environment = process.env.NODE_ENV || '';
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3333;
 var mongolab_uri = process.env.MONGOLAB_URI || 'mongodb://cskwebadmin:passw0rd6126@ds059165.mongolab.com:59165/cskweb';
 
 app.set('', port);

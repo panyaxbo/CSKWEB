@@ -8,14 +8,28 @@
  *
  * Main module of the application.
  */
-var app = angular.module('CSKWEB', ['ngAnimate','ngAria','ngCookies','ngMessages',
-    'ngResource','ngRoute','ngSanitize', 'ngTouch','pascalprecht.translate', 'ngDialog',
-     'ngCookies', 'CONFIG', 'vcRecaptcha', 'ngPasswordStrength']);
+var app = angular.module('CSKWEB', [
+ // 'ngAnimate',
+  'ngAria',
+  'ngCookies',
+  'ngMessages',
+    'ngResource',
+    'ngRoute',
+    'ngSanitize', 
+    'ngTouch',
+    'pascalprecht.translate', 
+      'CONFIG', 'vcRecaptcha', 'ngPasswordStrength','blockUI']);
 
 app.run(function ($rootScope) {
-  $rootScope.$on('UpdateROHeadROLine', function (event, args) {
-        $rootScope.$broadcast('UpdateROHeadROLineBroadcast', args);
-    });
+  $rootScope.$on('UpdateROHeadROLineFromBody', function (event, args) {
+      $rootScope.$broadcast('UpdateROHeadROLineFromBodyBroadcast', args);
+  });
+  $rootScope.$on('UpdateSelectedLocale', function (event, args) {
+      $rootScope.$broadcast('UpdateSelectedLocaleBroadcast', args);
+  });
+  $rootScope.$on('UpdateSelectedCurrency', function (event, args) {
+      $rootScope.$broadcast('UpdateSelectedCurrencyBroadcast', args);
+  });
 });
 /*
 .config(function ($routeProvider) {
