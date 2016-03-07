@@ -149,6 +149,5 @@ app.service("UserService", ["$q", "$http", "ENV", function ($q, $http, ENV) {
 	        });
     		return defer.promise;
     	}
-
     };
 }]);

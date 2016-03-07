@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 var app = angular.module('CSKWEB', [
- // 'ngAnimate',
+  'ngAnimate',
   'ngAria',
   'ngCookies',
   'ngMessages',
@@ -20,7 +20,9 @@ var app = angular.module('CSKWEB', [
     'pascalprecht.translate', 
       'CONFIG', 'vcRecaptcha', 'ngPasswordStrength','blockUI']);
 
-app.run(function ($rootScope) {
+app.run(function ($rootScope, $http, $q) {
+
+
   $rootScope.$on('UpdateROHeadROLineFromBody', function (event, args) {
       $rootScope.$broadcast('UpdateROHeadROLineFromBodyBroadcast', args);
   });

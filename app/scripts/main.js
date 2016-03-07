@@ -24,3 +24,14 @@ $('#DropdownLanguage li').on('click', function () {
 $('#DropdownCurrency li').on('click', function () {
     $('#SelectedDropdownCurrency').html($(this).find('a').html());
 });
+
+
+window.paypalCheckoutReady = function() {
+    paypal.checkout.setup("4N2L5B22JU3W6", {
+    //    environment: 'sandbox',
+        button: [{
+            container : 'PaypalPayment',
+            button: 'PaypalButton'
+        }]
+    });
+}

@@ -8,7 +8,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><img src="images/CSK_Logo.png" height="45" width="44" class="csk-logo"></a>
+                <a class="navbar-brand" href="#"><img src="images/CSK_icon_black.png" height="45" width="44" class="csk-logo"></a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -27,35 +27,745 @@
                 <ul class="nav nav-pills pull-right nav-header">
                     <li>
                         <div>
-                            <button id="CartButton" class="btn btn-success" ng-click="OpenCartDialog()">
+                            <button id="CartButton" class="btn btn-success" data-toggle="modal" data-target="#CartModal">
                                 <span class="glyphicon glyphicon-shopping-cart"></span> ({{ROHead.ROLineList.length}}) {{'HEAD.CART' | translate}}
                             </button>
+                        </div>
+                        <div id="CartModal" class="modal fade" role="dialog" data-backdrop="false">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title"><i class="fa fa-shopping-basket fa-2x"></i>  {{'HEAD.MODAL_CART.PRODUCT_CART' | translate}}</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-md-offset-0">
+                                            <div id="HideCartTable" ng-show="ROHead.ROLineList.length <= 0 || ROHead.ROLineList === undefined">
+                                                <h3 class="text-center">--------- {{'HEAD.MODAL_CART.EMPTY_CART' | translate}} ---------</h3>
+                                            </div>
+                                            <div id="ShowCartTable" ng-show="ROHead.ROLineList.length > 0">
+                                                <table id="CartTable" class="table table-hover table table-condensed" ng-show="ROHead.ROLineList.length > 0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>{{'HEAD.MODAL_CART.SEQ' | translate}}</th>
+                                                            <th></th>
+                                                            <th class="text-left">{{'HEAD.MODAL_CART.ITEM_NAME' | translate}}</th>
+                                                            <th class="text-right">{{'HEAD.MODAL_CART.QTY' | translate}}</th>
+                                                            <th class="text-left">{{'HEAD.MODAL_CART.UOM' | translate}}</th>
+                                                            <th class="text-right">{{'HEAD.MODAL_CART.PRICE' | translate}}</th>
+                                                            <th class="text-right">{{'HEAD.MODAL_CART.DISCOUNT' | translate}}</th>
+                                                            <th class="text-right">{{'HEAD.MODAL_CART.AMOUNT' | translate}}</th>
+                                                            <th> </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="ro in ROHead.ROLineList" id="CartRow{{$index}}">
+                                                            <td class="col-sm-1 col-md-1 text-center" >
+                                                                {{$index+1}}.
+                                                            </td>
+                                                            <td class="col-sm-1 col-md-1 text-center" >
+                                                                <div id="CartProduct_{{ro.ProductCode}}">
+                                                                    
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-sm-5 col-md-5 text-left">
+                                                                <div class="media">
+                                                                    <div class="media-body">
+                                                                        {{ro.ProductNameTh}}
+                                                                    </div>
+                                                                    <p>{{ro.Weight}}</p>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: right">
+                                                                <input type="text" class="form-control input-sm" id="BuyQty" ng-model="ro.Quantity" 
+                                                                ng-keyup="UpdateCartBuyQty($index, ro.Quantity)" >
+                                                            </td>
+                                                            <td class="col-sm-1 col-md-1" style="text-align: center">
+                                                                {{ro.UomNameTh}}
+                                                            </td>
+                                                            <td class="col-sm-1 col-md-1 text-right"><strong>{{CurrencySymbol}} {{(ro.Price * Multiplier) | currency:''}}</strong>
+                                                            </td>
+                                                            <td class="col-sm-1 col-md-1 text-right"><strong>{{CurrencySymbol}} {{(ro.DiscountAmount * Multiplier) | currency:''}}</strong>
+                                                            </td>
+                                                            <td class="col-sm-4 col-md-4 text-right"><strong>{{CurrencySymbol}} {{(ro.Amount * Multiplier) | currency:''}}</strong>
+                                                            </td>
+                                                            <td class="col-sm-1 col-md-1">
+                                                                <button type="button" class="btn btn-danger btn-xs" ng-click="DeleteCartProduct(this, ro, $index)">
+                                                                    <span class="glyphicon glyphicon-trash"></span> 
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3"> </td>
+                                                            <td colspan="2">  
+                                                                <h5>{{'HEAD.MODAL_CART.SUMAMT' | translate}}</h5> 
+                                                            </td>
+                                                            <td colspan="3" class="text-right">  
+                                                                <h5><strong>{{CurrencySymbol}} {{(ROHead.SumAmount * Multiplier)  | currency:''}}</strong></h5> 
+                                                            </td>
+                                                            <td>   </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3"> </td>
+                                                            <td colspan="2">  
+                                                                <h5>{{'HEAD.MODAL_CART.SUMDISCAMT' | translate}}</h5>
+                                                            </td>
+                                                            <td colspan="3" class="text-right">  
+                                                                <h5><strong>{{CurrencySymbol}} {{(ROHead.SumDiscountAmount * Multiplier) | currency:''}}</strong></h5>
+                                                            </td>
+                                                            <td>   </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3"> </td>
+                                                            <td colspan="2">  
+                                                                <h5>{{'HEAD.MODAL_CART.SUMVATAMT' | translate}}</h5>
+                                                            </td>
+                                                            <td colspan="3" class="text-right">  
+                                                                <h5><strong>{{CurrencySymbol}} {{(ROHead.SumVatAmount * Multiplier) | currency:''}}</strong></h5>
+                                                            </td>
+                                                            <td>   </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="1"> </td>
+                                                            <td colspan="1"> </td>
+                                                            <td colspan="1"> 
+                                                                <select class="form-control" ng-model="ROHead.PostType" required="required" ng-change="ChangePostType()">
+                                                                    <option value="Normal">{{'HEAD.MODAL_CART.POST_TYPE.NORMAL' | translate}}</option>
+                                                                    <option value="EMS">{{'HEAD.MODAL_CART.POST_TYPE.EMS' | translate}}</option>
+                                                                <!--    <option value="Destination">{{'HEAD.MODAL_CART.POST_TYPE.DESTINATION' | translate}}</option>-->
+                                                                </select>
+                                                            </td>
+                                                            <td colspan="1">  
+                                                                <h5>{{'HEAD.MODAL_CART.SUM_WEIGHT_AMT' | translate}}</h5>
+                                                            </td>
+                                                            <td colspan="1">  
+                                                                <h5>{{ROHead.SumWeight | currency:''}} {{'WEIGHT_UOM' | translate}}</h5>
+                                                            </td>
+                                                            <td colspan="3" class="text-right">  
+                                                                <h5><strong>{{CurrencySymbol}} {{(ROHead.SumWeightAmount * Multiplier) | currency:''}}</strong></h5>
+                                                            </td>
+                                                            <td>   </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3"> </td>
+                                                            <td colspan="2">  
+                                                                <h4>{{'HEAD.MODAL_CART.NETAMT' | translate}}</h4>
+                                                            </td>
+                                                            <td colspan="3" class="text-right">  
+                                                                <h4><strong>{{CurrencySymbol}} {{(ROHead.NetAmount * Multiplier) | currency:''}}</strong></h4>
+                                                            </td>
+                                                            <td>   </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="9">
+                                                                <div class="col-sm-offset-2 col-sm-10">
+                                                                    <div class="pull-right">
+                                                                        <button type="button" class="btn btn-default" ng-click="ContinueShopping()">
+                                                                        <span class="glyphicon glyphicon-shopping-cart"></span> {{'HEAD.MODAL_CART.SHOP_BUTTON' | translate}}
+                                                                    </button>
 
+                                                                        <button type="button" class="btn btn-danger" ng-click="DeleteCart()">
+                                                                        <span class="glyphicon glyphicon-trash"></span> {{'HEAD.MODAL_CART.CLEAR_BUTTON' | translate}}
+                                                                    </button>
+
+                                                                        <button type="button" class="btn btn-success" ng-click="CheckoutProcess()">
+                                                                        {{'HEAD.MODAL_CART.CHECKOUT_BUTTON' | translate}} <span class="glyphicon glyphicon-play"></span>
+                                                                    </button>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ShipmentModal" class="modal fade" role="dialog" data-backdrop="false">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                         <h2><i class="fa fa-truck fa-2"></i>  {{'HEAD.MODAL_SHIPMENT.HEAD' | translate}}</h2>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-md-offset-0">
+                                                <div class="stepwizard">
+                                                    <div class="stepwizard-row setup-panel">
+                                                        <div class="stepwizard-step">
+                                                            <a id="nav-step1" href="#step-1" type="button" class="btn btn-primary btn-circle" ng-click="SelectStep(1)">1</a>
+                                                            <p>{{'HEAD.MODAL_SHIPMENT.BILLING.STEP' | translate}}</p>
+                                                        </div>
+                                                        <div class="stepwizard-step">
+                                                            <a id="nav-step2" href="#step-2" type="button" class="btn btn-default btn-circle" ng-click="SelectStep(2)" disabled="disabled">2</a>
+                                                            <p>{{'HEAD.MODAL_SHIPMENT.PAYMENT.STEP' | translate}}</p>
+                                                        </div>
+                                                        <div class="stepwizard-step">
+                                                            <a id="nav-step3" href="#step-3" type="button" class="btn btn-default btn-circle" ng-click="SelectStep(3)" disabled="disabled">3</a>
+                                                            <p>{{'HEAD.MODAL_SHIPMENT.FINISH.STEP' | translate}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <form role="form">
+                                                    <div class="row" id="step-1" ng-show="step == 1">
+                                                        <div class="col-xs-12">
+                                                            <div class="col-md-12">
+                                                                <h3>{{'HEAD.MODAL_SHIPMENT.BILLING.STEP' | translate}}</h3>
+                                                                <div class="row form-group">
+                                                                    <div>
+                                                                      <form class="form-horizontal" role="form">
+                                                                   
+                                                                          <legend>&nbsp;</legend>
+                                                                     
+                                                                          <div class="form-group">
+                                                                                <label class="col-md-4 control-label">{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_NAME' | translate}} :</label>
+                                                                                <div class="col-md-8">
+                                                                                    <input maxlength="200" type="text" ng-model="ROHead.BillingName" required="required" 
+                                                                                    class="form-control" placeholder="{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_NAME' | translate}}" />
+                                                                                </div>
+                                                                          </div>
+                                                                          <div class="form-group"></div>
+                                                                          <div class="form-group">
+                                                                                <label class="col-md-4 control-label">{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_EMAIL' | translate}} :</label>
+                                                                                <div class="col-md-8">
+                                                                                    <input maxlength="200" type="text" ng-model="ROHead.BillingEmail" required="required" 
+                                                                                    class="form-control" placeholder="{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_EMAIL' | translate}}" />
+                                                                                </div>
+                                                                          </div>
+                                                                          <div class="form-group"></div>
+                                                                          <div class="form-group">
+                                                                            <label class="col-sm-4 control-label" for="textinput">{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_ADDRESS' | translate}} :</label>
+                                                                            <div class="col-sm-8">
+                                                                              <input type="text" ng-model="ROHead.BillingAddress" required="required" placeholder="{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_ADDRESS' | translate}}" class="form-control">
+                                                                            </div>
+                                                                          </div>
+                                                                          <div class="form-group"></div>
+                                                                      
+                                                                          <div class="form-group">
+                                                                            <label class="col-md-4 control-label" for="textinput">{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_PROVINCE' | translate}} :</label>
+                                                                            <div class="col-md-8">
+                                                                              <select id="SelectProvince" name="selectbasic" class="form-control input-md" 
+                                                                           ng-model="ROHead.BillingProvinceId" ng-options="Province._id as Province.Province for Province in SelectBillingProvinceList" ng-change="UpdateBillingProvince()" required="required">
+                                                                                    <option value="">{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_SELECT_PROVINCE' | translate}}</option>
+                                                                               </select>
+                                                                            </div>
+                                                                          </div>
+                                                                          <div class="form-group"></div>
+                                                                          
+                                                                          <div class="form-group">
+                                                                            <label class="col-sm-4 control-label" for="textinput">{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_DISTRICT' | translate}} :</label>
+                                                                            <div class="col-sm-8">
+                                                                               <select id="SelectDistrictList" name="selectbasic" class="form-control input-md"  
+                                                                               required="required"
+                                                                               ng-model="ROHead.BillingDistrictId" ng-options="District._id as District.District for District in SelectBillingDistrictList" ng-change="UpdateBillingDistrict(District._id)">
+                                                                                    <option value="">{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_SELECT_DISTRICT' | translate}}</option>
+                                                                               </select>
+                                                                            </div>
+                                                                          </div>
+                                                                          <div class="form-group"></div>
+                                                                     
+                                                                          <div class="form-group">
+                                                                            <label class="col-sm-4 control-label" for="textinput">{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_SUBDISTRICT' | translate}} :</label>
+                                                                            <div class="col-sm-8">
+                                                                              <select id="SelectSubDistrictList" name="selectbasic" class="form-control input-md" 
+                                                                               required="required" ng-model="ROHead.BillingSubDistrictId" ng-options="SubDistrict._id as SubDistrict.SubDistrict for SubDistrict in SelectBillingSubDistrictList" ng-change="UpdateBillingSubDistrict()">
+                                                                                    <option value="">{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_SELECT_SUBDISTRICT' | translate}}</option>
+                                                                               </select>
+                                                                            </div>
+                                                                            <label class="col-sm-4 control-label" for="textinput">{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_ZIPCODE' | translate}} :</label>
+                                                                            <div class="col-sm-8">
+                                                                              <select id="SelectZipCodeList" name="selectbasic" class="form-control input-md" ng-model="ROHead.BillingZipCode" ng-options="ZipCode._id as ZipCode.ZipCode for ZipCode in SelectBillingZipCodeList"  required="required">
+                                                                                    <option value="">{{'HEAD.MODAL_SHIPMENT.BILLING.BILL_SELECT_ZIPCODE' | translate}}</option>
+                                                                              </select>
+                                                                            </div>
+                                                                          </div>
+                                                                          <div class="form-group">
+                                                                            <label class="col-sm-4 control-label" for="textinput">{{'HEAD.MODAL_SHIPMENT.BILLING.TEL_NO' | translate}} :</label>
+                                                                            <div class="col-sm-8">
+                                                                               <input type="text" ng-model="ROHead.TelNo" required="required" placeholder="{{'HEAD.MODAL_SHIPMENT.BILLING.TEL_NO' | translate}}" class="form-control">
+                                                                            </div>
+                                                                          </div>
+                                                                          <div class="form-group"></div>
+                                                                          <div class="form-group">
+                                                                            <label class="col-sm-4 control-label" for="textinput">{{'HEAD.MODAL_SHIPMENT.BILLING.MOBILE_NO' | translate}} :</label>
+                                                                            <div class="col-sm-8">
+                                                                               <input type="text" ng-model="ROHead.MobileNo" required="required" placeholder="{{'HEAD.MODAL_SHIPMENT.BILLING.MOBILE_NO' | translate}}" class="form-control">
+                                                                            </div>
+                                                                          </div>
+                                                                          <div class="form-group"></div>
+                                                                      </form>
+                                                                    </div>
+                                                                </div>
+                                                                <!--
+                                                                <h3>{{'HEAD.MODAL_SHIPMENT.BILLING.STEP' | translate}}</h3> 
+                                                                <div class="row form-group">
+                                                                    <input type="checkbox" ng-model="IsSameAddress" ng-click="PerformSameBillAndReceiptAddress()"> {{'HEAD.MODAL_SHIPMENT.BILLING.SAME_ADDRESS' | translate}}
+                                                                </div>
+                                                                <div class="row form-group">
+                                                                    <div>
+                                                                      <form class="form-horizontal" role="form">
+                                                                       
+                                                                          <legend>&nbsp;</legend>
+                                                                      
+                                                                          <div class="form-group">
+                                                                                <label class="col-md-4 control-label" style="text-align: left">{{'HEAD.MODAL_SHIPMENT.BILLING.RO_NAME' | translate}} :</label>
+                                                                                <div class="col-md-8">
+                                                                                    <input maxlength="200" type="text" ng-model="ROHead.ReceiptName" required="required" 
+                                                                                    class="form-control" placeholder="{{'HEAD.MODAL_SHIPMENT.BILLING.RO_NAME' | translate}}" />
+                                                                                </div>
+                                                                          </div>
+                                                                          <div class="form-group">
+                                                                            <label class="col-sm-4 control-label" for="textinput" style="text-align: left">{{'HEAD.MODAL_SHIPMENT.BILLING.RO_ADDRESS' | translate}} :</label>
+                                                                            <div class="col-sm-8">
+                                                                              <input type="text" ng-model="ROHead.ReceiptAddress" required="required" placeholder="{{'HEAD.MODAL_SHIPMENT.BILLING.RO_ADDRESS' | translate}}" class="form-control">
+                                                                            </div>
+                                                                          </div>
+                                                                          <!--
+                                                                          <div class="form-group">
+                                                                            <label class="col-md-4 control-label" for="textinput" style="text-align: left">{{'HEAD.MODAL_SHIPMENT.BILLING.RO_PROVINCE' | translate}} :</label>
+                                                                            <div class="col-md-8">
+                                                                              <select id="SelectProvince" name="selectbasic" class="form-control input-md" 
+                                                                           ng-model="ROHead.ReceiptProvinceId" ng-options="Province._id as Province.Province for Province in SelectReceiptProvinceList" ng-change="UpdateReceiptProvince()" required="required">
+                                                                                    <option value="">{{'HEAD.MODAL_SHIPMENT.BILLING.RO_SELECT_PROVINCE' | translate}}</option>
+                                                                               </select>
+                                                                            </div>
+                                                                          </div>
+                                                                          <div class="form-group">
+                                                                            <label class="col-sm-4 control-label" for="textinput" style="text-align: left">{{'HEAD.MODAL_SHIPMENT.BILLING.RO_DISTRICT' | translate}} :</label>
+                                                                            <div class="col-sm-8">
+                                                                               <select id="SelectDistrictList" name="selectbasic" class="form-control input-md"  
+                                                                               required="required"
+                                                                               ng-model="ROHead.ReceiptDistrictId" ng-options="District._id as District.District for District in SelectReceiptDistrictList" ng-change="UpdateReceiptDistrict()">
+                                                                                    <option value="">{{'HEAD.MODAL_SHIPMENT.BILLING.RO_SELECT_DISTRICT' | translate}}</option>
+                                                                               </select>
+                                                                            </div>
+                                                                          </div>
+                                                                          <div class="form-group">
+                                                                            <label class="col-sm-4 control-label" for="textinput" style="text-align: left">{{'HEAD.MODAL_SHIPMENT.BILLING.RO_SUBDISTRICT' | translate}} :</label>
+                                                                            <div class="col-sm-8">
+                                                                              <select id="SelectSubDistrictList" name="selectbasic" class="form-control input-md" 
+                                                                               required="required" ng-model="ROHead.ReceiptSubDistrictId" ng-options="SubDistrict._id as SubDistrict.SubDistrict for SubDistrict in SelectReceiptSubDistrictList" ng-change="UpdateReceiptSubDistrict()">
+                                                                                    <option value="">{{'HEAD.MODAL_SHIPMENT.BILLING.RO_SELECT_SUBDISTRICT' | translate}}</option>
+                                                                               </select>
+                                                                            </div>
+                                                                            <label class="col-sm-4 control-label" for="textinput" style="text-align: left">{{'HEAD.MODAL_SHIPMENT.BILLING.RO_ZIPCODE' | translate}} :</label>
+                                                                            <div class="col-sm-8">
+                                                                              <select id="SelectZipCodeList" name="selectbasic" class="form-control input-md" ng-model="ROHead.ReceiptZipCode" ng-options="ZipCode._id as ZipCode.ZipCode for ZipCode in SelectReceiptZipCodeList"  required="required">
+                                                                                    <option value="">{{'HEAD.MODAL_SHIPMENT.BILLING.RO_SELECT_ZIPCODE' | translate}}</option>
+                                                                              </select>
+                                                                            </div>
+                                                                          </div>
+                                                                      </form>
+                                                                    </div>
+                                                                </div>-->
+                                                            </div>
+                                                        
+                                                            <div>
+                                                                <button class="btn btn-primary btn-lg center-block" type="button" ng-click="ValidateBilling()">  
+                                                                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span> {{'HEAD.MODAL_SHIPMENT.BILLING.BUTTON_NEXT' | translate}}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" id="step-2" ng-show="step == 2">
+                                                        <div class="col-xs-12">
+                                                            <div class="col-md-12">
+                                                                <h3>{{'HEAD.MODAL_SHIPMENT.PAYMENT.STEP' | translate}}</h3>
+                                                                <div class="row form-group">
+                                                                    <!-- You can make it whatever width you want. I'm making it full width
+                                                                         on <= small devices and 4/12 page width on >= medium devices -->  
+                                                                    <div class="col-xs-12">
+                                                                        <div class="col-xs-4">
+                                                                             <label style="color:white">{{'HEAD.MODAL_SHIPMENT.PAYMENT.PAYMENT_TYPE' | translate}}</label>
+                                                                        </div>
+                                                                        <div class="col-xs-8">
+                                                                            <select class="form-control" ng-model="PaymentType" required="required" ng-change="ChangePaymentType()">
+                                                                                <option value="">{{'HEAD.MODAL_SHIPMENT.PAYMENT.SELECT_PAYMENT_TYPE' | translate}}</option>
+                                                                                <option value="Transfer">{{'HEAD.MODAL_SHIPMENT.PAYMENT.TRANSFER' | translate}}</option>
+                                                                                <option value="Paypal">{{'HEAD.MODAL_SHIPMENT.PAYMENT.PAYPAL' | translate}}</option> 
+                                                                                <option value="Credit" disabled="true" title="Credit Card is not support yet :(">{{'HEAD.MODAL_SHIPMENT.PAYMENT.CREDIT' | translate}}</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-12">
+                                                                    </div>
+                                                                    <div class="col-xs-12">
+                                                                    </div>
+                                                                    <div class="col-xs-12"> 
+                                                                         <div class="col-xs-2">
+                                                                         </div>
+                                                                         <div class="col-xs-12" ng-show="PaymentType == 'Transfer'">
+                                                                        <!-- TRANSFER FORM STARTS HERE -->
+                                                                        <div class="panel panel-default transfer-box">
+                                                                            <div class="panel-heading display-table">
+                                                                                <div class="row display-tr" >
+                                                                                    <h3 class="panel-title display-td">Payment Details</h3>
+                                                                                    <div class="display-td" >                            
+                                                                                    </div>
+                                                                                </div>                    
+                                                                            </div>
+                                                                            <div class="panel-body">
+                                                                                <form role="form" id="transfer-form">
+                                                                                    <div class="row">
+                                                                                        <table class="table table-condense">
+                                                                                            <thead>
+                                                                                                <tr>
+                                                                                                    <th class="text-center" style="color:black">{{'HEAD.MODAL_CART.SEQ' | translate}}</th>
+                                                                                                    <th class="text-center" style="color:black">Bank</th>
+                                                                                                    <th class="text-left" style="color:black">Account No</th>
+                                                                                                    <th class="text-left" style="color:black">Account Type</th>
+                                                                                                    <th class="text-left" style="color:black">Branch</th>
+                                                                                                    <th class="text-left" style="color:black">Account Name</th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td class="text-center">
+                                                                                                        <input type="radio" name="bank" ng-model="PaymentBank" value="bbl" required="required"/>
+                                                                                                    </td>
+                                                                                                    <td class="text-center">
+                                                                                                        <img src="/images/bbl.png" width="40" height="40">
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.BBL.ACCOUNT_NO' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.BBL.ACCOUNT_TYPE' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.BBL.ACCOUNT_BRANCH' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.BBL.ACCOUNT_NAME' | translate}}</label>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td class="text-center">
+                                                                                                        <input type="radio" name="bank" ng-model="PaymentBank" value="kbank" required="required"/>
+                                                                                                    </td>
+                                                                                                    <td class="text-center">
+                                                                                                        <img src="/images/kbank.png" width="40" height="40">
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.KBANK.ACCOUNT_NO' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.KBANK.ACCOUNT_TYPE' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.KBANK.ACCOUNT_BRANCH' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.KBANK.ACCOUNT_NAME' | translate}}</label>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td class="text-center">
+                                                                                                          <input type="radio" name="bank" ng-model="PaymentBank" value="scb" required="required"/>
+                                                                                                      
+                                                                                                    </td>
+                                                                                                    <td class="text-center">
+                                                                                                        <img src="/images/scb.png" width="40" height="40">
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.SCB.ACCOUNT_NO' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.SCB.ACCOUNT_TYPE' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.SCB.ACCOUNT_BRANCH' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.SCB.ACCOUNT_NAME' | translate}}</label>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td class="text-center">
+                                                                                                          <input type="radio" name="bank" ng-model="PaymentBank" value="ktb" required="required"/>
+                                                                                                    </td >
+                                                                                                    <td class="text-center">
+                                                                                                        <img src="/images/ktb.png" width="40" height="40">
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.KTB.ACCOUNT_NO' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.KTB.ACCOUNT_TYPE' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.KTB.ACCOUNT_BRANCH' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.KTB.ACCOUNT_NAME' | translate}}</label>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td class="text-center">
+                                                                                                          <input type="radio" name="bank" ng-model="PaymentBank" value="kcc" required="required"/>
+                                                                                                    </td >
+                                                                                                    <td class="text-center">
+                                                                                                        <img src="/images/kcc.png" width="40" height="40">
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.KCC.ACCOUNT_NO' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.KCC.ACCOUNT_TYPE' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.KCC.ACCOUNT_BRANCH' | translate}}</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">{{'HEAD.MODAL_SHIPMENT.PAYMENT.KCC.ACCOUNT_NAME' | translate}}</label>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <!--
+                                                                                                <tr>
+                                                                                                    <td class="text-center">
+                                                                                                       
+                                                                                                        <input type="radio" name="bank" ng-model="PaymentBank" value="tmb" required="required"/>
+                                                                                                     
+                                                                                                    </td class="text-center">
+                                                                                                    <td>
+                                                                                                        <img src="/images/tmb.png" width="60" height="35">
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <label style="color:black">111-2345-123</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">Saving</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">Surin</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">นายปัญญา บุญยกุลศรีรุ่ง</label>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td class="text-center">
+                                                                                                          <input type="radio" name="bank" ng-model="PaymentBank" value="uob" required="required" />
+                                                                                                    </td>
+                                                                                                    <td class="text-center">
+                                                                                                        <img src="/images/uob.png" width="60" height="30">
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <label style="color:black">111-2345-123</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">Saving</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black">Surin</label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <label style="color:black"> นายปัญญา บุญยกุลศรีรุ่ง </label>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                -->
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>            
+                                                                        <!-- TRANSFER FORM ENDS HERE -->
+                                                                         </div>  
+                                                                    </div>  
+                                                                    <div class="col-xs-12"> 
+                                                                         <div class="col-xs-2">
+                                                                         </div>
+                                                                         <div class="col-xs-12 text-center" ng-show="PaymentType == 'Paypal'" >
+                                                                            <!-- PAYPAL FORM STARTS HERE -->
+                                                                            <div class="panel panel-default transfer-box">
+                                                                                <div class="panel-heading display-table">
+                                                                                    <div class="row display-tr" >
+                                                                                        <h3 class="panel-title display-td">Payment with Paypal</h3>
+                                                                                        <div class="display-td text-center" >  
+                                                                                            <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_74x46.jpg" border="0" alt="PayPal Logo"><br>
+                                                                                            <img src="https://www.paypalobjects.com/webstatic/mktg/logo/PP_AcceptanceMarkTray-NoDiscover_243x40.png" alt="Buy now with PayPal" />    
+                                                                                        </div>
+                                                                                    </div>                    
+                                                                                </div>
+                                                                                <div class="panel-body">
+                                                                                <script async src="/scripts/paypal-button.min.js?merchant=4N2L5B22JU3W6"
+                                                                                    data-button = "buynow"
+                                                                                    data-name = {{Paypal.Name}}
+                                                                                    data-quantity = {{Paypal.Quantity}}
+                                                                                    data-amount = {{Paypal.Amount}}
+                                                                                    data-business = {{Paypal.MerchantId}}
+                                                                                    data-currency = {{Paypal.Currency}}
+                                                                                    data-shipping = {{Paypal.Shipping}}
+                                                                                    data-tax = {{Paypal.Tax}}
+                                                                                    data-callback = {{Paypal.CallbackUrl}}
+                                                                                    async
+                                                                                ></script>
+                                                                            
+                                                                            <div id="PaypalPayment" class="container">
+                                                                            <form class="ajaxasync" method="POST" action="http://166.78.8.98/cgi-bin/aries.cgi?live=1&returnurl=http://166.78.8.98/cgi-bin/return.htm&cancelurl=http://166.78.8.98/cgi-bin/cancel.htm">
+                                                                                      <button id="PaypalButton" type="submit" >
+                                                                                          <img src="https://www.paypalobjects.com/webstatic/en_AU/i/buttons/btn_paywith_primary_l.png" alt="ชำระด้วย PayPal" />
+                                                                                      </button>
+                                                                                  </form>
+                                                                            </div>    
+
+
+                                                                                <!--
+                                                                                    <form role="form" id="paypal-form-1" ng-show="Paypal.EnvironmentSandbox">
+                                                                                        <div class="row text-center">
+                                                                                           <script async src="paypal-button.min.js?merchant=KPBPW2K85KMAJ"
+                                                                                                data-button="buynow"
+                                                                                                data-type="form"
+                                                                                                data-name={{Paypal.Name}}
+                                                                                                data-quantity={{Paypal.Quantity}}
+                                                                                                data-amount={{Paypal.Amount}}
+                                                                                                data-currency = {{Paypal.Currency}}
+                                                                                                data-shipping = {{Paypal.Shipping}}
+                                                                                                data-tax = {{Paypal.Tax}}
+                                                                                                data-callback = {{Paypal.CallbackUrl}}
+                                                                                                data-return = {{Paypal.CallbackUrl}}
+                                                                                                data-return-url = {{Paypal.CallbackUrl}}
+                                                                                                data-env="sandbox"
+                                                                                            ></script>
+                                                                                            
+                                                                                        </div>
+                                                                                    </form>
+                                                                                    <form role="form" id="paypal-form-2" ng-show="!Paypal.EnvironmentSandbox">
+                                                                                        <div class="row text-center">
+                                                                                           <script async src="paypal-button.min.js?merchant=KPBPW2K85KMAJ"
+                                                                                                data-button="buynow"
+                                                                                                data-type="form"
+                                                                                                data-name={{Paypal.Name}}
+                                                                                                data-quantity={{Paypal.Quantity}}
+                                                                                                data-amount={{Paypal.Amount}}
+                                                                                                data-currency = {{Paypal.Currency}}
+                                                                                                data-shipping = {{Paypal.Shipping}}
+                                                                                                data-tax = {{Paypal.Tax}}
+                                                                                                data-callback = {{Paypal.CallbackUrl}}
+                                                                                                data-return = {{Paypal.CallbackUrl}}
+                                                                                                data-return-url = {{Paypal.CallbackUrl}}
+                                                                                            ></script>
+                                                                                        </div>
+                                                                                    </form>-->
+                                                                                </div>
+                                                                            </div>            
+                                                                        <!-- PAYPAL FORM ENDS HERE -->
+                                                                         </div>  
+                                                                    </div>
+                                                                    <div class="col-xs-12"> 
+                                                                         <div class="col-xs-4">
+                                                                         </div>        
+                                                                          <div class="col-xs-8" style="font-size: 12pt; line-height: 2em;" ng-show="PaymentType == 'Credit'">
+                                                                        <!-- CREDIT FORM STARTS HERE -->
+                                                                        <div class="panel panel-default credit-card-box">
+                                                                            <div class="panel-heading display-table" >
+                                                                                <div class="row display-tr" >
+                                                                                    <h3 class="panel-title display-td">Credit Card Details</h3>
+                                                                                    <img class="img-responsive pull-right" src="/images/accept_visa_type.png">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="panel-body">
+                                                                                <form role="form" id="credit-form">
+                                                                                    <div class="row">
+                                                                                        <div class="col-xs-12">
+                                                                                            <div class="form-group" style="color:black">
+                                                                                                CARD NUMBER
+                                                                                                <div class="input-group">
+                                                                                                    <input 
+                                                                                                        type="tel"
+                                                                                                        class="form-control"
+                                                                                                        name="cardNumber"
+                                                                                                        ng-model="cardNumber"
+                                                                                                        placeholder="Valid Card Number"
+                                                                                                        autocomplete="cc-number" payments-format="card"
+                                                                                                        required="required" autofocus  
+                                                                                                    />
+                                                                                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                                                                                </div>
+                                                                                            </div>                            
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div class="col-xs-6 col-md-6">
+                                                                                            <div class="form-group" style="color:black">
+                                                                                               EXPIRATION DATE
+                                                                                                <input 
+                                                                                                    type="tel" 
+                                                                                                    class="form-control" 
+                                                                                                    name="cardExpiry"
+                                                                                                    ng-model="cardExpiry"
+                                                                                                    placeholder="MM / YY"
+                                                                                                    autocomplete="cc-exp" payments-format="expiry"
+                                                                                                    required="required" 
+                                                                                                />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-xs-4 col-md-4 pull-right">
+                                                                                            <div class="form-group" style="color:black">
+                                                                                                CV CODE
+                                                                                                <input 
+                                                                                                    type="tel" 
+                                                                                                    class="form-control"
+                                                                                                    name="cardCVC" payments-format="cvc" 
+                                                                                                    ng-model="cardCVC"
+                                                                                                    placeholder="CVC"
+                                                                                                    autocomplete="cc-csc"
+                                                                                                    required="required"
+                                                                                                />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div class="col-xs-6">
+                                                                                            <div class="form-group" style="color:black">
+                                                                                                COUPON CODE
+                                                                                                <input type="text" class="form-control" name="couponCode" ng-model="couponCode"/>
+                                                                                            </div>
+                                                                                        </div>                        
+                                                                                    </div>
+                                                                                    
+                                                                                    <div class="row" style="display:none;">
+                                                                                        <div class="col-xs-6">
+                                                                                            <p class="payment-errors"></p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>            
+                                                                        <!-- TRANSFER FORM ENDS HERE -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <button class="btn btn-primary btn-lg center-block" type="button" ng-click="ValidatePayment()">
+                                                                        <span class="glyphicon glyphicon-play" aria-hidden="true"></span> {{'HEAD.MODAL_SHIPMENT.PAYMENT.BUTTON_NEXT' | translate}}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" id="step-3" ng-show="step == 3">
+                                                        <div class="col-xs-12">
+                                                            <div class="col-md-12">
+                                                                <h3> Step 3</h3>
+                                                            <!--    <button class="btn btn-success btn-lg center-block" ng-click="ValidateFinish()">Finish!</button> -->
+                                                                <h4><center>{{'HEAD.MODAL_SHIPMENT.FINISH.THANK_MESSAGE' | translate}}</center></h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </li>
-                    <!-- Trigger the modal with a button -->
-                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
-
-                    <!-- Modal -->
-                    <div id="myModal" class="modal fade" role="dialog" data-backdrop="false">
-                      <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Modal Header</h4>
-                          </div>
-                          <div class="modal-body">
-                            <p>Some text in the modal.</p>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
                     <li>
                         <button id="LoginButton" class="btn btn-primary" data-toggle="modal" data-target="#LoginModal" ng-show="!IsLogin" >
                             <span class="glyphicon glyphicon-log-in"></span> {{'HEAD.SIGNIN' | translate}}
@@ -69,7 +779,7 @@
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                                         </button>
-                                        <h4 class="modal-title">{{'HEAD.MODAL_SIGNIN.HEAD' | translate}}</h4>
+                                        <h4 class="modal-title"><i class="fa fa-sign-in fa-2x"></i> {{'HEAD.MODAL_SIGNIN.HEAD' | translate}}</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
@@ -112,7 +822,7 @@
                                                             <i class="fa fa-facebook"></i> {{'HEAD.MODAL_SIGNIN.FACEBOOK_SIGNIN' | translate}}
                                                         </a>
                                                         <a class="btn btn-block btn-social btn-google" ng-click="LoginWithSocial('google_plus')">
-                                                            <i class="fa fa-google"></i> {{'HEAD.MODAL_SIGNIN.GOOGLE_PLUS_SIGNIN' | translate}}
+                                                            <i class="fa fa-google-plus"></i> {{'HEAD.MODAL_SIGNIN.GOOGLE_PLUS_SIGNIN' | translate}}
                                                         </a>
                                                         
                                                         <a class="btn btn-block btn-social btn-twitter" ng-click="LoginWithSocial('twitter')">
@@ -128,90 +838,76 @@
                                             <div class="col-xs-6">
                                                 <div class="well">
                                                 <form id="SignupForm" ng-submit="Signup()" role="form" type="multipart/form-data">
-                                                        <div class="form-group">
-                                                            <label class="control-label" for="inputFirst">{{'HEAD.MODAL_SIGNIN.FIRST_NAME' | translate}}</label>
-                                                            <div class="controls">
-                                                                <input id="Firstname" ng-model="Firstname" placeholder="E.g. Ashwin" type="text" 
-                                                                class="form-control">
+                                                    <div class="form-group">
+                                                        <label class="control-label" for="inputEmail">{{'HEAD.MODAL_SIGNIN.EMAIL' | translate}}</label>
+                                                        <div class="controls">
+                                                            <input id="Email" ng-model="Email" placeholder="E.g. ashwinh@cybage.com" 
+                                                            type="text" class="form-control" ng-keydown="ValidateEmail()"/>
+                                                        </div>
+                                                        <div class="controls">
+                                                        <!--    <img id="ValidateSignupEmail" src="" width="30" height="30">-->
+                                                            <div id="EmailAlert" class="alert alert-warning fade in" style="display: none">
+                                                                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                                                <strong>{{EmailValidateMessage}}</strong> 
                                                             </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label" for="inputLast">{{'HEAD.MODAL_SIGNIN.LAST_NAME' | translate}}</label>
-                                                            <div class="controls">
-                                                                <input id="Lastname" ng-model="Lastname" placeholder="E.g. Hegde" type="text" 
-                                                                class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label" for="inputUser">{{'HEAD.MODAL_SIGNIN.USERNAME' | translate}}</label>
+                                                        <div class="controls">
+                                                            <input id="Username" ng-model="Username" placeholder="E.g. ashwinhegde" 
+                                                            type="text" class="form-control" ng-blur="ValidateExistUsername()">
+                                                        </div>
+                                                        <div class="controls">
+                                                            <div id="UsernameAlert" class="alert alert-warning fade in" style="display: none">
+                                                                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                                                <strong>{{UsernameValidateMessage}}</strong> 
                                                             </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label" for="inputEmail">{{'HEAD.MODAL_SIGNIN.EMAIL' | translate}}</label>
-                                                            <div class="controls">
-                                                                <input id="Email" ng-model="Email" placeholder="E.g. ashwinh@cybage.com" 
-                                                                type="text" class="form-control" ng-keydown="ValidateEmail()"/>
-                                                            </div>
-                                                            <div class="controls">
-                                                            <!--    <img id="ValidateSignupEmail" src="" width="30" height="30">-->
-                                                                <div id="EmailAlert" class="alert alert-warning fade in" style="display: none">
-                                                                    <a href="#" class="close" data-dismiss="alert">&times;</a>
-                                                                    <strong>{{EmailValidateMessage}}</strong> 
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label" for="inputUser">{{'HEAD.MODAL_SIGNIN.USERNAME' | translate}}</label>
-                                                            <div class="controls">
-                                                                <input id="Username" ng-model="Username" placeholder="E.g. ashwinhegde" 
-                                                                type="text" class="form-control" ng-blur="ValidateExistUsername()">
-                                                            </div>
-                                                            <div class="controls">
-                                                                <div id="UsernameAlert" class="alert alert-warning fade in" style="display: none">
-                                                                    <a href="#" class="close" data-dismiss="alert">&times;</a>
-                                                                    <strong>{{UsernameValidateMessage}}</strong> 
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                    </div>
 
-                                                        <div class="form-group">
-                                                            <label class="control-label" for="inputPassword">{{'HEAD.MODAL_SIGNIN.PASSWORD' | translate}}</label>
-                                                            <div class="controls">
-                                                                <input id="Password" ng-model="Password" placeholder="Min. 8 Characters" type="password" 
-                                                                class="form-control" >
-                                                            </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label" for="inputPassword">{{'HEAD.MODAL_SIGNIN.PASSWORD' | translate}}</label>
+                                                        <div class="controls">
+                                                            <input id="Password" ng-model="Password" placeholder="Min. 8 Characters" type="password" 
+                                                            class="form-control" >
                                                         </div>
+                                                    </div>
 
-                                                        <div class="form-group">
-                                                            <label class="control-label">{{'HEAD.MODAL_SIGNIN.STRENGTH' | translate}}</label>
-                                                            <div class="controls">
-                                                                <div ng-password-strength="Password" strength="passStrength" inner-class="progress-bar" 
-                                                                inner-class-prefix="progress-bar-"></div>
-                                                            </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label">{{'HEAD.MODAL_SIGNIN.STRENGTH' | translate}}</label>
+                                                        <div class="controls">
+                                                            <div ng-password-strength="Password" strength="passStrength" inner-class="progress-bar" 
+                                                            inner-class-prefix="progress-bar-"></div>
                                                         </div>
+                                                    </div>
 
-                                                        <div class="form-group">
-                                                        <label class="control-label">{{'HEAD.MODAL_SIGNIN.RECAPTCHA' | translate}}</label>
-                                                            <!-- Call a method in the scope of your controller to handle data submit -->
-                                                            <form ng-submit="submit()">
-                                                                <div
-                                                                    vc-recaptcha
-                                                                    theme="'light'"
-                                                                    key="model.key"
-                                                                    on-create="setWidgetId(widgetId)"
-                                                                    on-success="setResponse(response)"
-                                                                    on-expire="cbExpiration()"
-                                                                ></div>
-                                                            </form>
+                                                    <div class="form-group">
+                                                    <label class="control-label">{{'HEAD.MODAL_SIGNIN.RECAPTCHA' | translate}}</label>
+                                                        <!-- Call a method in the scope of your controller to handle data submit -->
+                                                        <form ng-submit="submit()">
+                                                            <div
+                                                                vc-recaptcha
+                                                                theme="'light'"
+                                                                key="model.key"
+                                                                on-create="setWidgetId(widgetId)"
+                                                                on-success="setResponse(response)"
+                                                                on-expire="cbExpiration()"
+                                                            ></div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label"></label>
+                                                        <div class="controls">
+                                                            <label class="checkbox"><input type="checkbox" ng-model="IsAcceptCondition">
+                                                            {{'HEAD.MODAL_SIGNIN.TERM_SERVICE_LABEL' | translate}} 
+                                                            <a href="#">{{'HEAD.MODAL_SIGNIN.TERM_SERVICE' | translate}}</a></label> 
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label"></label>
-                                                            <div class="controls">
-                                                                <label class="checkbox"><input type="checkbox" ng-model="IsAcceptCondition">
-                                                                {{'HEAD.MODAL_SIGNIN.TERM_SERVICE_LABEL' | translate}} 
-                                                                <a href="#">{{'HEAD.MODAL_SIGNIN.TERM_SERVICE' | translate}}</a></label> 
-                                                            </div>
-                                                        </div>
-                                                        <button class="btn btn-primary" type="submit" ng-click="Signup()" 
-                                                        ng-disabled="ExistUsername || ExistEmail || !ValidEmail || !IsHuman || !IsAcceptCondition">
-                                                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {{'HEAD.MODAL_SIGNIN.BUTTON_SIGNUP' | translate}}
-                                                        </button> 
+                                                    </div>
+                                                    <button class="btn btn-primary" type="submit" ng-click="Signup()" 
+                                                    ng-disabled="ExistUsername || ExistEmail || !ValidEmail || !IsHuman || !IsAcceptCondition">
+                                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {{'HEAD.MODAL_SIGNIN.BUTTON_SIGNUP' | translate}}
+                                                    </button> 
                                                 </form>
                                                 </div>
                                             </div>
@@ -273,7 +969,7 @@
                                 </li>
                                 <li><a href="#history-section" ng-click="SelectedHeadMenu('history')"><span class="glyphicon glyphicon-time"></span> {{'HEAD.MENU.HISTORY' | translate}}</a>
                                 </li>
-                                <li><a href="#setting-section" ng-click="SelectedHeadMenu('setting')"><span class="glyphicon glyphicon-cog"></span> {{'HEAD.MENU.GENERAL' | translate}}</a>
+                                <li><a href="#setting-section" ng-click="SelectedHeadMenu('setting')"><span class="glyphicon glyphicon-cog"></span> {{'HEAD.MENU.SETTING' | translate}}</a>
                                 </li>
                                 <li class="divider"></li>
                                 <li><a href="" ng-click="Logout()"><span class="glyphicon glyphicon-off"></span> {{'HEAD.MENU.LOGOUT' | translate}}</a>
@@ -402,66 +1098,70 @@
         <!-- Page Features -->
         <div id="PurchaseCaramel" class="row text-center">
             <div class="col-md-4 col-sm-6 hero-feature" ng-repeat="Product in Products">
-                <div class="thumbnail" >
-                    <img src="http://placehold.it/500x500" alt="">
-                    <div class="caption">
-                        <h3 ng-show="SelectedLocale === 'th'">{{Product.ProductNameTh}}</h3>
-                        <h3 ng-show="SelectedLocale === 'us'">{{Product.ProductNameEn}}</h3>
-                        <h3 ng-show="SelectedLocale === 'jp'">{{Product.ProductNameJp}}</h3>
-                        <h3 ng-show="SelectedLocale === 'cn'">{{Product.ProductNameCn}}</h3>
-                        <p> </p>
-                        <p>   
-                            <div class="row">
-                                <div class="col-sm-1"></div>
-                                <div class="col-sm-4 text-left">
-                                    <h4>{{'BODY.SECTION.PRODUCT.PRICE' | translate}}</h4>
+                <div class="product-thumbnail">
+                    <div class="thumbnail" >
+                        <img src="http://placehold.it/500x500" alt="">
+                        <div class="caption">
+                            <h3 ng-show="SelectedLocale === 'th'">{{Product.ProductNameTh}}</h3>
+                            <h3 ng-show="SelectedLocale === 'us'">{{Product.ProductNameEn}}</h3>
+                            <h3 ng-show="SelectedLocale === 'jp'">{{Product.ProductNameJp}}</h3>
+                            <h3 ng-show="SelectedLocale === 'cn'">{{Product.ProductNameCn}}</h3>
+                            <p> </p>
+                            <p>   
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-4 text-left">
+                                        <h4>{{'BODY.SECTION.PRODUCT.PRICE' | translate}}</h4>
+                                    </div>
+                                    <div class="col-sm-5 text-right">
+                                        <h4>{{Multiplier * Product.SalePrice | number : 2}}</h4>
+                                    </div>
+                                    <div class="col-sm-1 text-left">
+                                        <h4>{{CurrencySymbol}}</h4>
+                                    </div>
                                 </div>
-                                <div class="col-sm-5 text-right">
-                                    <h4>{{Multiplier * Product.SalePrice | number : 2}}</h4>
-                                </div>
-                                <div class="col-sm-1 text-left">
-                                    <h4>{{CurrencySymbol}}</h4>
-                                </div>
-                            </div>
-                        </p>
+                            </p>
 
-                        <p>
-                           <div class="row">
-                                <div class="col-sm-1"></div>
-                                <div class="col-sm-4 text-left">
-                                    <h4>{{'BODY.SECTION.PRODUCT.QUANTITY' | translate}}</h4>
+                            <p>
+                               <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-4 text-left">
+                                        <h4>{{'BODY.SECTION.PRODUCT.QUANTITY' | translate}}</h4>
+                                    </div>
+                                    <div class="col-sm-5 text-right">
+                                        <input type="number" class="form-control text-right" placeholder="0" ng-model="BuyQty">
+                                    </div>
+                                    <div class="col-sm-1 text-left">
+                                        <h5 ng-show="SelectedLocale === 'th'">{{Product.UomNameTh}}</h5>
+                                        <h5 ng-show="SelectedLocale === 'us'">{{Product.UomNameEn}}</h5>
+                                        <h5 ng-show="SelectedLocale === 'jp'">{{Product.UomNameJp}}</h5>
+                                        <h5 ng-show="SelectedLocale === 'cn'">{{Product.UomNameCn}}</h5>
+                                    </div>
                                 </div>
-                                <div class="col-sm-5 text-right">
-                                    <input type="number" class="form-control text-right" placeholder="0" ng-model="BuyQty">
+                            </p>
+                            <p>
+                               <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-4 text-left">
+                                        <h4>{{'BODY.SECTION.PRODUCT.WEIGHT' | translate }}</h4>
+                                    </div>
+                                    <div class="col-sm-5 text-right">
+                                        <p ng-if="Product.Weight < 1000">{{Product.Weight  | currency:''}} </p>
+                                        <p ng-if="Product.Weight >= 1000">{{Product.Weight/1000  | currency:''}} </p>
+                                    </div>
+                                    <div class="col-sm-1 text-left">    
+                                        <div ng-if="Product.Weight < 1000">{{'BODY.SECTION.PRODUCT.WEIGHT_GRAM' | translate}}</div>
+                                        <div ng-if="Product.Weight >= 1000">{{'BODY.SECTION.PRODUCT.WEIGHT_KILOGRAM' | translate}}</div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-1 text-left">
-                                    <h5 ng-show="SelectedLocale === 'th'">{{Product.UomNameTh}}</h5>
-                                    <h5 ng-show="SelectedLocale === 'us'">{{Product.UomNameEn}}</h5>
-                                    <h5 ng-show="SelectedLocale === 'jp'">{{Product.UomNameJp}}</h5>
-                                    <h5 ng-show="SelectedLocale === 'cn'">{{Product.UomNameCn}}</h5>
-                                </div>
-                            </div>
-                        </p>
-                        <p>
-                           <div class="row">
-                                <div class="col-sm-1"></div>
-                                <div class="col-sm-4 text-left">
-                                    <h4>{{'BODY.SECTION.PRODUCT.WEIGHT' | translate }}</h4>
-                                </div>
-                                <div class="col-sm-5 text-right">
-                                    <p>{{Product.Weight  | currency:''}} </p>
-                                </div>
-                                <div class="col-sm-1 text-left">    
-                                    {{'BODY.SECTION.PRODUCT.WEIGHT_MEASURE' | translate}}
-                                </div>
-                            </div>
-                        </p>
-                        <p>
-                            <a class="btn btn-lg btn-success btn-product" ng-click="AddCart(Product, BuyQty, $index)">
-                                <span class="glyphicon glyphicon-shopping-cart"></span> 
-                                {{'BODY.SECTION.PRODUCT.BUY' | translate}}</a> 
-                            <a href="#" class="btn btn-lg btn-default">More Info</a>
-                        </p>
+                            </p>
+                            <p>
+                                <a class="btn btn-lg btn-success btn-product" ng-click="AddCart(Product, BuyQty, $index)">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span> 
+                                    {{'BODY.SECTION.PRODUCT.BUY' | translate}}</a> 
+                                <a href="#" class="btn btn-lg btn-default">More Info</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -543,8 +1243,9 @@
 
       <div class="row featurette">
         <div class="col-md-7">
-          <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <h2 class="featurette-heading">{{'MARKETING.CONTENT_1.TITLE' | translate}}
+          <span class="text-muted">{{'MARKETING.CONTENT_1.SUB_TITLE' | translate}}</span></h2>
+          <p class="lead">{{'MARKETING.CONTENT_1.MESSAGE' | translate}}</p>
         </div>
         <div class="col-md-5">
           <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzUwMHg1MDAvYXV0bwpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1MmIwOGIwODk4IHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTUyYjA4YjA4OTgiPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRUVFRUVFIi8+PGc+PHRleHQgeD0iMTg1LjEyNSIgeT0iMjYxLjEiPjUwMHg1MDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">

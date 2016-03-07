@@ -1,11 +1,13 @@
-"use strict"
-app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$cookies","CredentialService", "LocaleService", 
-  "CurrencyService" , "ProductService", "CompanyService", "EmailService", "blockUI",
-  "ProvinceService", "DistrictService", "SubDistrictService", "WeightRateService", "UserService", "CryptoService",
-  function ($scope, $q, $timeout, $translate, $cookies, CredentialService, LocaleService, CurrencyService , 
-    ProductService, CompanyService, EmailService, ngDialog, blockUI, ProvinceService, DistrictService, SubDistrictService, 
-    WeightRateService, UserService, CryptoService) {
+app.controller("MainController", 
+  ["$scope","$http", "ENV","$q", "$timeout", "$translate", "$cookies","CredentialService", "LocaleService", "CurrencyService" , "ProductService", 
+  "CompanyService", "EmailService", "blockUI","ProvinceService", "DistrictService", "SubDistrictService", "WeightRateService", 
+  "UserService", "CryptoService", "ReceiptOrderService", "AppConfigService", 
+  function ($scope,$http, ENV, $q, $timeout, $translate, $cookies, CredentialService, LocaleService, CurrencyService , ProductService, 
+    CompanyService, EmailService, blockUI, ProvinceService, DistrictService, SubDistrictService, WeightRateService, 
+    UserService, CryptoService, ReceiptOrderService, AppConfigService) {
 
+
+    // paypal 4N2L5B22JU3W6
   	$scope.Locale = "th";
     $scope.SelectedCurrency = "thb";
     $scope.SelectedLocale = "th";
@@ -113,6 +115,247 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
     }, function(error, status) {
         console.log('oauth err ', error);
     });
+    $scope.LoginWithSocial = function (provider) {
+        //Let's say the /me endpoint on the provider API returns a JSON object
+        //with the field "name" containing the name "John Doe"
+        blockUI.start("Logging in " +provider + ", please wait");
+        OAuth.popup(provider)
+        .done(function(result) {
+            result.me()
+            .done(function (response) {
+                //this will display "John Doe" in the console                
+                $scope.$apply(function() {
+                  $scope.PopulateValue(provider, response);
+                });
+            })
+            .fail(function (err) {
+                //handle error with err
+                console.log(err.message + err.stack);
+            });
+        })
+        .fail(function (err) {
+            //handle error with err
+            console.log(err.message + err.stack);
+        });
+        blockUI.stop();
+    }
+    $scope.PopulateValue = function(provider, response) {
+  //      console.log(response);
+        if (provider === 'facebook') {
+          $scope.User.Id = response.raw.id;
+          $scope.User.Firstname = response.firstname;
+          $scope.User.Lastname = response.lastname;
+          $scope.User.Gender = response.gender;
+          $scope.User.Email = response.email;
+          $scope.User.DisplayName = response.name;
+          $scope.User.Terminal = "facebook";
+          $scope.User.UserType = "user";
+          $scope.IsLogin = true;
+          $scope.IsAdmin = false;
+          $scope.IsGuest = false;
+          //Load Facebook graph profile image picture
+          var facebookImageUrl = response.avatar;
+          $http.get(facebookImageUrl)
+          .success(function(data, status, headers, config) {
+            $('#UserProfileImage').children("img").remove();
+            var imageFacebookTag = "<img src='" + config.url + "' style='-webkit-user-select: none; margin-top:-10px;width:50px; height:50px;' class='img-responsive img-circle'/>"; ;
+            $('#UserProfileImage').append(imageFacebookTag);
+
+            $("#LoginModal").modal("toggle");
+          })
+          .error(function(data, status, headers, config) {
+            console.log("Oops!! error for loading profile pic from facebook ");
+          });
+        } 
+        else if (provider === 'google_plus') {
+          $scope.User.Id = response.raw.id;
+          $scope.User.Firstname = response.firstname;
+          $scope.User.Lastname = response.lastname;
+          $scope.User.Gender = response.gender;
+          $scope.User.Email = response.email;
+          $scope.User.DisplayName = response.name;
+          $scope.User.Terminal = "google+";
+          $scope.User.UserType = "user";
+          $scope.IsLogin = true;
+          $scope.IsAdmin = false;
+          $scope.IsGuest = false;
+          // Load Google+ graph profile image picture
+          var facebookImageUrl = response.avatar;
+          $http.get(facebookImageUrl)
+          .success(function(data, status, headers, config) {
+            $('#UserProfileImage').children("img").remove();
+            var imageFacebookTag = "<img src='" + config.url + "' style='-webkit-user-select: none; margin-top:-10px;width:50px; height:50px;' class='img-responsive img-circle'/>"; ;
+            $('#UserProfileImage').append(imageFacebookTag);
+
+            $("#LoginModal").modal("toggle");
+          })
+          .error(function(data, status, headers, config) {
+            console.log("Oops!! error for loading profile pic from facebook ");
+          });
+        }
+        else if (provider === 'twitter') {
+          $scope.User.Id = response.id;
+          $scope.User.Firstname = response.alias;
+          $scope.User.Lastname = response.last_name;
+          $scope.User.Gender = response.gender;
+          $scope.User.Email = response.email;
+          $scope.User.DisplayName = response.name;
+          $scope.User.Terminal = "twitter";
+          $scope.User.UserType = "user";
+          $scope.IsLogin = true;
+          $scope.IsAdmin = false;
+          $scope.IsGuest = false;
+
+          var twitterImageUrl = response.avatar;
+          $http.get(twitterImageUrl)
+          .success(function(data, status, headers, config) {
+            $('#UserProfileImage').children("img").remove();
+            var imageFacebookTag = "<img src='" + config.url + "' style='-webkit-user-select: none; margin-top:-10px;width:50px; height:50px;' class='img-responsive img-circle'/>"; ;
+            $('#UserProfileImage').append(imageFacebookTag);
+
+            $("#LoginModal").modal("toggle");
+          })
+          .error(function(data, status, headers, config) {
+            console.log("Oops!! error for loading profile pic from linkedin.");
+          });
+        } 
+        else if (provider === 'linkedin') {
+          $scope.User.Id = response.raw.id;
+          $scope.User.Firstname = response.firstname;
+          $scope.User.Lastname = response.lastname;
+          $scope.User.Gender = response.gender;
+          $scope.User.Email = response.email;
+          $scope.User.DisplayName = response.name;
+          $scope.User.Terminal = "linkedin";
+          $scope.User.UserType = "user";
+          $scope.IsLogin = true;
+          $scope.IsAdmin = false;
+          $scope.IsGuest = false;
+
+          var linkedinImageUrl = response.avatar;
+            $('#UserProfileImage').children("img").remove();
+            var imageLinkedinTag = "<img src='" + linkedinImageUrl + "' style='-webkit-user-select: none; margin-top:-10px;width:50px; height:50px;' class='img-responsive img-circle'/>"; ;
+            $('#UserProfileImage').append(imageLinkedinTag);
+
+            $("#LoginModal").modal("toggle");
+        }
+        else if (provider === 'instagram') {
+          $scope.User.Firstname = response.alias;
+          $scope.User.Lastname = response.lastname;
+          $scope.User.Gender = response.gender;
+          $scope.User.Email = response.email;
+          $scope.User.DisplayName = response.name;
+          $scope.User.Terminal = "instagram";
+          $scope.User.UserType = "user";
+          $scope.IsLogin = true;
+          $scope.IsAdmin = false;
+          $scope.IsGuest = false;
+
+          var instagramImageUrl = response.avatar;
+          $http.get(instagramImageUrl)
+          .success(function(data, status, headers, config) {
+            $('#UserProfileImage').children("img").remove();
+            var imageInstagramTag = "<img src='" + config.url + "' style='-webkit-user-select: none; margin-top:-10px;width:50px; height:50px;' class='img-responsive img-circle'/>"; ;
+            $('#UserProfileImage').append(imageInstagramTag);
+
+            $("#LoginModal").modal("toggle");
+          })
+          .error(function(data) {
+            console.log("Oops!! error for loading profile pic from instagram ");
+          });
+        }
+        else if (provider === 'github') {
+          $scope.User.Firstname = response.alias;
+          $scope.User.Lastname = response.lastname;
+          $scope.User.Gender = response.gender;
+          $scope.User.Email = response.email;
+          $scope.User.DisplayName = response.name;
+          $scope.User.Terminal = "github";
+          $scope.User.UserType = "user";
+          $scope.IsLogin = true;
+          $scope.IsAdmin = false;
+          $scope.IsGuest = false;
+
+          var githubImageUrl = response.avatar;
+          $http.get(githubImageUrl)
+          .success(function(data, status, headers, config) {
+            $('#UserProfileImage').children("img").remove();
+            var imageGithubTag = "<img src='" + config.url + "' style='-webkit-user-select: none; margin-top:-10px;width:50px; height:50px;' class='img-responsive img-circle'/>"; ;
+            $('#UserProfileImage').append(imageGithubTag);
+
+            $("#LoginModal").modal("toggle");
+          })
+          .error(function(data) {
+            console.log("Oops!! error for loading profile pic from github ");
+          });
+        }
+        else if (provider === 'dropbox') {
+          $scope.User.Firstname = response.name;
+          $scope.User.Lastname = response.lastname;
+          $scope.User.Gender = response.gender;
+          $scope.User.Email = response.email;
+          $scope.User.DisplayName = response.name;
+          $scope.User.Terminal = "dropbox";
+          $scope.User.UserType = "user";
+          $scope.IsLogin = true;
+          $scope.IsAdmin = false;
+          $scope.IsGuest = false;
+          response.id = response.raw.uid;
+          $("#LoginModal").modal("toggle");
+        }
+        else if (provider === 'foursquare') {
+          $scope.User.Firstname = response.name;
+          $scope.User.Lastname = response.lastname;
+          $scope.User.Gender = response.gender;
+          $scope.User.Email = response.email;
+          $scope.User.DisplayName = response.name;
+          $scope.User.Terminal = "foursquare";
+          $scope.User.UserType = "user";
+          $scope.IsLogin = true;
+          $scope.IsAdmin = false;
+          $scope.IsGuest = false;
+          response.id = response.raw.meta.requestId;
+          var foursquareImageUrl = response.avatar;
+            $('#UserProfileImage').children("img").remove();
+            var imageFoursquareTag = "<img src='" + foursquareImageUrl + "' style='-webkit-user-select: none; margin-top:-10px;width:50px; height:50px;' class='img-responsive img-circle'/>"; ;
+            $('#UserProfileImage').append(imageFoursquareTag);
+            $("#LoginModal").modal("toggle");
+        }
+        else if (provider === 'soundcloud') {
+          $scope.User.Firstname = response.alias;
+          $scope.User.Lastname = response.lastname;
+          $scope.User.Gender = response.gender;
+          $scope.User.Email = response.email;
+          $scope.User.DisplayName = response.name;
+          $scope.User.Terminal = "soundcloud";
+          $scope.User.UserType = "user";
+          $scope.IsLogin = true;
+          $scope.IsAdmin = false;
+          $scope.IsGuest = false;
+          response.id = response.raw.id;
+          var soundcloudImageUrl = response.avatar;
+          $('#UserProfileImage').children("img").remove();
+          var imageSoundcloudTag = "<img src='" + soundcloudImageUrl + "' style='-webkit-user-select: none; margin-top:-10px;width:50px; height:50px;' class='img-responsive img-circle'/>"; ;
+          $('#UserProfileImage').append(imageSoundcloudTag);
+
+          $("#LoginModal").modal("toggle");
+        }
+        response.provider = provider;
+     //   console.log(response);
+        
+        var createAndCheckLofinSocialUrl = ENV.apiEndpoint + '/users/CreateAndUpdateWithSocial';
+        
+        $http.post(createAndCheckLofinSocialUrl, response)
+        .success(function (data, status, headers, config) {
+          console.log(data);
+        })
+        .error(function (data, status, headers, config) {
+          console.log(data);
+          console.log(status);
+          console.log(headers);
+          console.log(config);
+        });
+    }
     // Load Company
     $scope.Company = {};
     CredentialService.LoadCompany()
@@ -124,6 +367,40 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
     }, function (error, status) {
         console.log('company err ', error);
     });
+    // Re-capcha
+    CredentialService.LoadRecaptcha()
+    .then(function(data, status) {
+        $scope.response = null;
+        $scope.widgetId = null;
+        $scope.model = {
+            key: data
+        };  
+    }, function(error, status){
+
+    });
+    
+  $scope.Paypal = {};
+  $scope.LoadPaypalInformation = function () {
+      var paypalUrl = ENV.apiEndpoint + "/paypal/GetPaypalInformation";
+      $http.get(paypalUrl)
+      .success(function(data, status, headers, config) {
+          
+          $scope.Paypal.MerchantId = data.MerchantId;
+          $scope.Paypal.Name = 'NetAmount';
+          $scope.Paypal.Quantity = 1;
+          console.log('pal net ', $scope.Paypal.Amount);
+          $scope.Paypal.Amount = 0.01;
+          $scope.Paypal.Currency = data.Currency;
+          $scope.Paypal.Shipping = 0;
+          $scope.Paypal.Tax = 0;
+          $scope.Paypal.CallbackUrl = data.CallbackUrl;
+          $scope.Paypal.Business = data.MerchantId;
+      //    console.log($scope.Paypal);
+      })
+      .error(function (data, status, headers, config) {
+
+      });
+  }
     $scope.Products = [];
     ProductService.LoadProduct()
     .then(function(data, status) {
@@ -171,7 +448,6 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
     }
     $scope.Login = function () {
       console.log($scope.username, $scope.password);
-   //   blockUI.start("Please wait");
       var appuser = {};
       UserService.LoginWithUsernameAndPassword($scope.username, $scope.password)
       .then(function(data, status) {
@@ -193,7 +469,6 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
           $scope.IsAdmin = false;
           $scope.IsGuest = true;
           $scope.IsLogin = false; 
-    //      blockUI.stop();
           return $q.reject('error occur');
       })
       .then(function (isActivate, status) {
@@ -220,14 +495,12 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
                 $scope.IsGuest = false;
               }
               $scope.IsLogin = true;
-           //   blockUI.stop();
-              
               console.log('IsAdmin', $scope.IsAdmin);
               console.log('IsGuest', $scope.IsGuest);
               console.log('IsLogin', $scope.IsLogin);
               console.log('User ', $scope.User);
 
-              alert($scope.IsLogin);
+        //      alert($scope.IsLogin);
 
               if ($scope.RememberMe) {
                 var now = new Date();
@@ -236,18 +509,17 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
               }
          
           }
-
           return UserService.DownloadUserProfileImage($scope.User.Id, $scope.User.Username);
+      }, function(err, status) {
+         console.log('not found image no problem');
       })
       .then(function(profile_image, status) {
           if (profile_image.indexOf('base64') > -1)  {
             $scope.User.ProfileImage = profile_image;
             $('#UserProfileImage').children("img").remove();
             $('#UserProfileImage').append(profile_image);
-            
           }
-
-            ngDialog.close();
+          $('#LoginModal').modal('toggle');
       }, function(error, status) {
           console.log('error', error);
           console.log("Log in Not found");
@@ -256,19 +528,8 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
           $scope.IsAdmin = false;
           $scope.IsGuest = true;
           $scope.IsLogin = false; 
-        //  ngDialog.close();
           return $q.reject('error occur');
       })
-    }
-  	
-    $scope.OpenCartDialog = function() {
-     //   ngDialog.open({ template: 'views/about.html' });
-        ngDialog.open({ 
-          template: '/views/cart-template.html',
-          scope: $scope,
-          controller: 'MainController',
-         className: 'ngdialog-theme-default dialogwidth1000'
-        });
     }
     $scope.DeleteCart = function() {
       console.log('delete cart');
@@ -298,23 +559,17 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
         });
     }
     $scope.ContinueShopping = function() {
-    //  console.log('continue shop');
-      ngDialog.close();
+        $('#CartModal').modal('toggle');
     } 
     $scope.CheckoutProcess = function() {
       console.log("shipment..");
-        if ($scope.IsUserInSession()) {
-          console.log('user log in ');
-          ngDialog.open({
-            template: '/views/shipping-template.html',
-            scope: $scope,
-            closeByEscape: true,
-            className: 'ngdialog-theme-default dialogwidth780'
-          });
+      if ($scope.IsUserInSession()) {
+          console.log('user lod in ');
+          $("#CartModal").modal("toggle");
+          $("#ShipmentModal").modal("show");
           $scope.InitShipment();
-          ngDialog.close();
-        } else {
-          swal({
+      } else {
+        swal({
           title: "Are you sure?",
           text: "คุณต้องเข้าสู่ระบบก่อนดำเนินการต่อ",
           type: "warning",
@@ -328,22 +583,16 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
         function(isConfirm){
           $scope.$apply(function() {
             if (isConfirm) {
-              ngDialog.open({ 
-                template: '/views/login-template.html',
-                scope: $scope,
-                closeByEscape: false,
-                controller: 'MainController',
-                className: 'ngdialog-theme-default dialogwidth780'
-              });
-              ngDialog.close(); // Turn off Cart Dialog
+              $("#CartModal").modal('toggle');
+              $("#LoginModal").modal('show');
             } else {
                //   swal("Cancelled", "Your product data is safe :)", "success");
             }
           });
         });
       }
+      
     }
-
     $scope.IsUserInSession = function()  {
       console.log($scope.User);
       if (!$scope.User) {
@@ -351,25 +600,6 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
       } else if ($scope.User.Id.length > 0) {
         return true;
       }
-    }
-/*    $scope.OpenLoginDialog = function() {
-        ngDialog.open({ 
-          scope: $scope,
-          template: '/views/login-template.html',
-          closeByEscape: true,
-          className: 'ngdialog-theme-default dialogwidth780',
-          controller: 'MainController'
-        });
-    }*/
-    $scope.OpenForgetPasswordDialog = function() {
-        ngDialog.open({ 
-          template: 'ForgetPasswordTemplate'
-        });
-    }
-    $scope.OpenInputPasswordDialog = function() {
-        ngDialog.open({ 
-          template: 'InputPasswordTemplate'
-        });
     }
 
     $scope.ChangePostType = function() {
@@ -448,7 +678,7 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
     $scope.PaymentBank = false;
     $scope.PaymentType= "";
 
-    $scope.Paypal = {};
+    
     $scope.SelectStep = function(step) {
         if (step == 1) {
             $scope.step = 1;
@@ -510,6 +740,7 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
             swal("เตือน", "่หมายเลขไม่ถูกต้อง", "warning");
             return;
         }
+        /*
         if (!$scope.ROHead.ReceiptName || 0 === $scope.ROHead.ReceiptName.length) {
             swal("เตือน", "คุณต้องใส่ชื่อที่อยู่ที่แสดงในใบเสร็จ", "warning");
             return;
@@ -534,7 +765,7 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
             swal("เตือน", "คุณต้องเลือก รหัสไปรษณีร์ ที่แสดงในใบเสร็จ", "warning");
             return;
         }
-
+*/
         $scope.step = 2;
 
         $("#nav-step2").removeAttr("disabled");
@@ -546,6 +777,7 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
     $scope.InitShipment = function() {
       ProvinceService.LoadProvince()
       .then(function(provinces, status) {
+          $scope.ROHead.BillingEmail = $scope.User.Email;
           $scope.SelectBillingProvinceList = provinces;
           $scope.SelectReceiptProvinceList = provinces;
           $scope.ROHead.BillingProvinceId = "";
@@ -559,6 +791,7 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
       }, function(err, status) {
           console.log(err);
       });
+      $scope.ROHead.Email = $scope.User.Email;
     }
     $scope.UpdateBillingProvince = function() {
         console.log("ProvinceId " + $scope.ROHead.BillingProvinceId);
@@ -614,7 +847,7 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
             console.log(zipcode);
             console.log(zipcode[0].ZipCode);
             $scope.SelectReceiptZipCodeList = zipcode;
-            $scope.ROHead.ReceiptZipCode = zipcode.ZipCode;
+            $scope.ROHead.ReceiptZipCode = zipcode._id;
         }, function(err, status) {
             console.log(err);
         });
@@ -633,6 +866,93 @@ app.controller('MainController', ["$scope","$q", "$timeout", "$translate", "$coo
             console.log($scope.ROHead.BillingZipCode);
             $scope.ROHead.ReceiptZipCode = $scope.ROHead.BillingZipCode;
         }
+    }
+    $scope.ValidatePayment = function() {
+      if ($scope.PaymentType == '') {
+            swal("เตือน", "คุณต้องเลือกประเภทการชำระเงิน", "warning");
+            return;
+        } 
+        if ($scope.PaymentType == 'Transfer') {
+            if ($scope.PaymentBank == '') {
+                swal("เตือน", "คุณต้องเลือกธนาคาร", "warning");
+                return;
+            } 
+        } else if ($scope.PaymentType == 'Paypal') {
+            
+        } else if ($scope.PaymentType == 'Credit') {
+            if (!$scope.cardNumber || 0 === $scope.cardNumber) {
+                swal("เตือน", "คุณต้องใส่หมายเลขบัตร", "warning");
+                return;
+            } 
+            if (!$scope.cardExpiry || 0 === $scope.cardNumber) {
+                swal("เตือน", "คุณต้องใส่หมายเลขบัตร", "warning");
+                return;
+            } 
+            if (!$scope.cardCVC || 0 === $scope.cardNumber) {
+                swal("เตือน", "คุณต้องใส่หมายเลขบัตร", "warning");
+                return;
+            } 
+        }
+         
+        $scope.step = 3;
+        $("#nav-step3").removeAttr("disabled");
+        $("#nav-step3").addClass("btn-primary");
+        $("#nav-step1").addClass("btn-default");
+        $("#nav-step2").addClass("btn-default");
+
+        $scope.ValidateFinish();
+    }
+
+    $scope.ValidateFinish = function() {
+      console.log('ValidateFinish');
+        blockUI.start("Processing ...");
+        var newcode = '';
+        AppConfigService.GetNewCode("RO")
+        .then(function(data, status) {
+            blockUI.message("25%");
+            newcode = data;
+            $scope.ROHead.RODate = new Date(); //(new Date()).toISOString();
+            $scope.ROHead.RONo = newcode;
+            $scope.ROHead.ROLineList = $scope.ROLineList;
+            $scope.ROHead.PaymentType = $scope.PaymentType;
+            $scope.ROHead.PaymentBank = $scope.PaymentBank;
+            $scope.ROHead.UserId = $scope.User.Id;
+            $scope.ROHead.PaymentStatus = "N";
+            $scope.ROHead.ShippingStatus = "N";
+            $scope.ROHead.StaffApprovePaymentStatus = "N";
+            return ReceiptOrderService.CreateReceiptOrder($scope.ROHead);
+        }, function(err, status) {
+            blockUI.stop();
+            console.log('err create receipt ', err);
+        })
+        .then(function(data, status) {
+            blockUI.message("53%");
+            return EmailService.SendEmailStaffNewOrder(newcode);
+        }, function(err, status) {
+            blockUI.stop();
+            console.log('create ro head ', err);
+        })
+        .then(function(data, status) {
+            blockUI.message("74%");
+            return EmailService.SendEmailCustomerNewOrder($scope.User.Email, newcode);
+        }, function(err, status) {
+            blockUI.stop();
+            console.log('error sending email staff ', err);
+        })
+        .then(function(data, status) {
+            blockUI.message("98%");
+            blockUI.stop();
+            swal("Thank you for your order", "You can check and track your order in history.", "success");
+        }, function(err, status) {
+            blockUI.stop();
+            console.log('error sending email customer ', err);
+        });
+    }
+
+    $scope.ChangePaymentType = function() {
+      if ($scope.PaymentType == 'Paypal') {
+          $scope.LoadPaypalInformation();
+      }
     }
     function validateEmail(email) {
         var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

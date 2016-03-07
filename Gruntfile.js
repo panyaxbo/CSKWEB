@@ -260,8 +260,13 @@ module.exports = function (grunt) {
       dist: {
         src: [
           '<%= yeoman.dist %>/scripts/{,*/}*.js',
+          '<%= yeoman.dist %>/controllers/{,*/}*.js',
+          '<%= yeoman.dist %>/constants/{,*/}*.js',
+          '<%= yeoman.dist %>/directives/{,*/}*.js',
+          '<%= yeoman.dist %>/services/{,*/}*.js',
+          '<%= yeoman.dist %>/configs/{,*/}*.js',
           '<%= yeoman.dist %>/styles/{,*/}*.css',
-          '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+      //    '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= yeoman.dist %>/styles/fonts/*'
         ]
       }
@@ -290,15 +295,32 @@ module.exports = function (grunt) {
     usemin: {
       html: ['<%= yeoman.dist %>/{,*/}*.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
-      js: ['<%= yeoman.dist %>/scripts/{,*/}*.js'],
+      js: ['<%= yeoman.dist %>/scripts/{,*/}*.js',
+      '<%= yeoman.dist %>/controllers/{,*/}*.js',
+      '<%= yeoman.dist %>/constants/{,*/}*.js',
+      '<%= yeoman.dist %>/directives/{,*/}*.js',
+      '<%= yeoman.dist %>/services/{,*/}*.js',
+      '<%= yeoman.dist %>/configs/{,*/}*.js'
+      ],
       options: {
         assetsDirs: [
           '<%= yeoman.dist %>',
           '<%= yeoman.dist %>/images',
-          '<%= yeoman.dist %>/styles'
+          '<%= yeoman.dist %>/styles',
+          '<%= yeoman.dist %>/scripts',
+          '<%= yeoman.dist %>/controllers',
+          '<%= yeoman.dist %>/constants',
+          '<%= yeoman.dist %>/directives', 
+          '<%= yeoman.dist %>/services',
+          '<%= yeoman.dist %>/configs',
         ],
         patterns: {
-          js: [[/(images\/[^''""]*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']]
+          js: [[/(images\/[^''""]*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']],
+          css: [
+            [/(\/bower_components\/bootstrap\/dist\/fonts)/g, 'god help me', function(match) {
+              return match.replace('/bower_components/bootstrap/dist/fonts', '../fonts');
+            }]
+          ]
         }
       }
     },
@@ -331,10 +353,13 @@ module.exports = function (grunt) {
 
     imagemin: {
       dist: {
+        options: {
+          optimizationLevel: 5
+        },
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/images',
-          src: '{,*/}*.{png,jpg,jpeg,gif}',
+          src: '{,*/}*.{ico,png,jpg,jpeg,gif}',
           dest: '<%= yeoman.dist %>/images'
         }]
       }
@@ -387,9 +412,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '.tmp/concat/scripts',
+          cwd: '<%= yeoman.app %>/controllers/',
           src: '*.js',
-          dest: '.tmp/concat/scripts'
+          dest: '<%= yeoman.dist %>/controllers/'
         }]
       }
     },
@@ -432,6 +457,18 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      nodejs: {
+        expand: true,
+        cwd: 'service',
+        dest: '<%= yeoman.dist %>/service',
+        src: ['{,*/}*.*', '{,*/}*/{,*/}*/*']
+      },
+      configfile: {
+        expand: true,
+        cwd: './',
+        dest: '<%= yeoman.dist %>',
+        src: ['bower.json', 'package.json', 'Procfile', '.bowerrc']
       }
     },
 
@@ -494,9 +531,14 @@ module.exports = function (grunt) {
     'clean:dist',
     'wiredep',
     'useminPrepare',
-    'concurrent:dist',
+  //  'concurrent:dist',
     'postcss',
     'ngtemplates',
+    'copy:styles',
+    'copy:nodejs',
+    'copy:configfile',
+    'imagemin',
+        'svgmin',
     'concat',
     'ngAnnotate',
     'copy:dist',

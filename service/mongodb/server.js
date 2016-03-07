@@ -50,6 +50,7 @@ var base64 = require('../base64/base64');
 var paypal = require('../paypal/paypal');
 var currency = require('../currency/currency');
 var weight = require('./route/weight-rate');
+var recaptchas = require('../recaptcha/recaptcha');
 //app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -85,6 +86,7 @@ app.use('/base64', base64);
 app.use('/paypal', paypal);
 app.use('/currency', currency);
 app.use('/weight', weight);
+app.use('/recaptchas', recaptchas);
 
 var environment = process.env.NODE_ENV || '';
 var port = process.env.PORT || 3333;

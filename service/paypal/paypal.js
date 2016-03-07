@@ -16,8 +16,8 @@ router.get('/GetPaypalInformation/', function(req, res) {
 		  	Currency : 'THB',
 		  	Shipping : 0.00,
 		  	Tax : 0.00,
-		  	CallbackUrl : 'localhost:9000',
-		  	EnvironmentSandbox : true
+		  	CallbackUrl : 'localhost:9999',
+		  	EnvironmentSandbox : false
 	  };
 	} else {
 		PaypalObj = {
@@ -28,7 +28,7 @@ router.get('/GetPaypalInformation/', function(req, res) {
 		  	Currency : 'THB',
 		  	Shipping : 0.00,
 		  	Tax : 0.00,
-		  	CallbackUrl : 'kzh-parts.com',
+		  	CallbackUrl : 'caramelsrikho.com',
 		  	EnvironmentSandbox : false
 	  };
 	}

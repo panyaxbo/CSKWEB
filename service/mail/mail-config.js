@@ -2,9 +2,9 @@ var config = {};
 
 config.MAIL_TRANSFER_PROTOCOL = 'SMTP';
 config.MAIL_SERVICE = 'Gmail';
-config.MAIL_USER = 'kzh.parts@gmail.com';
-config.CLIENT_ID = '269503840518-d22ta215d7kb3vopnh11trv9ov3piotk.apps.googleusercontent.com';
-config.CLIENT_SECRET = 'jqbp4XV2KYbmiaTuk4sZRLLu';
+config.MAIL_USER = 'caramel.srikho@gmail.com';
+config.CLIENT_ID = '179054863431-6pe3u1lf635q28i62220ko3oi66f1qqq.apps.googleusercontent.com';
+config.CLIENT_SECRET = 'u6B5UQ-Ms8pBmp7KER8nUizW';
 config.CLIENT_REFRESH_TOKEN = '1/796Pc2f6DuWyokdQnPk0vsdZnkEZ9LQHIF4RZxSGO0o';
 config.CLIENT_ACCESS_TOKEN = 'ya29.pgEltUgmd9NBq4UXTiEBHmqIFskNip_8GyIOUxjjD-rYRuVGTN-BLBXn3ona2iKoO6aaMnRHoJlNOA';
 

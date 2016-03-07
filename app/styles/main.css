@@ -23,12 +23,18 @@
 
     width: 1250px;
 }
-
+.modal .modal-body {
+    max-height: 600px; 
+    overflow-y: auto;
+}
 .header-link {
   color: #FFFFFF;
 }
 body {
   padding: 0;
+}
+h4.thank {
+    color: #009688;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -162,4 +168,18 @@ footer {
 
 .block-ui-container {
   z-index: 999999;
+}
+div.product-thumbnail
+{
+  margin-bottom: 0px;
+  border-style: groove;
+    border-color: transparent;
+    border-width: 5px;
+}
+div.product-thumbnail:hover 
+{    
+    border-style: groove;
+    border-color: rgba(255, 193, 7, 0.62);
+    border-width: 5px;
+    cursor: pointer; cursor: hand;
 }
