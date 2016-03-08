@@ -558,7 +558,7 @@ module.exports = function (grunt) {
       },
       heroku: {
         options: {
-          remote: 'git.heroku.com/caramelsrikho.git',
+          remote: 'git@heroku.com:caramelsrikho.git',
           branch: 'master',
           tag: pkg.version
         }
