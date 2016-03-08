@@ -25,6 +25,8 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  // Project configuration.
+  var pkg = require('./package.json');
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -46,7 +48,8 @@ module.exports = function (grunt) {
       },
       server: {
         files: [
-          'service/mongodb/server.js'
+          'server.js',
+          'service/**.js'
         ],
         tasks: ['express:dev'],
         options: {
@@ -276,7 +279,7 @@ module.exports = function (grunt) {
     // concat, minify and revision files. Creates configurations in memory so
     // additional tasks can operate on them
     useminPrepare: {
-      html: '<%= yeoman.app %>/index.html',
+      html: '<%= yeoman.app %>/{,*/}*.html',
       options: {
         dest: '<%= yeoman.dist %>',
         flow: {
@@ -312,7 +315,7 @@ module.exports = function (grunt) {
           '<%= yeoman.dist %>/constants',
           '<%= yeoman.dist %>/directives', 
           '<%= yeoman.dist %>/services',
-          '<%= yeoman.dist %>/configs',
+          '<%= yeoman.dist %>/configs'
         ],
         patterns: {
           js: [[/(images\/[^''""]*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']],
@@ -338,15 +341,58 @@ module.exports = function (grunt) {
     //     }
     //   }
     // },
-    // uglify: {
-    //   dist: {
+    uglify: {
+   //    dist: {
     //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
+    //        '<%= yeoman.dist %>/scripts/scripts.js': [
+    //        '<%= yeoman.dist %>/scripts/scripts.js'
     //       ]
     //     }
-    //   }
-    // },
+  //    }
+      options : {
+        mangle: false
+        },
+       build: {
+            src: ['<%= yeoman.app %>/scripts/{,*/}*.js'
+            ],
+            dest: '<%= yeoman.dist %>/scripts/script.min.js'
+        },
+        build2: {
+            src: ['<%= yeoman.app %>/controllers/app.js'
+            ],
+            dest: '<%= yeoman.dist %>/controllers/app
+        },
+        build22: {
+            src: ['<%= yeoman.app %>/controllers/header-controller.js'
+            ],
+            dest: '<%= yeoman.dist %>/controllers/header-controller.min.js'
+        },
+        build23: {
+            src: ['<%= yeoman.app %>/controllers/body-controller.js'
+            ],
+            dest: '<%= yeoman.dist %>/controllers/body-controller.min.js'
+        },
+        build24: {
+            src: ['<%= yeoman.app %>/controllers/footer-controller.js'
+            ],
+            dest: '<%= yeoman.dist %>/controllers/footer-controller.min.js'
+        },
+        build3: {
+            src: ['<%= yeoman.app %>/constants/{,*/}*.js'
+            ],
+            dest: '<%= yeoman.dist %>/constants/constant.min.js'
+        },
+        build4: {
+            src: ['<%= yeoman.app %>/directives/{,*/}*.js'
+            ],
+            dest: '<%= yeoman.dist %>/directives/directive.min.js'
+        },
+        build5: {
+            src: ['<%= yeoman.app %>/services/{,*/}*.js'
+            ],
+            dest: '<%= yeoman.dist %>/services/service.min.js'
+        }
+    },
     // concat: {
     //   dist: {}
     // },
@@ -382,12 +428,13 @@ module.exports = function (grunt) {
           collapseWhitespace: true,
           conservativeCollapse: true,
           collapseBooleanAttributes: true,
-          removeCommentsFromCDATA: true
+          removeCommentsFromCDATA: true,
+          removeOptionalTags: true
         },
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>',
-          src: ['*.html'],
+          src: ['*.html', 'views/{,*/}*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
@@ -437,6 +484,7 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,png,txt}',
             '*.html',
+            'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
             'styles/fonts/{,*/}*.*'
           ]
@@ -493,6 +541,66 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+
+    buildcontrol: {
+      options: {
+        dir: 'dist',
+        commit: true,
+        push: true,
+        message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+      },
+      pages: {
+        options: {
+          remote: 'git@github.com:panyaxbo/CSKWEB.git',
+          branch: 'gh-pages'
+        }
+      },
+      heroku: {
+        options: {
+          remote: 'git.heroku.com/caramelsrikho.git',
+          branch: 'master',
+          tag: pkg.version
+        }
+      },
+      local: {
+        options: {
+          remote: '../',
+          branch: 'build'
+        }
+      }
+    },
+
+    ngconstant: {
+      options: {
+        space: '  ',
+        deps: ['ngLocale'],
+        wrap: '"use strict";\n\n {%= __ngModule %}',
+        name : 'CONFIG'
+      },
+      // Environment targets
+      development: {
+        options :{
+          dest: '<%= yeoman.app %>/constants/constants.js'
+        },
+        constants: {
+          ENV: {
+            name: 'development',
+            apiEndpoint: 'http://localhost:3333'
+          }
+        }
+      },
+      production: {
+        options: {
+          dest: '<%= yeoman.app %>/constants/constants.js'
+        },
+        constants: {
+          ENV: {
+            name: 'production',
+            apiEndpoint: 'https://caramelsrikho.herokuapp.com'
+          }
+        }
+      }
     }
   });
 
@@ -504,6 +612,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'ngconstant:development',
       'wiredep',
       'concurrent:server',
       'postcss:server',
@@ -529,6 +638,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'ngconstant:production',
     'wiredep',
     'useminPrepare',
   //  'concurrent:dist',
@@ -539,7 +649,7 @@ module.exports = function (grunt) {
     'copy:configfile',
     'imagemin',
         'svgmin',
-    'concat',
+//    'concat',
     'ngAnnotate',
     'copy:dist',
     'cdnify',

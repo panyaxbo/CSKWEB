@@ -715,107 +715,107 @@ app.config(function ($translateProvider) {
                 TERM_SERVICE : '服務期限'
             },
             MODAL_SHIPMENT: {
-                HEAD : "การขนส่ง",
+                HEAD : "運輸",
                 BILLING : {
-                    STEP : 'ที่อยู่จัดส่งสินค้า',
-                    BILL_STEP : 'ที่อยู่จัดส่งสินค้า',
-                    BILL_NAME: 'ชื่อ',
-                    BILL_EMAIL: 'อีเมล',
-                    BILL_ADDRESS: 'ที่อยู่',
-                    BILL_PROVINCE: 'จังหวัด',
-                    BILL_SELECT_PROVINCE: '--- เลือก จังหวัด ---',
-                    BILL_DISTRICT: 'เขต/อำเภอ :',
-                    BILL_SELECT_DISTRICT: '--- เลือก เขต/อำเภอ ---',
-                    BILL_SUBDISTRICT: 'แขวง/ตำบล :',
-                    BILL_SELECT_SUBDISTRICT: '--- เลือก แขวง/ตำบล ---',
-                    BILL_ZIPCODE: 'รหัสไปรษณีย์ :',
-                    BILL_SELECT_ZIPCODE: '--- เลือก ไปรษณีย์ ---',
-                    TEL_NO: 'โทรศัพท์',
-                    MOBILE_NO: 'มือถือ',
+                    STEP : '帳單地址',
+                    BILL_STEP : '帳單地址',
+                    BILL_NAME: '名稱',
+                    BILL_EMAIL: '電子郵件',
+                    BILL_ADDRESS: '地址',
+                    BILL_PROVINCE: '省',
+                    BILL_SELECT_PROVINCE: '--- 選擇 省 ---',
+                    BILL_DISTRICT: '區',
+                    BILL_SELECT_DISTRICT: '--- 選擇 區 ---',
+                    BILL_SUBDISTRICT: '分地區',
+                    BILL_SELECT_SUBDISTRICT: '--- 選擇 分地區 ---',
+                    BILL_ZIPCODE: '郵政編碼',
+                    BILL_SELECT_ZIPCODE: '--- 選擇 郵政編碼 ---',
+                    TEL_NO: '電話號碼',
+                    MOBILE_NO: '手機號',
 
-                    SAME_ADDRESS : "ที่อยู่เดียวกับที่จัดส่ง",
+                    SAME_ADDRESS : "同一地址",
 
-                    RO_STEP : 'ที่อยู่ที่แสดงในใบเสร็จ ',
-                    RO_NAME: 'ชื่อ ',
-                    RO_ADDRESS: 'ที่อยู่',
-                    RO_PROVINCE: 'จังหวัด',
-                    RO_SELECT_PROVINCE: '--- เลือก จังหวัด ---',
-                    RO_DISTRICT: 'เขต/อำเภอ',
-                    RO_SELECT_DISTRICT: '--- เลือก เขต/อำเภอ ---',
-                    RO_SUBDISTRICT: 'แขวง/ตำบล',
-                    RO_SELECT_SUBDISTRICT: '--- เลือก แขวง/ตำบล ---',
-                    RO_ZIPCODE: 'รหัสไปรษณีย์',
-                    RO_SELECT_ZIPCODE: '--- เลือก ไปรษณีย์ ---',
+                    RO_STEP : '的收貨地址 ',
+                    RO_NAME: '名稱 ',
+                    RO_ADDRESS: '電子郵件',
+                    RO_PROVINCE: '省',
+                    RO_SELECT_PROVINCE: '--- 選擇 省 ---',
+                    RO_DISTRICT: '區',
+                    RO_SELECT_DISTRICT: '--- 選擇 區 ---',
+                    RO_SUBDISTRICT: '分地區',
+                    RO_SELECT_SUBDISTRICT: '--- 選擇 分地區 ---',
+                    RO_ZIPCODE: '郵政編碼',
+                    RO_SELECT_ZIPCODE: '--- 選擇 郵政編碼 ---',
 
-                    BUTTON_NEXT: 'ขั้นตอนต่อไป'
+                    BUTTON_NEXT: '下一個'
                 },
                 PAYMENT: {
-                    STEP : 'การจ่ายเงิน',
-                    PAYMENT_TYPE: 'ประเภทของการชำระเงิน',
-                    SELECT_PAYMENT_TYPE: '--- เลือก ประเภทของการชำระเงิน ---',
-                    TRANSFER: 'โอนเงิน',
+                    STEP : '付款',
+                    PAYMENT_TYPE: '付款方式',
+                    SELECT_PAYMENT_TYPE: '--- 選擇 付款方式 ---',
+                    TRANSFER: '轉讓',
                     BBL : {
                         NAME : 'ธ. กรุงเทพ',
                         ACCOUNT_NO : '406-0-74796-3',
                         ACCOUNT_NAME : 'นาย ปัญญา บุญยกุลศรีรุ่ง',
-                        ACCOUNT_TYPE : 'ออมทรัพย์',
+                        ACCOUNT_TYPE : '保存',
                         ACCOUNT_BRANCH : 'สาขา ศีขรภูมิ'
                     },
                     KBANK : {
                         NAME : 'ธ. กสิกรไทย',
                         ACCOUNT_NO : '003-1-71056-1',
                         ACCOUNT_NAME : 'นาย ปัญญา บุญยกุลศรีรุ่ง',
-                        ACCOUNT_TYPE : 'ออมทรัพย์',
+                        ACCOUNT_TYPE : '保存',
                         ACCOUNT_BRANCH : 'สำนักงานย่อย ศีขรภูมิ'
                     },
                     KTB : {
                         NAME : 'ธ. กรุงไทย',
                         ACCOUNT_NO : '331-0-38978-2',
                         ACCOUNT_NAME : 'นาย ปัญญา บุญยกุลศรีรุ่ง',
-                        ACCOUNT_TYPE : 'ออมทรัพย์',
+                        ACCOUNT_TYPE : '保存',
                         ACCOUNT_BRANCH : 'สาขา ศีขรภูมิ'
                     },
                     SCB : {
                         NAME : 'ธ. ไทยพาณิชย์',
                         ACCOUNT_NO : '406-749912-1',
                         ACCOUNT_NAME : 'นาย ปัญญา บุญยกุลศรีรุ่ง',
-                        ACCOUNT_TYPE : 'ออมทรัพย์',
+                        ACCOUNT_TYPE : '保存',
                         ACCOUNT_BRANCH : 'โรบินสัน สุรินทร์'
                     },
                     KCC : {
                         NAME : 'ธ. กรุงศรี',
                         ACCOUNT_NO : '721-1-02954-1',
                         ACCOUNT_NAME : 'นาย ปัญญา บุญยกุลศรีรุ่ง',
-                        ACCOUNT_TYPE : 'ออมทรัพย์',
+                        ACCOUNT_TYPE : '保存',
                         ACCOUNT_BRANCH : 'โรบินสัน สุรินทร์'
                     },
                     TMB : {
                         NAME : 'ธ. ทีเอ็มบี',
                         ACCOUNT_NO : '-',
                         ACCOUNT_NAME : 'นาย ปัญญา บุญยกุลศรีรุ่ง',
-                        ACCOUNT_TYPE : 'ออมทรัพย์',
+                        ACCOUNT_TYPE : '保存',
                         ACCOUNT_BRANCH : 'เมืองสุรินทร์'
                     },
                     UOB : {
                         NAME : 'ธ. ยูโอบี',
                         ACCOUNT_NO : '-',
                         ACCOUNT_NAME : 'นาย ปัญญา บุญยกุลศรีรุ่ง',
-                        ACCOUNT_TYPE : 'ออมทรัพย์',
+                        ACCOUNT_TYPE : '保存',
                         ACCOUNT_BRANCH : 'เมืองสุรินทร์'
                     },
                     TNC : {
                         NAME : 'ธ. ธนชาต',
                         ACCOUNT_NO : '-',
                         ACCOUNT_NAME : 'นาย ปัญญา บุญยกุลศรีรุ่ง',
-                        ACCOUNT_TYPE : 'ออมทรัพย์',
+                        ACCOUNT_TYPE : '保存',
                         ACCOUNT_BRANCH : 'เมืองสุรินทร์'
                     },
-                    PAYPAL : 'เพย์พอล',
-                    CREDIT: 'เครดิตการ์ด',
-                    BUTTON_NEXT: 'ขั้นตอนต่อไป'
+                    PAYPAL : '貝寶',
+                    CREDIT: '信用卡',
+                    BUTTON_NEXT: '下一個'
                 },
                 FINISH : {
-                    STEP : 'สิ้นสุด',
+                    STEP : '完',
                     BUTTON : 'กดเพื่อสิ้นสุด',
                     THANK_MESSAGE: '謝謝您的訂單。☺'
                 }
