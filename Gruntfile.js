@@ -358,25 +358,11 @@ module.exports = function (grunt) {
             dest: '<%= yeoman.dist %>/scripts/script.min.js'
         },
         build2: {
-            src: ['<%= yeoman.app %>/controllers/app.js'
+            src: ['<%= yeoman.app %>/controllers/{,*/}*.js'
             ],
-            dest: '<%= yeoman.dist %>/controllers/app
+            dest: '<%= yeoman.dist %>/controllers/controller.min.js'
         },
-        build22: {
-            src: ['<%= yeoman.app %>/controllers/header-controller.js'
-            ],
-            dest: '<%= yeoman.dist %>/controllers/header-controller.min.js'
-        },
-        build23: {
-            src: ['<%= yeoman.app %>/controllers/body-controller.js'
-            ],
-            dest: '<%= yeoman.dist %>/controllers/body-controller.min.js'
-        },
-        build24: {
-            src: ['<%= yeoman.app %>/controllers/footer-controller.js'
-            ],
-            dest: '<%= yeoman.dist %>/controllers/footer-controller.min.js'
-        },
+       
         build3: {
             src: ['<%= yeoman.app %>/constants/{,*/}*.js'
             ],
@@ -391,6 +377,11 @@ module.exports = function (grunt) {
             src: ['<%= yeoman.app %>/services/{,*/}*.js'
             ],
             dest: '<%= yeoman.dist %>/services/service.min.js'
+        },
+        build5: {
+            src: ['<%= yeoman.app %>/configs/{,*/}*.js'
+            ],
+            dest: '<%= yeoman.dist %>/configs/config.min.js'
         }
     },
     // concat: {
@@ -666,28 +657,4 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
-
-  grunt.registerTask('heroku:development', 'clean less mincss');
-
-  grunt.registerTask('heroku:production', [
-    'clean:dist',
-    'ngconstant:production',
-    'wiredep',
-    'useminPrepare',
-//    'concurrent:dist',
-    'copy:styles',
-    'copy:nodejs',
-    'copy:configfile',
-        'imagemin',
-        'svgmin',
-    'autoprefixer',
-    'concat',
-    'ngAnnotate',
-    'copy:dist',
-    'cssmin',
-    'uglify',
-    'filerev',
-    'usemin',
-    'htmlmin'
-    ]);
 };
