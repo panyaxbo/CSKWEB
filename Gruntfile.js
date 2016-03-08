@@ -666,4 +666,28 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.registerTask('heroku:development', 'clean less mincss');
+
+  grunt.registerTask('heroku:production', [
+    'clean:dist',
+    'ngconstant:production',
+    'wiredep',
+    'useminPrepare',
+//    'concurrent:dist',
+    'copy:styles',
+    'copy:nodejs',
+    'copy:configfile',
+        'imagemin',
+        'svgmin',
+    'autoprefixer',
+    'concat',
+    'ngAnnotate',
+    'copy:dist',
+    'cssmin',
+    'uglify',
+    'filerev',
+    'usemin',
+    'htmlmin'
+    ]);
 };
