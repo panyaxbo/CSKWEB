@@ -1,6 +1,15 @@
 {
   "name": "cskweb",
   "private": true,
+  "main": "service/mongodb/server.js",
+  "cacheDirectories": [
+    "node_modules",
+    "bower_components",
+    "public/build"
+  ],
+  "scripts": {
+    "postinstall": "bower cache clean && bower install"
+  },
   "devDependencies": {
     "autoprefixer-core": "^5.2.1",
     "grunt": "^0.4.5",
@@ -34,7 +43,8 @@
     "time-grunt": "^1.0.0"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": "5.3.0",
+    "npm": "3.3.12"
   },
   "dependencies": {
     "angular-translate": "^2.9.0",
