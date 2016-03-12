@@ -541,7 +541,7 @@ module.exports = function (grunt) {
 
     buildcontrol: {
       options: {
-        dir: 'dist',
+        dir: '<%= yeoman.dist %>',
         commit: true,
         push: true,
         message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
