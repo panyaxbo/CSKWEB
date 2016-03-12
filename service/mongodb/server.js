@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-
+var Q = require('q');
 var bodyParser = require('body-parser');
 var path = require('path');
 global.mongodbConfig = require('../mongodb_config.json');
@@ -99,12 +99,30 @@ app.get('/', function(req, res) {
     if (environment !== 'production') {
       res.sendFile(appRoot + '/app/index.html');
     } else {
+      var inputDate = new Date(myDate.toISOString());
+      db.collection('Holiday')
+            .findOne({
+                $and : {
+                  'StartDate': { $gte: inputDate },
+                  'EndDate' : { $lte: inputDate }
+              }
+            }, function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(result);
+                    res.sendFile(path.resolve(__dirname, '../../') + '/404.html');
+                }
+            });
       res.sendFile(path.resolve(__dirname, '../../') + '/index.html');
+
     }
 });
 
 app.listen(port, function () {
 	console.log("Start server port " + port + " is OK...");
+
+
 });
 
 app.on('close', function() {
@@ -124,6 +142,7 @@ mongodb.MongoClient.connect(mongolab_uri, function (err, database) {
     if (err) console.log(err, err.stack.split("\n"));
  //   console.log(database);
     db = database;
+    
 });
 
 
@@ -145,6 +164,7 @@ mongodb.MongoClient.connect(heroku_mongolab_uri, function (err, database) {
     db = database;
 });
 */
+
 
 process.on('uncaughtException', function (err) {
     console.log(err, err.stack.split("\n"));
