@@ -70,5 +70,10 @@
     "s3fs": "^2.4.4",
     "time-grunt": "^1.0.0",
     "yahoo-currency": "0.0.9"
-  }
+  },
+  "repository": {
+      "type": "git",
+      "private": true,
+      "url": "git://github.com/panyaxbo/CSKWEB.git"
+    }
 }
