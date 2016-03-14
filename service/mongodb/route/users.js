@@ -6,8 +6,6 @@ var bcrypt_then = require('bcrypt-then');
 var cryptojs = require('crypto-js');
 var Q = require('q');
 
-var Base64 = require(appRoot + '/node_modules/js-base64/base64.min.js').Base64;
-
 /* GET users listing. */
 router.get(mongodbConfig.url.user.loadAllUser, function (req, res) {
   /*  db.collection(mongodbConfig.mongodb.user.name)

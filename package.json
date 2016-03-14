@@ -61,6 +61,7 @@
     "grunt-usemin": "^3.0.0",
     "grunt-wiredep": "^2.0.0",
     "jit-grunt": "^0.9.1",
+    "js-base64": "^2.1.9",
     "jshint-stylish": "^1.0.0",
     "load-grunt-tasks": "^3.4.1",
     "mongodb": "^2.1.6",
@@ -72,8 +73,8 @@
     "yahoo-currency": "0.0.9"
   },
   "repository": {
-      "type": "git",
-      "private": true,
-      "url": "git://github.com/panyaxbo/CSKWEB.git"
-    }
+    "type": "git",
+    "private": true,
+    "url": "git://github.com/panyaxbo/CSKWEB.git"
+  }
 }
