@@ -74,6 +74,18 @@ app.service("EmailService", ["$q","$http", "ENV", function ($q, $http, ENV) {
                 defer.reject(err);
             });
     		return defer.promise;
-    	}
+    	},
+        TestSend: function() {
+            var defer = $q.defer();
+            var rejectMailUrl = ENV.apiEndpoint + '/mails/TestSend';
+            $http.get(rejectMailUrl)
+            .success(function (data, status) {
+                defer.resolve(data);
+            })
+            .error(function (err, status) {
+                defer.reject(err);
+            });
+            return defer.promise;
+        }
     };
 }]);

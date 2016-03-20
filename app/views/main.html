@@ -22,7 +22,7 @@
                     <li>
                         <a class="header-link" href="#about">{{'HEAD.MENU.DELIVERY' | translate}}</a>
                     </li>
-                    
+                    <button ng-click="TrySendEmail()"> Email</button>
                 </ul>
                 <ul class="nav nav-pills pull-right nav-header">
                     <li>
@@ -899,7 +899,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label"></label>
                                                         <div class="controls">
-                                                            <label class="checkbox"><input type="checkbox" ng-model="IsAcceptCondition">
+                                                            <label class="checkbox"><input type="checkbox" ng-model="IsAcceptCondition" ng-click="Test()">
                                                             {{'HEAD.MODAL_SIGNIN.TERM_SERVICE_LABEL' | translate}} 
                                                             <a href="#">{{'HEAD.MODAL_SIGNIN.TERM_SERVICE' | translate}}</a></label> 
                                                         </div>
@@ -922,8 +922,9 @@
                         </div>
                     </li>
                     <li class="dropdown" class="head-menu" style="margin-top:-8px">
-                         <a href="" class="dropdown-toggle head-menu" data-toggle="dropdown"><span id="SelectedDropdownLanguage"><img src="/images/th.png">&nbsp;{{'HEAD.LOCALE.TH' | translate}}</span><b class="caret"></b></a>
-                          <ul id="DropdownLanguage" class="dropdown-menu">
+                         <a href="" class="dropdown-toggle head-menu" data-toggle="dropdown">
+                         <img src="/images/th.png">&nbsp;{{'HEAD.LOCALE.TH' | translate}}<span class="caret"></span></a>
+                          <ul id="DropdownLanguage" class="dropdown-menu" role="menu">
                             <li><a href="" ng-click="SelectedMenuLocale('th')"><img src="/images/th.png">&nbsp;{{'HEAD.LOCALE.TH' | translate}}</a>
                             </li>
                             <li><a href="" ng-click="SelectedMenuLocale('us')"><img src="/images/us.png">&nbsp;{{'HEAD.LOCALE.US' | translate}}</a>
@@ -935,7 +936,8 @@
                           </ul>
                     </li>
                     <li class="dropdown" class="head-menu" style="margin-top:-3px">
-                         <a href="" class="dropdown-toggle head-menu" data-toggle="dropdown"><span id="SelectedDropdownCurrency">&nbsp;฿ - {{'HEAD.CURRENCY.THB' | translate}}</span><b class="caret"></b></a>
+                         <a href="" class="dropdown-toggle head-menu" data-toggle="dropdown">
+                         &nbsp;฿ - {{'HEAD.CURRENCY.THB' | translate}}<span class="caret"></span></a>
                           <ul id="DropdownCurrency" class="dropdown-menu">
                             <li><a href="" ng-click="SelectedMenuCurrency('thb')">&nbsp;฿ - {{'HEAD.CURRENCY.THB' | translate}}</a>
                             </li>

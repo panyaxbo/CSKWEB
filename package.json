@@ -66,11 +66,12 @@
     "load-grunt-tasks": "^3.4.1",
     "mongodb": "^2.1.6",
     "multer": "^1.1.0",
-    "nodemailer": "^2.1.0",
+    "nodemailer": "^0.7.1",
     "q": "^1.4.1",
     "request-promise": "^2.0.1",
     "s3fs": "^2.4.4",
     "time-grunt": "^1.0.0",
+    "xoauth2": "^1.1.0",
     "yahoo-currency": "0.0.9"
   },
   "repository": {

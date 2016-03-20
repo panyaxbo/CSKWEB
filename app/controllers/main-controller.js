@@ -42,6 +42,15 @@ app.controller("MainController",
             Lastname: '',
         }
     };
+    $scope.ValidateSignupEmail = false;
+    $scope.ValidateSigninEmail = false;
+    $scope.ExistEmail = false;
+    $scope.ValidEmail = false;
+    $scope.EmailValidateMessage = "";
+    $scope.ExistUsername = false;
+    $scope.UsernameValidateMessage = "";
+    $scope.IsAcceptCondition = false;
+    $scope.IsHuman = false;
 
     $scope.$on('UpdateROHeadROLineFromBodyBroadcast', function (event, args) {
         $scope.ROHead = args;
@@ -49,6 +58,14 @@ app.controller("MainController",
         console.log('main arg ', args);
     });
 
+    $scope.TrySendEmail = function() {
+      EmailService.TestSend()
+      .then(function(data, status) {
+
+      }, function (error, status) {
+
+      });
+    }
     $scope.SelectedMenuCurrency = function (currency) {
         $scope.SelectedCurrency = currency;
         console.log('cur ', currency);
@@ -378,6 +395,40 @@ app.controller("MainController",
     }, function(error, status){
 
     });
+    $scope.setResponse = function (response) {
+    //    console.info('Response available');
+        $scope.response = response;
+    //    console.log($scope.response);
+        if ($scope.response) {
+          $scope.IsHuman = true;
+        }
+    };
+    $scope.setWidgetId = function (widgetId) {
+        $scope.widgetId = widgetId;
+    };
+    $scope.cbExpiration = function() {
+        console.info('Captcha expired. Resetting response object');
+        $scope.response = null;
+    };
+    $scope.submit = function () {
+        var valid;
+        /**
+         * SERVER SIDE VALIDATION
+         *
+         * You need to implement your server side validation here.
+         * Send the reCaptcha response to the server and use some of the server side APIs to validate it
+         * See https://developers.google.com/recaptcha/docs/verify
+         */
+        console.log('sending the captcha response to the server', $scope.response);
+        if (valid) {
+          console.log('Success');
+        } else {
+          console.log('Failed validation');
+          // In case of a failed validation you need to reload the captcha
+          // because each response can be checked just once
+          vcRecaptchaService.reload($scope.widgetId);
+        }
+    };
     
   $scope.Paypal = {};
   $scope.LoadPaypalInformation = function () {
@@ -530,6 +581,109 @@ app.controller("MainController",
           $scope.IsLogin = false; 
           return $q.reject('error occur');
       })
+    }
+
+    $scope.Logout = function () {
+        var int = 1;
+        swal({
+          title: "Are you sure?",
+          text: "คุณต้องการออกจากระบบ ใช่ หรือ ไม่?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#dd6b55",
+          confirmButtonText: "Yes, log out!",
+          cancelButtonText: "No, cancel please!",
+          closeOnConfirm: false,
+          closeOnCancel: false
+        },
+        function(isConfirm){
+            $scope.$apply(function() {
+              if (isConfirm) {
+                swal("Success", "Log out success", "success");
+                $scope.User = {};
+                $scope.Firstname = '';
+                $scope.Lastname = '';
+                $scope.IsLogin = false;
+                $scope.IsAdmin = false;
+                $scope.IsGuest = true;
+                $scope.AddNoProfileUserImage();
+                $cookies.remove('User');
+              } else {
+                console.log('cancel');
+                swal("Cancelled", "Stay in system :)", "success");
+              }
+          });
+        });
+    }
+    $scope.ValidateExistUsername = function () {
+        if ($scope.Username.length > 0) {
+          UserService.IsExistUsername($scope.Username)
+          .then(function(data, status) {
+              if (!data) {
+                  $scope.ExistUsername = false;
+                  $scope.UsernameValidateMessage = "Success! This Username is usable.";
+                  $('#UsernameAlert').removeClass("alert-warning");
+                  $('#UsernameAlert').addClass("alert-success");
+                  $('#UsernameAlert').show();
+                           
+              } else {
+                  $scope.ExistUsername = true;
+                  $scope.UsernameValidateMessage = "Warning! This Username is reserved.";
+                  $('#UsernameAlert').removeClass("alert-success");
+                  $('#UsernameAlert').addClass("alert-warning");
+                  $('#UsernameAlert').show();
+              }
+          }, function(error, status) {
+
+          });
+        }
+    }
+    
+    $scope.ValidateEmail = function () {
+        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if (!filter.test($scope.Email) || (!$scope.Email && $scope.Email.length > 0)) {
+            $scope.ValidateSignupEmail = false;
+            $scope.ValidEmail = false;
+            $scope.EmailValidateMessage = "Warning! Not an email format.";
+            $('#EmailAlert').removeClass("alert-success")
+            $('#EmailAlert').addClass("alert-warning");
+            $('#EmailAlert').show();
+        } else {
+            $scope.ValidateSignupEmail = true;
+            $scope.ValidEmail = true;
+            $scope.EmailValidateMessage = "This email is valid format.";
+            $('#EmailAlert').removeClass("alert-warning");
+            $('#EmailAlert').addClass("alert-success");
+            $('#EmailAlert').show();
+        }
+        if($scope.ValidEmail == true) {
+          $scope.ValidateExistEmail();
+        }
+
+        
+    }
+    $scope.ValidateExistEmail = function () {
+      if ($scope.Email.length > 0) {
+        UserService.IsExistEmail($scope.Email)
+        .then(function (data, status) {
+            if (!data) {
+                  $scope.EmailValidateMessage = "Success! This Email is usable";
+                  $scope.ExistEmail = false;
+                  $('#EmailAlert').removeClass("alert-warning");
+                  $('#EmailAlert').addClass("alert-success");
+                  $('#EmailAlert').show();
+
+              } else {
+                  $scope.EmailValidateMessage = "Warning! This Email is reseved";
+                  $scope.ExistEmail = true;
+                  $('#EmailAlert').removeClass("alert-success");
+                  $('#EmailAlert').addClass("alert-warning");
+                  $('#EmailAlert').show();
+              }
+        }, function(error, status){
+
+        });
+      }
     }
     $scope.DeleteCart = function() {
       console.log('delete cart');
@@ -688,6 +842,7 @@ app.controller("MainController",
             $scope.step = 3;
         }
     }
+
     $scope.ValidateBilling =  function() {
         //!str || 0 === str.length
         if (!$scope.ROHead.BillingName || 0 === $scope.ROHead.BillingName.length) {
@@ -948,7 +1103,13 @@ app.controller("MainController",
             console.log('error sending email customer ', err);
         });
     }
-
+    $scope.Test = function() {
+      console.log('IsExistEmail', $scope.ExistEmail);
+        console.log('IsExistUsername', $scope.ExistUsername);
+         console.log('ValidEmail', $scope.ValidEmail);
+        console.log('IsHuman', $scope.IsHuman);
+        console.log('IsAcceptCondition', $scope.IsAcceptCondition);
+    }
     $scope.ChangePaymentType = function() {
       if ($scope.PaymentType == 'Paypal') {
           $scope.LoadPaypalInformation();

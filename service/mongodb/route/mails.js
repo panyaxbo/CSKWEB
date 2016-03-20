@@ -417,4 +417,75 @@ router.post('/RejectPaymentDocument', function (req, res) {
 
 	
 });
+
+router.get('/TestSend', function(req, res) {
+	var mailObj = req.body;
+	var CustomerEmail = mailObj.Email;
+	var Host = mailObj.Host;
+	var back2Url = mailObj.BacktoUrl;
+
+	var smtpTransport = nodemailer.createTransport(mailConfig.MAIL_TRANSFER_PROTOCOL, {
+	  service: mailConfig.MAIL_SERVICE,
+	  auth: {
+	    XOAuth2: {
+	      user: mailConfig.MAIL_USER, // Your gmail address.
+	                                            // Not @developer.gserviceaccount.com
+	      clientId: mailConfig.CLIENT_ID,
+	      clientSecret: mailConfig.CLIENT_SECRET,
+	      refreshToken: mailConfig.CLIENT_REFRESH_TOKEN,
+	      accessToken: mailConfig.CLIENT_ACCESS_TOKEN
+	    }
+	  }
+	});
+
+	var mailOptions = {
+		  from: "Caramel Srikho <caramel.srikho@gmail.com>", // sender address
+		  to: 'panya.javamania@gmail.com',
+		  subject: "การเรียกคืนรหัสผ่านของท่าน", // Subject line
+		  generateTextFromHTML: true,
+		  html : mailConfig.MAIL_CONTENT_TITLE +
+'<tr><td align="center" bgcolor="#fbfcfd">'+
+        '<table width="90%" border="0" cellspacing="0" cellpadding="0">'+
+            '<tr><td align="center">'+
+                '<!-- padding --><div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+                '<div style="line-height: 44px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="5" color="#57697e" style="font-size: 34px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; color: #57697e;">'+
+                        'การลงทะเบียนของท่านใกล้เสร็จสมบูรณ์'+
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="4" color="#57697e" style="font-size: 15px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #57697e;">'+
+                        'กรุณากดปุ่มข้างล่างเพื่อการลงทะเบียนที่สมบูรณ์'+
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">'+
+                   '<a href="http://localhost:9999/urrngkflxmckqmreirrtur96867902/1-239504fdkfdl3434kfjdkjfdfkdfjdkfjdkfjdrjjtjglfglmbmv.mtrpoytpytryrt" style="background-color:#F64747;border-radius:4px;color:#ffffff;display:inline-block;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:240px;align:center; " target="_blank">เปิดใช้งานบัญชี</a>'+
+                '</div>'+
+                '<div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+        '</table> '+       
+    '</td></tr>'+
+mailConfig.MAIL_CONTENT_FOOTER,
+attachments : mailConfig.MAIL_ATTACHMENTS_FORGET_PASSWORD
+	}
+
+	smtpTransport.sendMail(mailOptions, function(error, response){
+		   if(error){
+		       console.log(error, error.stack.split("\n"));
+		       res.sendStatus(500);
+		   }else{
+		    //   console.log("Message sent: " + response.message);
+		   }
+		   smtpTransport.close();
+		   res.sendStatus(200);
+		});
+})
 module.exports = router;

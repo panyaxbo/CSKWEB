@@ -64,6 +64,7 @@ router.get('/GetRateCurrency/:CurrencyCode', function(req, res) {
 		res.json(data[keycurrency]);
 	}, function(err, status) {
 		console.log(err);
+        res.sendStatus(500);
 	});
 	
 })

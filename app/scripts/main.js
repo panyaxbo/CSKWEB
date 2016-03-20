@@ -17,14 +17,18 @@ $(document).ready(function () {
 
 });
 
-$('#DropdownLanguage li').on('click', function () {
-    $('#SelectedDropdownLanguage').html($(this).find('a').html());
+$('#DropdownLanguage li a').on('click', function () {
+  //  $('#SelectedDropdownLanguage').html($(this).find('a').html());
+    $('.dropdown-toggle').html($(this).html() + '<span class="caret"></span>');
 });
 
-$('#DropdownCurrency li').on('click', function () {
+$('#DropdownCurrency li a').on('click', function () {
     $('#SelectedDropdownCurrency').html($(this).find('a').html());
 });
 
+$('.dropdown-menu a').on('click', function(){    
+    $(this).parent().parent().prev().html($(this).html() + '<span class="caret"></span>');    
+})
 
 window.paypalCheckoutReady = function() {
     paypal.checkout.setup("4N2L5B22JU3W6", {
