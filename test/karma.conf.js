@@ -28,6 +28,7 @@ module.exports = function(config) {
       'bower_components/angular-animate/angular-animate.js',
       'bower_components/angular-aria/angular-aria.js',
       'bower_components/angular-cookies/angular-cookies.js',
+      'bower_components/angularjs-datepicker/dist/angular-datepicker.min.js',
       'bower_components/angular-messages/angular-messages.js',
       'bower_components/angular-resource/angular-resource.js',
       'bower_components/angular-route/angular-route.js',
@@ -41,6 +42,7 @@ module.exports = function(config) {
       'bower_components/angular-recaptcha/release/angular-recaptcha.js',
       'bower_components/moment/moment.js',
       'bower_components/angular-block-ui/dist/angular-block-ui.js',
+      'bower_components/ng-table/dist/ng-table.min.js',
       // endbower
       "app/scripts/**/*.js",
       "test/mock/**/*.js",

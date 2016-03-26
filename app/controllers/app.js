@@ -17,6 +17,7 @@ var app = angular.module('CSKWEB', [
     'ngRoute',
     'ngSanitize', 
     'ngTouch',
+    'ngTable',
     'pascalprecht.translate', 
       'CONFIG', 'vcRecaptcha', 'ngPasswordStrength','blockUI']);
 
@@ -31,6 +32,11 @@ app.run(function ($rootScope, $http, $q) {
   });
   $rootScope.$on('UpdateSelectedCurrency', function (event, args) {
       $rootScope.$broadcast('UpdateSelectedCurrencyBroadcast', args);
+  });
+
+  //For update User
+  $rootScope.$on('handleUserEmit', function (event, args) {
+      $rootScope.$broadcast('handleUserBroadcast', args);
   });
 });
 /*

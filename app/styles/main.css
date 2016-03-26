@@ -183,3 +183,7 @@ div.product-thumbnail:hover
     border-width: 5px;
     cursor: pointer; cursor: hand;
 }
+
+blockquote.no-border {
+  border:none;
+}

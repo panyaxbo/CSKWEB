@@ -220,16 +220,69 @@ app.config(function ($translateProvider) {
             }
         },
         BODY: {
-           SECTION : {
-            PRODUCT : {
-                PRICE : 'ราคา',
-                QUANTITY : 'จำนวน',
-                BUY : 'ซื้อ',
-                WEIGHT: 'น้ำหนัก',
-                WEIGHT_GRAM: 'กรัม',
-                WEIGHT_KILOGRAM: 'กิโลกรัม'
+            SECTION : {
+                PRODUCT : {
+                    PRICE : 'ราคา',
+                    QUANTITY : 'จำนวน',
+                    BUY : 'ซื้อ',
+                    WEIGHT: 'น้ำหนัก',
+                    WEIGHT_GRAM: 'กรัม',
+                    WEIGHT_KILOGRAM: 'กิโลกรัม'
+                },
+                HISTORY : {
+                    HEAD : "ประวัติการสั่งซื้อ",
+                    BUTTON: {
+                        SEARCH : "ค้นหา"
+                    },
+                    FROM: "จาก :",
+                    TO: "ถึง :",
+                    PAYMENT_STATUS: "สถานะการจ่ายเงิน :",
+                    SHIPPING_STATUS: "สถานะการขนส่ง :",
+                    PAYMENT : {
+                        OWED : "ค้างชำระ",
+                        PAID: "ชำระแล้ว"
+                    },
+                    SHIPPING : {
+                        NOT_SHIPPING : "ยังไม่ได้ส่งสินค้า",
+                        SHIPPING: "ส่งสินค้าแล้ว"
+                    }
+                },
+                CUSTOMER_ORDER : {
+                    BUTTON : {
+                        SEARCH : "ค้นหา"
+                    },
+                    HEAD : "ใบสั่งซื้อลูกค้า :",
+                    RO_NO : "เลขที่ใบเสร็จ :",
+                    RO_NO_PLACEHOLDER : "เลขที่ใบเสร็จ",
+                    CUSTOMER : "ลูกค้า :",
+                    CUSTOMER_PLACEHOLDER : "ลูกค้า",
+                    FROM : "วันที่เริ่ม :",
+                    FROM_PLACEHOLDER : "วันที่เริ่ม",
+                    TO : "วันที่สิ้นสุด :",
+                    TO_PLACEHOLDER : "วันที่สิ้นสุด",
+                    PAYMENT_STATUS : "สถานะการชำระเงิน :",
+                    PAYMENT_PLACEHOLDER : "สถานะการชำระเงิน",
+                    SHIPPING_STATUS : "สถานะการส่งสินค้า :",
+                    SHIPPING_PLACEHOLDER : "สถานะการส่งสินค้า",
+                    PAYMENT : {
+                        OWED : "ค้างชำระ",
+                        PAID: "ชำระแล้ว"
+                    },
+                    SHIPPING : {
+                        NOT_SHIPPING : "ยังไม่ได้ส่งสินค้า",
+                        SHIPPING: "ส่งสินค้าแล้ว"
+                    }
+                },
+                VIEW_RO_MODAL : {
+                    DATE : 'วันที่',
+                    RO_NO : 'เลขที่ใบเสร็จ',
+                    RO_LABEL : 'ใบเสร็จ',
+                    IMAGE_PAYMENT_DOCUMENT : 'รูปเอกสารการชำระเงิน',
+                    UPLOAD_BUTTON : 'อัพโหลดเอกสารการชำระเงิน',
+                    APPROVE_BUTTON : 'อนุมัติ',
+                    REJECT_BUTTON : 'ปฏิเสธ'
+                }
             }
-           }
         },
         MARKETING : {
             CONTENT_1 : {
@@ -249,7 +302,10 @@ app.config(function ($translateProvider) {
             }
         },
         FOOTER : {
-           
+           THUMB_UPS :'สะอาด ถูก หลักอนามัย',
+           FILE :'ส่วนผสมที่ลงตัว',
+           BADGE :'เป็นที่รู้จักของอย่างแพร่หลาย',
+           HEART : 'ใส่ใจในการผลิต'
         }
     });
     $translateProvider.translations('us', {
@@ -432,19 +488,75 @@ app.config(function ($translateProvider) {
             }
         },
         BODY: {
-           SECTION : {
-            PRODUCT : {
-                PRICE : 'Price',
-                QUANTITY : 'Qty.',
-                BUY : 'Buy',
-                WEIGHT:'Weight',
-                WEIGHT_GRAM: 'g',
-                WEIGHT_KILOGRAM: 'kg'
+            SECTION : {
+                PRODUCT : {
+                    PRICE : 'Price',
+                    QUANTITY : 'Qty.',
+                    BUY : 'Buy',
+                    WEIGHT:'Weight',
+                    WEIGHT_GRAM: 'g',
+                    WEIGHT_KILOGRAM: 'kg'
+                },
+                HISTORY : {
+                    HEAD : "Purchase History",
+                    BUTTON: {
+                        SEARCH : "Search"
+                    },
+                    FROM: "From",
+                    TO: "To",
+                    PAYMENT_STATUS: "Payment Status",
+                    SHIPPING_STATUS: "Shipment Status",
+                    PAYMENT : {
+                        OWED : "Owed",
+                        PAID: "Paid"
+                    },
+                    SHIPPING : {
+                        NOT_SHIPPING : "Not Shipping",
+                        SHIPPING: "Shipping"
+                    }
+                },
+                CUSTOMER_ORDER : {
+                    BUTTON : {
+                        SEARCH : "Search"
+                    },
+                    HEAD : "Customer Order",
+                    RO_NO : "RO No",
+                    RO_NO_PLACEHOLDER : "Receipt",
+                    CUSTOMER : "Customer",
+                    CUSTOMER_PLACEHOLDER : "Customer",
+                    FROM : "From Date",
+                    FROM_PLACEHOLDER : "From Date",
+                    TO : "End Date",
+                    TO_PLACEHOLDER : "End Date",
+                    PAYMENT_STATUS : "Payment Status",
+                    PAYMENT_PLACEHOLDER : "Payment Status",
+                    SHIPPING_STATUS : "Shipment Status",
+                    SHIPPING_PLACEHOLDER : "Shipment Status",
+                    PAYMENT : {
+                        OWED : "Owed",
+                        PAID: "Paid"
+                    },
+                    SHIPPING : {
+                        NOT_SHIPPING : "Not Shipping",
+                        SHIPPING: "Shipping"
+                    }
+                },
+                VIEW_RO_MODAL : {
+                    DATE : 'Date',
+                    RO_NO : 'RO No',
+                    RO_LABEL : 'Purchase Recquest',
+                    IMAGE_PAYMENT_DOCUMENT : 'Payment Document Image',
+                    UPLOAD_BUTTON : 'Upload',
+                    APPROVE_BUTTON : 'Approve',
+                    REJECT_BUTTON : 'Reject'
+                }
             }
-           }
         },
         FOOTER : {
-            
+           THUMB_UPS :'Clean and Hygienic',
+           FILE :'A perfect combination',
+           BADGE :'Widely known',
+           HEART : 'Focus on Manufacturing'
         }
     });
     $translateProvider.translations('jp', {
@@ -628,18 +740,74 @@ app.config(function ($translateProvider) {
         },
         BODY: {
            SECTION : {
-            PRODUCT : {
-                PRICE : '価格',
-                QUANTITY : '量',
-                BUY : '購入',
-                WEIGHT:'重量',
-                WEIGHT_GRAM: 'グラム',
-                WEIGHT_KILOGRAM: 'キログラム'
+                PRODUCT : {
+                    PRICE : '価格',
+                    QUANTITY : '量',
+                    BUY : '購入',
+                    WEIGHT:'重量',
+                    WEIGHT_GRAM: 'グラム',
+                    WEIGHT_KILOGRAM: 'キログラム'
+                },
+                HISTORY : {
+                    HEAD : "購入履歴",
+                    BUTTON: {
+                        SEARCH : "サーチ"
+                    },
+                    FROM: "から",
+                    TO: "に",
+                    PAYMENT_STATUS: "支払い状況",
+                    SHIPPING_STATUS: "出荷ステータス",
+                    PAYMENT : {
+                        OWED : "支払うべき",
+                        PAID: "支払われました"
+                    },
+                    SHIPPING : {
+                        NOT_SHIPPING : "ではない配送",
+                        SHIPPING: "出荷されました"
+                    }
+                },
+                CUSTOMER_ORDER : {
+                    BUTTON : {
+                        SEARCH : "サーチ"
+                    },
+                    HEAD : "顧客注文 :",
+                    RO_NO : "受付番号",
+                    RO_NO_PLACEHOLDER : "受付番号",
+                    CUSTOMER : "顧客",
+                    CUSTOMER_PLACEHOLDER : "顧客",
+                    FROM : "から",
+                    FROM_PLACEHOLDER : "から",
+                    TO : "に",
+                    TO_PLACEHOLDER : "に",
+                    PAYMENT_STATUS : "支払い状況 :",
+                    PAYMENT_PLACEHOLDER : "支払い状況",
+                    SHIPPING_STATUS : "出荷ステータス :",
+                    SHIPPING_PLACEHOLDER : "出荷ステータス",
+                    PAYMENT : {
+                        OWED : "支払うべき",
+                        PAID: "支払われました"
+                    },
+                    SHIPPING : {
+                        NOT_SHIPPING : "ではない配送",
+                        SHIPPING: "出荷されました"
+                    }
+                },
+                VIEW_RO_MODAL : {
+                    DATE : '日付',
+                    RO_NO : '受付番号',
+                    RO_LABEL : '領収書',
+                    IMAGE_PAYMENT_DOCUMENT : '支払文書画像',
+                    UPLOAD_BUTTON : 'アップロード',
+                    APPROVE_BUTTON : '承認します',
+                    REJECT_BUTTON : '拒否する'
+                }
             }
-           }
         },
         FOOTER : {
-            
+           THUMB_UPS :'清潔で衛生的。',
+           FILE :'完璧な組み合わせ。',
+           BADGE :'広く知られて。',
+           HEART : '製造業に焦点を合わせます。'
         }
     });
     $translateProvider.translations('cn', {
@@ -822,19 +990,75 @@ app.config(function ($translateProvider) {
             }
         },
         BODY: {
-           SECTION : {
-            PRODUCT : {
-                PRICE : '價格',
-                QUANTITY : '數量',
-                BUY : '購買',
-                WEIGHT: '重量',
-                WEIGHT_GRAM: '公克',
-                WEIGHT_KILOGRAM: '公斤'
-            }
+            SECTION : {
+                PRODUCT : {
+                    PRICE : '價格',
+                    QUANTITY : '數量',
+                    BUY : '購買',
+                    WEIGHT: '重量',
+                    WEIGHT_GRAM: '公克',
+                    WEIGHT_KILOGRAM: '公斤'
+                },
+                HISTORY : {
+                    HEAD : "購買記錄",
+                    BUTTON: {
+                        SEARCH : "搜索"
+                    },
+                    FROM: "從 :",
+                    TO: "至 :",
+                    PAYMENT_STATUS: "支付狀態",
+                    SHIPPING_STATUS: "發貨狀態",
+                    PAYMENT : {
+                        OWED : "欠",
+                        PAID: "付費"
+                    },
+                    SHIPPING : {
+                        NOT_SHIPPING : "不送貨",
+                        SHIPPING: "運"
+                    }
+                },
+                CUSTOMER_ORDER : {
+                    BUTTON : {
+                        SEARCH : "搜索"
+                    },
+                    HEAD : "客戶訂單 :",
+                    RO_NO : "收據號 :",
+                    RO_NO_PLACEHOLDER : "收據號",
+                    CUSTOMER : "顧客 :",
+                    CUSTOMER_PLACEHOLDER : "顧客",
+                    FROM : "從日期 :",
+                    FROM_PLACEHOLDER : "從日期",
+                    TO : "至今 :",
+                    TO_PLACEHOLDER : "至今",
+                    PAYMENT_STATUS : "支付狀態 :",
+                    PAYMENT_PLACEHOLDER : "支付狀態",
+                    SHIPPING_STATUS : "運輸狀態 :",
+                    SHIPPING_PLACEHOLDER : "運輸狀態",
+                    PAYMENT : {
+                        OWED : "欠",
+                        PAID: "付費"
+                    },
+                    SHIPPING : {
+                        NOT_SHIPPING : "不送貨",
+                        SHIPPING: "運"
+                    }
+                },
+                VIEW_RO_MODAL : {
+                    DATE : '日期',
+                    RO_NO : '收據號',
+                    RO_LABEL : '收據',
+                    IMAGE_PAYMENT_DOCUMENT : '付款單據圖片',
+                    UPLOAD_BUTTON : '上傳',
+                    APPROVE_BUTTON : '批准',
+                    REJECT_BUTTON : '拒絕'
+                }
            }
         },
         FOOTER : {
-          
+           THUMB_UPS :'清潔衛生',
+           FILE :'完美結合',
+           BADGE :'眾所周知',
+           HEART : '專注於製造業'
         }
     });
     $translateProvider.preferredLanguage('th');

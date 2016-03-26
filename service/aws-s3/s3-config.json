@@ -1,7 +1,7 @@
 {
-	"AWS_ACCESS_KEY_ID" : "AKIAI24BRGQPJKMMNVBA",
-	"AWS_SECRET_ACCESS_KEY" : "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",
-	"HOME_BUCKET" : "cskweb",
+	"AWS_ACCESS_KEY_ID" : "AKIAIM45X3KUIZYHFDKA",
+	"AWS_SECRET_ACCESS_KEY" : "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",
+	"HOME_BUCKET" : "cskwebcaramelsrikho",
 	"PRODUCT_BUCKET" : "/product/",
 	"PRODUCT_CATEGORY_BUCKET" : "/product_category/",
 	"RECEIPT_BUCKET" : "/ro/",

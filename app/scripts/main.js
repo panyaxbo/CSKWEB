@@ -17,19 +17,47 @@ $(document).ready(function () {
 
 });
 
-$('#DropdownLanguage li a').on('click', function () {
-  //  $('#SelectedDropdownLanguage').html($(this).find('a').html());
-    $('.dropdown-toggle').html($(this).html() + '<span class="caret"></span>');
+$('#DropdownLanguage li').on('click', function () {
+    console.log($('#DropdownLanguage li'));
+    console.log( $('#SelectedDropdownLanguage'));
+    console.log( $('#SelectedDropdownLanguage').html($(this).find('a').html()));
+    $('#SelectedDropdownLanguage').html($(this).find('a').html());
+
+  //  $('.dropdown-toggle').html($(this).html() + '<span class="caret"></span>');
 });
 
-$('#DropdownCurrency li a').on('click', function () {
+$('#DropdownCurrency li').on('click', function () {
     $('#SelectedDropdownCurrency').html($(this).find('a').html());
 });
 
-$('.dropdown-menu a').on('click', function(){    
-    $(this).parent().parent().prev().html($(this).html() + '<span class="caret"></span>');    
-})
+function formatLangResult (state) {
+   //   if (!state.id) { return state.text; }
+     
+      if (state.text == 'th' || state.text == 'us' || state.text == 'cn') {
+        var $state = $(
+          '<span><img src="/images/' + state.text + '.png"/></span>'
+     
+            //      '<span><img src="/images/' + state.element.value.toLowerCase() + '.png"/> </span>'
+        );
+        return $state;
+      }
+};
 
+function formatLangSelection (state) {
+//   if (!state.id) { return state.text; }
+
+  if (state.text == 'th' || state.text == 'us' || state.text == 'cn') {
+      var $state = $(
+        '<span><img src="/images/' + state.text + '.png"/> </span>'
+    //      '<span><img src="/images/' + state.element.value.toLowerCase() + '.png"/> </span>'
+      );
+      return $state;
+    }
+};
+$(".js-example-templating").select2({
+  templateResult: formatLangResult,
+  templateSelection: formatLangSelection
+});
 window.paypalCheckoutReady = function() {
     paypal.checkout.setup("4N2L5B22JU3W6", {
     //    environment: 'sandbox',

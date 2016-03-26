@@ -13,6 +13,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.12.0/bootstrap-social.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css" />
     <link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css"/>
+    <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.min.css"></script>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/step.css">
 
@@ -33,14 +35,13 @@
        ga('send', 'pageview');
     </script>
 
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angularjs-datepicker/dist/angular-datepicker.min.js"></script>
     <script src="bower_components/angular-messages/angular-messages.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
@@ -51,9 +52,12 @@
     <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/ng-password-strength/dist/scripts/ng-password-strength.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
     <script src="bower_components/angular-recaptcha/release/angular-recaptcha.js"></script>
+    <script src="bower_components/angularjs-datepicker/dist/angular-datepicker.min.js"></script>
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/angular-block-ui/dist/angular-block-ui.js"></script>
+    <script src="bower_components/ng-table/dist/ng-table.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -79,6 +83,7 @@
     <script src="services/crypto-service.js"></script>
     <script src="services/receipt-order-service.js"></script>
     <script src="services/app-config-service.js"></script>
+    <script src="services/menu-service.js"></script>
     <script src="constants/constants.js"></script>
     <script src="scripts/paypal-button.min.js"></script>
     <script async src="//www.paypalobjects.com/api/checkout.js"></script>

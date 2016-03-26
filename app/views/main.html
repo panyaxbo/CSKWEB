@@ -22,7 +22,7 @@
                     <li>
                         <a class="header-link" href="#about">{{'HEAD.MENU.DELIVERY' | translate}}</a>
                     </li>
-                    <button ng-click="TrySendEmail()"> Email</button>
+                    
                 </ul>
                 <ul class="nav nav-pills pull-right nav-header">
                     <li>
@@ -773,6 +773,84 @@
                         <button id="LogoutButton" class="btn btn-danger" ng-click="Logout()" ng-show="IsLogin" >
                             <span class="glyphicon glyphicon-log-out"></span> {{'HEAD.SIGNOUT' | translate}}
                         </button>
+                        <div class="modal fade" id="ForgetPasswordModal" role="dialog" data-backdrop="false">
+                            <div class="modal-dialog ">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-offset-2 col-xs-8 col-sm-8 col-md-8 text-center">
+                                                <div class="form-group text-center">
+                                                    <i class="fa fa-lock fa-5x"></i>
+                                                </div>
+                                                <div class="form-group text-center">
+                                                    <h2>{{'HEAD.MODAL_FORGET_PASSWORD.TITLE' | translate}} </h2>
+                                                </div>
+                                                <div class="form-group text-center">
+                                                    <h4>{{'HEAD.MODAL_FORGET_PASSWORD.TEXT' | translate}} </h4>
+                                                </div>
+                                                <div class="form-group text-center">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                        <input type="text" class="form-control input-lg" ng-model="ForgetPasswordEmail" placeholder="email address">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button class="btn btn-primary btn-block btn-lg" ng-click="SendEmailForgetPassword()" >
+                                                        <span class="glyphicon glyphicon-envelope"></span> {{'HEAD.MODAL_FORGET_PASSWORD.SEND_EMAIL_BUTTON' | translate}}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.modal-content -->
+
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                <!-- /.modal -->
+                            </div>
+                        </div>
+                        <div class="modal fade" id="InputPasswordModal" role="dialog" data-backdrop="false">
+                            <div class="modal-dialog ">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-offset-2 col-xs-8 col-sm-8 col-md-8 text-center">
+                                                <div class="form-group text-center">
+                                                    <i class="fa fa-unlock fa-5x"></i>
+                                                </div>
+                                                <div class="form-group text-center">
+                                                    <h2>{{'HEAD.MODAL_INPUT_PASSWORD.TITLE' | translate}} </h2>
+                                                </div>
+                                                <div class="form-group text-center">
+                                                    <h4>{{'HEAD.MODAL_INPUT_PASSWORD.TEXT' | translate}} </h4>
+                                                </div>
+                                                <div class="form-group text-center">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                                        <input type="password" class="form-control input-lg" ng-model="ChangeForgetPassword" placeholder="{{'HEAD.MODAL_INPUT_PASSWORD.PASSWORD' | translate}}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group text-center">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                                        <input type="password" class="form-control input-lg" ng-model="ConfirmChangeForgetPassword" placeholder="{{'HEAD.MODAL_INPUT_PASSWORD.CONFIRM_PASSWORD' | translate}}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button class="btn btn-primary btn-block btn-lg" ng-click="ChangePassword()" >
+                                                        <span class="glyphicon glyphicon-floppy-saved"></span> {{'HEAD.MODAL_INPUT_PASSWORD.CHANGE_PASSWORD_BUTTON' | translate}}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.modal-content -->
+
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                <!-- /.modal -->
+                            </div>
+                        </div>
                         <div class="modal fade" id="LoginModal" role="dialog" data-backdrop="false">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -920,10 +998,162 @@
                                 <!-- /.modal -->
                             </div>
                         </div>
+                        <div id="CartModal" class="modal fade" role="dialog" data-backdrop="false">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title"><i class="fa fa-shopping-basket fa-2x"></i>  {{'HEAD.MODAL_CART.PRODUCT_CART' | translate}}</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-md-offset-0">
+                                            <div id="HideCartTable" ng-show="ROHead.ROLineList.length <= 0 || ROHead.ROLineList === undefined">
+                                                <h3 class="text-center">--------- {{'HEAD.MODAL_CART.EMPTY_CART' | translate}} ---------</h3>
+                                            </div>
+                                            <div id="ShowCartTable" ng-show="ROHead.ROLineList.length > 0">
+                                                <table id="CartTable" class="table table-hover table table-condensed" ng-show="ROHead.ROLineList.length > 0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>{{'HEAD.MODAL_CART.SEQ' | translate}}</th>
+                                                            <th></th>
+                                                            <th class="text-left">{{'HEAD.MODAL_CART.ITEM_NAME' | translate}}</th>
+                                                            <th class="text-right">{{'HEAD.MODAL_CART.QTY' | translate}}</th>
+                                                            <th class="text-left">{{'HEAD.MODAL_CART.UOM' | translate}}</th>
+                                                            <th class="text-right">{{'HEAD.MODAL_CART.PRICE' | translate}}</th>
+                                                            <th class="text-right">{{'HEAD.MODAL_CART.DISCOUNT' | translate}}</th>
+                                                            <th class="text-right">{{'HEAD.MODAL_CART.AMOUNT' | translate}}</th>
+                                                            <th> </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="ro in ROHead.ROLineList" id="CartRow{{$index}}">
+                                                            <td class="col-sm-1 col-md-1 text-center" >
+                                                                {{$index+1}}.
+                                                            </td>
+                                                            <td class="col-sm-1 col-md-1 text-center" >
+                                                                <div id="CartProduct_{{ro.ProductCode}}">
+                                                                    
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-sm-5 col-md-5 text-left">
+                                                                <div class="media">
+                                                                    <div class="media-body">
+                                                                        {{ro.ProductNameTh}}
+                                                                    </div>
+                                                                    <p>{{ro.Weight}}</p>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: right">
+                                                                <input type="text" class="form-control input-sm" id="BuyQty" ng-model="ro.Quantity" 
+                                                                ng-keyup="UpdateCartBuyQty($index, ro.Quantity)" >
+                                                            </td>
+                                                            <td class="col-sm-1 col-md-1" style="text-align: center">
+                                                                {{ro.UomNameTh}}
+                                                            </td>
+                                                            <td class="col-sm-1 col-md-1 text-right"><strong>{{CurrencySymbol}} {{(ro.Price * Multiplier) | currency:''}}</strong>
+                                                            </td>
+                                                            <td class="col-sm-1 col-md-1 text-right"><strong>{{CurrencySymbol}} {{(ro.DiscountAmount * Multiplier) | currency:''}}</strong>
+                                                            </td>
+                                                            <td class="col-sm-4 col-md-4 text-right"><strong>{{CurrencySymbol}} {{(ro.Amount * Multiplier) | currency:''}}</strong>
+                                                            </td>
+                                                            <td class="col-sm-1 col-md-1">
+                                                                <button type="button" class="btn btn-danger btn-xs" ng-click="DeleteCartProduct(this, ro, $index)">
+                                                                    <span class="glyphicon glyphicon-trash"></span> 
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3"> </td>
+                                                            <td colspan="2">  
+                                                                <h5>{{'HEAD.MODAL_CART.SUMAMT' | translate}}</h5> 
+                                                            </td>
+                                                            <td colspan="3" class="text-right">  
+                                                                <h5><strong>{{CurrencySymbol}} {{(ROHead.SumAmount * Multiplier)  | currency:''}}</strong></h5> 
+                                                            </td>
+                                                            <td>   </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3"> </td>
+                                                            <td colspan="2">  
+                                                                <h5>{{'HEAD.MODAL_CART.SUMDISCAMT' | translate}}</h5>
+                                                            </td>
+                                                            <td colspan="3" class="text-right">  
+                                                                <h5><strong>{{CurrencySymbol}} {{(ROHead.SumDiscountAmount * Multiplier) | currency:''}}</strong></h5>
+                                                            </td>
+                                                            <td>   </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3"> </td>
+                                                            <td colspan="2">  
+                                                                <h5>{{'HEAD.MODAL_CART.SUMVATAMT' | translate}}</h5>
+                                                            </td>
+                                                            <td colspan="3" class="text-right">  
+                                                                <h5><strong>{{CurrencySymbol}} {{(ROHead.SumVatAmount * Multiplier) | currency:''}}</strong></h5>
+                                                            </td>
+                                                            <td>   </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="1"> </td>
+                                                            <td colspan="1"> </td>
+                                                            <td colspan="1"> 
+                                                                <select class="form-control" ng-model="ROHead.PostType" required="required" ng-change="ChangePostType()">
+                                                                    <option value="Normal">{{'HEAD.MODAL_CART.POST_TYPE.NORMAL' | translate}}</option>
+                                                                    <option value="EMS">{{'HEAD.MODAL_CART.POST_TYPE.EMS' | translate}}</option>
+                                                                <!--    <option value="Destination">{{'HEAD.MODAL_CART.POST_TYPE.DESTINATION' | translate}}</option>-->
+                                                                </select>
+                                                            </td>
+                                                            <td colspan="1">  
+                                                                <h5>{{'HEAD.MODAL_CART.SUM_WEIGHT_AMT' | translate}}</h5>
+                                                            </td>
+                                                            <td colspan="1">  
+                                                                <h5>{{ROHead.SumWeight | currency:''}} {{'WEIGHT_UOM' | translate}}</h5>
+                                                            </td>
+                                                            <td colspan="3" class="text-right">  
+                                                                <h5><strong>{{CurrencySymbol}} {{(ROHead.SumWeightAmount * Multiplier) | currency:''}}</strong></h5>
+                                                            </td>
+                                                            <td>   </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3"> </td>
+                                                            <td colspan="2">  
+                                                                <h4>{{'HEAD.MODAL_CART.NETAMT' | translate}}</h4>
+                                                            </td>
+                                                            <td colspan="3" class="text-right">  
+                                                                <h4><strong>{{CurrencySymbol}} {{(ROHead.NetAmount * Multiplier) | currency:''}}</strong></h4>
+                                                            </td>
+                                                            <td>   </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="9">
+                                                                <div class="col-sm-offset-2 col-sm-10">
+                                                                    <div class="pull-right">
+                                                                        <button type="button" class="btn btn-default" ng-click="ContinueShopping()">
+                                                                        <span class="glyphicon glyphicon-shopping-cart"></span> {{'HEAD.MODAL_CART.SHOP_BUTTON' | translate}}
+                                                                    </button>
+
+                                                                        <button type="button" class="btn btn-danger" ng-click="DeleteCart()">
+                                                                        <span class="glyphicon glyphicon-trash"></span> {{'HEAD.MODAL_CART.CLEAR_BUTTON' | translate}}
+                                                                    </button>
+
+                                                                        <button type="button" class="btn btn-success" ng-click="CheckoutProcess()">
+                                                                        {{'HEAD.MODAL_CART.CHECKOUT_BUTTON' | translate}} <span class="glyphicon glyphicon-play"></span>
+                                                                    </button>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                     <li class="dropdown" class="head-menu" style="margin-top:-8px">
-                         <a href="" class="dropdown-toggle head-menu" data-toggle="dropdown">
-                         <img src="/images/th.png">&nbsp;{{'HEAD.LOCALE.TH' | translate}}<span class="caret"></span></a>
+                         <a href="" class="dropdown-toggle head-menu" data-toggle="dropdown"><span id="SelectedDropdownLanguage">
+                         <img src="/images/th.png">&nbsp;{{'HEAD.LOCALE.TH' | translate}}</span><b class="caret"></b></a>
                           <ul id="DropdownLanguage" class="dropdown-menu" role="menu">
                             <li><a href="" ng-click="SelectedMenuLocale('th')"><img src="/images/th.png">&nbsp;{{'HEAD.LOCALE.TH' | translate}}</a>
                             </li>
@@ -936,8 +1166,8 @@
                           </ul>
                     </li>
                     <li class="dropdown" class="head-menu" style="margin-top:-3px">
-                         <a href="" class="dropdown-toggle head-menu" data-toggle="dropdown">
-                         &nbsp;฿ - {{'HEAD.CURRENCY.THB' | translate}}<span class="caret"></span></a>
+                         <a href="" class="dropdown-toggle head-menu" data-toggle="dropdown"><span id="SelectedDropdownCurrency">
+                         &nbsp;฿ - {{'HEAD.CURRENCY.THB' | translate}}</span><b class="caret"></b></a>
                           <ul id="DropdownCurrency" class="dropdown-menu">
                             <li><a href="" ng-click="SelectedMenuCurrency('thb')">&nbsp;฿ - {{'HEAD.CURRENCY.THB' | translate}}</a>
                             </li>
@@ -967,9 +1197,9 @@
                             <ul class="dropdown-menu">
                                 <li><a href="#account-section" ng-click="SelectedHeadMenu('account')"><span class="glyphicon glyphicon-user"></span> {{'HEAD.MENU.ACCOUNT' | translate}} </a>
                                 </li>
-                                <li><a href="#customer-order-section" ng-click="SelectedHeadMenu('customer-order')"><span class="glyphicon glyphicon-tasks"></span> {{'HEAD.MENU.CUSTOMER' | translate}} </a>
+                                <li><a href="" ng-click="SelectedHeadMenu('customer-order')"><span class="glyphicon glyphicon-tasks"></span> {{'HEAD.MENU.CUSTOMER' | translate}} </a>
                                 </li>
-                                <li><a href="#history-section" ng-click="SelectedHeadMenu('history')"><span class="glyphicon glyphicon-time"></span> {{'HEAD.MENU.HISTORY' | translate}}</a>
+                                <li><a href="" ng-click="SelectedHeadMenu('history')"><span class="glyphicon glyphicon-time"></span> {{'HEAD.MENU.HISTORY' | translate}}</a>
                                 </li>
                                 <li><a href="#setting-section" ng-click="SelectedHeadMenu('setting')"><span class="glyphicon glyphicon-cog"></span> {{'HEAD.MENU.SETTING' | translate}}</a>
                                 </li>
@@ -985,7 +1215,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="#account-section" ng-click="SelectedHeadMenu('account')"><span class="glyphicon glyphicon-user"></span> {{'HEAD.MENU.ACCOUNT' | translate}}</a>
                                 </li>
-                                <li> <a href="#history-section" ng-click="SelectedHeadMenu('history')"><span class="glyphicon glyphicon-time"></span> {{'HEAD.MENU.HISTORY' | translate}}</a>
+                                <li> <a href="" ng-click="SelectedHeadMenu('history')"><span class="glyphicon glyphicon-time"></span> {{'HEAD.MENU.HISTORY' | translate}}</a>
                                 </li>
                                 <li class="divider"></li>
                                 <li><a ng-href="" ng-click="Logout()"><span class="glyphicon glyphicon-off"></span> {{'HEAD.MENU.LOGOUT' | translate}}</a>
@@ -997,6 +1227,17 @@
                             <!-- code to render the regular video block -->
                             <a href="" class="dropdown-toggle" data-toggle="dropdown">{{'HEAD.WELCOME' | translate}},
                              {{User.Firstname}}<b class="caret"></b></a>
+                             <ul class="dropdown-menu">
+                                
+                                <li><a href="" ng-click="SelectedHeadMenu('customer-order')"><span class="glyphicon glyphicon-tasks"></span> {{'HEAD.MENU.CUSTOMER' | translate}} </a>
+                                </li>
+                                <li><a href="" ng-click="SelectedHeadMenu('history')"><span class="glyphicon glyphicon-time"></span> {{'HEAD.MENU.HISTORY' | translate}}</a>
+                                </li>
+                              
+                                <li class="divider"></li>
+                                <li><a href="" ng-click="Logout()"><span class="glyphicon glyphicon-off"></span> {{'HEAD.MENU.LOGOUT' | translate}}</a>
+                                </li>
+                            </ul>
                         </div>
                     </li>
                 </ul>
@@ -1077,18 +1318,6 @@
     </div>
     <!-- Page Content -->
     <div class="container" ng-controller="BodyController">
-
-        <!-- Jumbotron Header
-        <header class="jumbotron hero-spacer">
-            <h1>A Warm Welcome!</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
-            <p><a class="btn btn-primary btn-large">Call to action!</a>
-            </p>
-        </header>
-
-        <hr>
-         -->
-    
         <!-- Title -->
         <div class="row">
             <div class="col-lg-12">
@@ -1098,7 +1327,7 @@
         <!-- /.row -->
 
         <!-- Page Features -->
-        <div id="PurchaseCaramel" class="row text-center">
+        <div id="PurchaseCaramel" class="row">
             <div class="col-md-4 col-sm-6 hero-feature" ng-repeat="Product in Products">
                 <div class="product-thumbnail">
                     <div class="thumbnail" >
@@ -1158,103 +1387,631 @@
                                 </div>
                             </p>
                             <p>
-                                <a class="btn btn-lg btn-success btn-product" ng-click="AddCart(Product, BuyQty, $index)">
-                                    <span class="glyphicon glyphicon-shopping-cart"></span> 
-                                    {{'BODY.SECTION.PRODUCT.BUY' | translate}}</a> 
-                                <a href="#" class="btn btn-lg btn-default">More Info</a>
+                                <div class="row text-center">
+                                    <a class="btn btn-lg btn-success btn-product" ng-click="AddCart(Product, BuyQty, $index)">
+                                        <span class="glyphicon glyphicon-shopping-cart"></span> 
+                                        {{'BODY.SECTION.PRODUCT.BUY' | translate}}</a> 
+                                    <a href="#" class="btn btn-lg btn-default">More Info</a>
+                                </div>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-<!--
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <img src="http://placehold.it/800x500" alt="">
-                    <div class="caption">
-                        <h3>กาละแม ตรา 'เฮียจอก กาละแมสด ศีขรภูมิ' แพ๊ค 5 ถุง</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        <p>{{'BODY.SECTION.PRODUCT.PRICE' | translate}} </p>
-                        <p>{{'BODY.SECTION.PRODUCT.QUANTITY' | translate}}</p>
-                        <p></p>
-                        <p>
-                            <a class="btn btn-success btn-product" ng-click="AddCart(p, BuyQty, $index)">
-                                <span class="glyphicon glyphicon-shopping-cart"></span> 
-                                {{'BODY.SECTION.PRODUCT.BUY' | translate}}</a> <a href="#" class="btn btn-default">More Info</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <img src="http://placehold.it/800x500" alt="">
-                    <div class="caption">
-                        <h3>Feature Label</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        <p>
-                            <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">More Info</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <img src="http://placehold.it/800x500" alt="">
-                    <div class="caption">
-                        <h3>Feature Label</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        <p>
-                            <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">More Info</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
--->
         </div>
-        <!-- /.row -->
-
-        <hr>
+        <div id="HistoryModal" class="modal fade" role="dialog" data-backdrop="false">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-shopping-basket fa-2x"></i>  {{'HEAD.MODAL_CART.PRODUCT_CART' | translate}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="history-section" class="row" name="history-section" >
+                            <h1>{{'BODY.SECTION.HISTORY.HEAD' | translate}}</h1> 
+                             <div id="div-history-receipt-detail" class="row">
+                                <div class="col-md-12 col-sm-6 col-sm-offset-0">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="textinput">{{'BODY.SECTION.HISTORY.FROM' | translate}}</label>
+                                        <div class="col-sm-4">
+                                            <datepicker button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>"
+                                               date-format="dd/MM/yyyy"  date-set="">
+                                              <input ng-model="StartDate" type="text" style="color:black" class="form-control" />
+                                            </datepicker>
+                                        </div>
+                                        <label class="col-sm-2 control-label" for="textinput">{{'BODY.SECTION.HISTORY.TO' | translate}}</label>
+                                        <div class="col-sm-4">
+                                            <datepicker button-prev="<i class='fa fa-arrow-left'></i>"  button-next="<i class='fa fa-arrow-right'></i>" 
+                                                   date-format="dd/MM/yyyy"  date-set="">
+                                                  <input ng-model="EndDate" type="text" style="color:black" class="form-control"/>
+                                            </datepicker>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="textinput">{{'BODY.SECTION.HISTORY.PAYMENT_STATUS' | translate}}</label>
+                                        <div class="col-sm-4">
+                                            <select class="form-control" ng-model="SearchPaymentStatus" required="required">
+                                                <option value="N" selected>{{'BODY.SECTION.HISTORY.PAYMENT.OWED' | translate}}</option>
+                                                <option value="Y">{{'BODY.SECTION.HISTORY.PAYMENT.PAID' | translate}}</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-sm-2 control-label" for="textinput">{{'BODY.SECTION.HISTORY.SHIPPING_STATUS' | translate}}</label>
+                                        <div class="col-sm-4">
+                                            <select class="form-control" ng-model="SearchShippingStatus" required="required">
+                                                <option value="N" selected>{{'BODY.SECTION.HISTORY.SHIPPING.NOT_SHIPPING' | translate}}</option>
+                                                <option value="Y">{{'BODY.SECTION.HISTORY.SHIPPING.SHIPPING' | translate}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        
+                                        <label class="col-sm-2 control-label" for="textinput">&nbsp;</label>
+                                        <div class="col-sm-4">
+                                            &nbsp;
+                                        </div>
+                                        <label class="col-sm-2 control-label" for="textinput">&nbsp;</label>
+                                        <div class="col-sm-4">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-5 col-md-12">
+                                            <div class="center-block">
+                                                <button ng-click="SearchHistoryReceipt()" class="btn btn-primary">
+                                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> {{'BODY.SECTION.HISTORY.BUTTON.SEARCH' | translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="div-history-receipt-table">
+                                <p><strong>Page:</strong> {{HistoryReceiptTableParams.page()}}</p>
+                                <p><strong>Count per page:</strong> {{HistoryReceiptTableParams.count()}}</p>
+                                <div id="PrintROModal">    
+                                    <div class="modal fade" style="color:black">
+                                        <div class="modal-dialog ">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-xs-4 col-sm-4 col-md-4">
+                                                            <address>
+                                                                <strong>{{PrintROData.BillingName}}</strong>
+                                                                <br>
+                                                                {{PrintROData.BillingAddress}}
+                                                                <br>
+                                                                {{PrintROData.BillingProvince.Province}}, {{PrintROData.BillingDistrict.District}}
+                                                                <br>
+                                                                {{PrintROData.BillingSubDistrict.SubDistrict}}, {{PrintROData.BillingSubDistrict.ZipCode}}
+                                                                <br>
+                                                                <abbr title="Phone">P:</abbr> (213) 484-6829
+                                                            </address>
+                                                        </div>
+                                                        <div class="col-xs-4 col-sm-4 col-md-4 text-center">
+                                                            <p>
+                                                                <img src="/images/CSK_icon_black.png" height="100" width="100">
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-xs-4 col-sm-4 col-md-4 text-right">
+                                                            <p>
+                                                                <em>Date: {{PrintROData.RODate | date:'medium'}}</em>
+                                                            </p>
+                                                            <p>
+                                                                <em>Receipt #: {{PrintROData.RONo}}</em>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="text-center">
+                                                            <h1>{{'BODY.SECTION.VIEW_RO_MODAL.RO_LABEL' | translate}}</h1>
+                                                        </div>
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-left">Product</th>
+                                                                    <th class="text-center">#</th>
+                                                                    <th class="text-right">Price</th>
+                                                                    <th class="text-right">Total</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="roLine in PrintROData.ROLineList">
+                                                                    <td class="col-md-9"><em>{{roLine.ProductNameTh}}</em></h4></td>
+                                                                    <td class="col-md-1" style="text-align: center"> {{roLine.Quantity}} </td>
+                                                                    <td class="col-md-1 text-center">{{roLine.Price | number:2}}</td>
+                                                                    <td class="col-md-1 text-center">{{roLine.Amount | number:2}}</td>
+                                                                </tr>                                                
+                                                                <tr>
+                                                                    <td>   </td>
+                                                                    <td>   </td>
+                                                                    <td>
+                                                                        <p>
+                                                                            <strong class="text-left">Subtotal: </strong>
+                                                                        </p>
+                                                                        <p>
+                                                                            <strong class="text-left">Tax: </strong>
+                                                                        </p>
+                                                                        <p>
+                                                                            <strong class="text-left">Discount: </strong>
+                                                                        </p>
+                                                                        <p>
+                                                                            <strong class="text-left">Weight: </strong>
+                                                                        </p>
+                                                                    </td>
+                                                                    <td class="text-right">
+                                                                        <p>
+                                                                            <strong class="text-right">{{PrintROData.SumAmount | number:2}}</strong>
+                                                                        </p>
+                                                                        <p>
+                                                                            <strong class="text-right">{{PrintROData.SumVatAmount | number:2}}</strong>
+                                                                        </p>
+                                                                        <p>
+                                                                            <strong class="text-right">{{PrintROData.SumDiscountAmount | number:2}}</strong>
+                                                                        </p>
+                                                                        <p>
+                                                                            <strong class="text-right">{{PrintROData.SumWeightAmount | number:2}}</strong>
+                                                                        </p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>   </td>
+                                                                    <td>   </td>
+                                                                    <td class="text-right"><h4><strong>Total: </strong></h4></td>
+                                                                    <td class="text-center text-danger"><h4><strong>{{PrintROData.NetAmount | number:2}}
+                                                                    </strong></h4></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="HistoryROModal" style="color:black">
+                                    <div class="modal-dialog ">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-xs-4 col-sm-4 col-md-4">
+                                                        <address>
+                                                            <strong>{{ViewHistoryRO.BillingName}}</strong>
+                                                            <br>
+                                                            {{ViewHistoryRO.BillingAddress}}
+                                                            <br>
+                                                            {{ViewHistoryRO.BillingProvince.Province}}, {{ViewHistoryRO.BillingDistrict.District}}
+                                                            <br>
+                                                            {{ViewHistoryRO.BillingSubDistrict.SubDistrict}}, {{ViewHistoryRO.BillingSubDistrict.ZipCode}}
+                                                            <br>
+                                                            <abbr title="Phone">P:</abbr> (213) 484-6829
+                                                        </address>
+                                                    </div>
+                                                    <div class="col-xs-4 col-sm-4 col-md-4 text-center">
+                                                        <p>
+                                                            <img src="/images/CSK_icon_black.png" height="100" width="100">
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-xs-4 col-sm-4 col-md-4 text-right">
+                                                        <p>
+                                                            <em>Date: {{ViewHistoryRO.RODate | date:'medium'}}</em>
+                                                        </p>
+                                                        <p>
+                                                            <em>Receipt #: {{ViewHistoryRO.RONo}}</em>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="text-center">
+                                                        <h1>{{'BODY.SECTION.VIEW_RO_MODAL.RO_LABEL' | translate}}</h1>
+                                                    </div>
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-left">Product</th>
+                                                                <th class="text-center">#</th>
+                                                                <th class="text-right">Price</th>
+                                                                <th class="text-right">Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="roLine in ViewHistoryRO.ROLineList">
+                                                                <td class="col-md-9"><em>{{roLine.ProductNameTh}}</em></h4></td>
+                                                                <td class="col-md-1" style="text-align: center"> {{roLine.Quantity}} </td>
+                                                                <td class="col-md-1 text-center">{{roLine.Price | number:2}}</td>
+                                                                <td class="col-md-1 text-center">{{roLine.Amount | number:2}}</td>
+                                                            </tr>                                                
+                                                            <tr>
+                                                                <td>   </td>
+                                                                <td>   </td>
+                                                                <td>
+                                                                    <p>
+                                                                        <strong class="text-left">Subtotal: </strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong class="text-left">Tax: </strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong class="text-left">Discount: </strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong class="text-left">Weight: </strong>
+                                                                    </p>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    <p>
+                                                                        <strong class="text-right">{{ViewHistoryRO.SumAmount | number:2}}</strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong class="text-right">{{ViewHistoryRO.SumVatAmount | number:2}}</strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong class="text-right">{{ViewHistoryRO.SumDiscountAmount | number:2}}</strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong class="text-right">{{ViewHistoryRO.SumWeightAmount | number:2}}</strong>
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>   </td>
+                                                                <td>   </td>
+                                                                <td class="text-right"><h4><strong>Total: </strong></h4></td>
+                                                                <td class="text-center text-danger"><h4><strong>{{ViewHistoryRO.NetAmount | number:2}}
+                                                                </strong></h4></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <button type="button" class="btn btn-success btn-lg btn-block" ngf-select ngf-change="UploadPaymentDocument($files, ViewHistoryRO.RONo)" ng-disabled="ViewHistoryRO.StaffApprovePaymentStatus === 'Y'">
+                                                        {{'BODY.SECTION.VIEW_RO_MODAL.UPLOAD_BUTTON' | translate}}   <span class="glyphicon glyphicon-upload"></span>
+                                                    </button></td>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="text-center">
+                                                        <h1>{{'BODY.SECTION.VIEW_RO_MODAL.IMAGE_PAYMENT_DOCUMENT' | translate}}</h1>
+                                                    </div>
+                                                    <div class="text-center col-md-11 col-sm-offset-1">
+                                                        <div id="ThumbnailReceiptPayment"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                        <!-- /.modal -->
+                                    </div>
+                                </div>
+                                <table ng-table="HistoryReceiptTableParams" class="table">
+                                    <tr ng-repeat="roHead in SearchHistoryReceipts">
+                                        <td data-title="'View'" class="text-center">
+                                            <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#HistoryROModal" ng-click="ViewRO(roHead._id, 'History')">
+                                                    <span class="glyphicon glyphicon glyphicon-list-alt" aria-hidden="true"></span></button>
+                                        </td>
+                                        <td data-title="'Print'" class="text-center">
+                                            <button type="submit" class="btn btn-primary" ng-click="PrintRO(roHead._id)">
+                                                    <span class="glyphicon glyphicon glyphicon-print" aria-hidden="true"></span></button>
+                                        </td>
+                                        <td data-title="'#'" class="text-cetner">{{$index+1}}</td>
+                                        <td data-title="'RONo'" class="text-left" >{{roHead.RONo}}</td>
+                                        <td data-title="'RODate'" class="text-center">{{roHead.RODate | date:'dd-MM-yyyy'}}</td>
+                                        <td data-title="'NetAmount'" class="text-right">{{roHead.NetAmount | number:2}}</td>
+                                        <td data-title="'Bank'" class="text-center">
+                                            <img src="images/bbl.png" ng-show="roHead.PaymentBank == 'bbl'" width="32" height="32">
+                                            <img src="images/kbank.png" ng-show="roHead.PaymentBank == 'kbank'" width="32" height="32">
+                                            <img src="images/ktb.png" ng-show="roHead.PaymentBank == 'ktb'" width="32" height="32">
+                                            <img src="images/kcc.png" ng-show="roHead.PaymentBank == 'kcc'" width="32" height="32">
+                                            <img src="images/scb.png" ng-show="roHead.PaymentBank == 'scb'" width="32" height="32">
+                                            <img src="images/tmb.png" ng-show="roHead.PaymentBank == 'tmb'" width="32" height="32">
+                                            <img src="images/uob.png" ng-show="roHead.PaymentBank == 'uob'" width="32" height="32">
+                                        </td>
+                                        
+                                        <td data-title="'Payment'" class="text-center">
+                                            <img src="images/dpay_stat.png" ng-show="roHead.PaymentStatus == 'N'" title="No Payment">
+                                            <img src="images/pay_stat.png" ng-show="roHead.PaymentStatus == 'Y'" title="Paid">
+                                        </td>
+                                        
+                                        <td data-title="'Shipping'" class="text-center">
+                                            <img src="images/dship_stat.png" ng-show="roHead.ShippingStatus == 'N'" title="No Shipping">
+                                            <img src="images/ship_stat.png" ng-show="roHead.ShippingStatus == 'Y'" title="Shipped">
+                                        </td>
+                                    </tr>
+                                </table>
+                                <script type="text/ng-template" id="custom/pager">
+                                    <ul class="pager ng-cloak">
+                                      <li ng-repeat="page in pages"
+                                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                                        <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo; Previous</a>
+                                        <a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next &raquo;</a>
+                                      </li>
+                                        <li> 
+                                        <div class="btn-group">
+                                            <button type="button" ng-class="{'active':params.count() == 10}" ng-click="params.count(10)" class="btn btn-default">10</button>
+                                            <button type="button" ng-class="{'active':params.count() == 25}" ng-click="params.count(25)" class="btn btn-default">25</button>
+                                            <button type="button" ng-class="{'active':params.count() == 50}" ng-click="params.count(50)" class="btn btn-default">50</button>
+                                            <button type="button" ng-class="{'active':params.count() == 100}" ng-click="params.count(100)" class="btn btn-default">100</button>
+                                        </div>
+                                        </li>
+                                    </ul>
+                                </script>
+                            
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="CustomerOrderModal" class="modal fade" role="dialog" data-backdrop="false">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-shopping-basket fa-2x"></i>  {{'HEAD.MODAL_CART.PRODUCT_CART' | translate}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="customer-order-section" class="row" >
+                            <h1>{{'BODY.SECTION.CUSTOMER_ORDER.HEAD' | translate}}</h1> 
+                             <div id="div-customer-order-detail" class="row">
+                                <div class="col-md-12 col-sm-6 col-sm-offset-0">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="textinput">{{'BODY.SECTION.CUSTOMER_ORDER.RO_NO' | translate}}</label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" placeholder="{{'BODY.SECTION.CUSTOMER_ORDER.RO_NO_PLACEHOLDER' | translate}}">
+                                        </div>
+                                        <label class="col-sm-2 control-label" for="textinput">{{'BODY.SECTION.CUSTOMER_ORDER.CUSTOMER' | translate}}</label>
+                                        <div class="col-sm-4">
+                                            <select id="SelectCustomerList" class="js-example-basic-single" ng-init="InitCustomerOrder()" style=
+                                            "width:300px"></select>        <br>                           
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="textinput">{{'BODY.SECTION.CUSTOMER_ORDER.FROM' | translate}}</label>
+                                        <div class="col-sm-4">
+                                            <datepicker button-prev="<i class='fa fa-arrow-left'></i>"  button-next="<i class='fa fa-arrow-right'></i>"
+                                               date-format="dd/MM/yyyy"  date-set="">
+                                                <input ng-model="SearchCustomerOrderStartDate" type="text" style="color:black" class="form-control" />
+                                            </datepicker>
+                                        </div>
+                                        <label class="col-sm-2 control-label" for="textinput">{{'BODY.SECTION.CUSTOMER_ORDER.TO' | translate}}</label>
+                                        <div class="col-sm-4">
+                                            <datepicker button-prev="<i class='fa fa-arrow-left'></i>"  button-next="<i class='fa fa-arrow-right'></i>" 
+                                                   date-format="dd/MM/yyyy"  date-set="">
+                                                  <input ng-model="SearchCustomerOrderEndDate" type="text" style="color:black" class="form-control"/>
+                                            </datepicker>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="textinput">{{'BODY.SECTION.CUSTOMER_ORDER.PAYMENT_STATUS' | translate}}</label>
+                                        <div class="col-sm-4">
+                                            <select class="form-control" ng-model="SearchCustomerOrderPaymentStatus" required="required">
+                                                <option value="N">{{'BODY.SECTION.CUSTOMER_ORDER.PAYMENT.OWED' | translate}}</option>
+                                                <option value="Y">{{'BODY.SECTION.CUSTOMER_ORDER.PAYMENT.PAID' | translate}}</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-sm-2 control-label" for="textinput">{{'BODY.SECTION.CUSTOMER_ORDER.SHIPPING_STATUS' | translate}}</label>
+                                        <div class="col-sm-4">
+                                            <select class="form-control" ng-model="SearchCustomerOrderShippingStatus" required="required">
+                                                <option value="N">{{'BODY.SECTION.CUSTOMER_ORDER.SHIPPING.NOT_SHIPPING' | translate}}</option>
+                                                <option value="Y">{{'BODY.SECTION.CUSTOMER_ORDER.SHIPPING.SHIPPING' | translate}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        
+                                        <label class="col-sm-2 control-label" for="textinput">&nbsp;</label>
+                                        <div class="col-sm-4">
+                                            &nbsp;
+                                        </div>
+                                        <label class="col-sm-2 control-label" for="textinput">&nbsp;</label>
+                                        <div class="col-sm-4">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-5 col-md-12">
+                                            <div class="center-block">
+                                                <button ng-click="SearchCustomerOrder()" class="btn btn-primary">
+                                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> {{'BODY.SECTION.CUSTOMER_ORDER.BUTTON.SEARCH' | translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="div-customer-order-table">
+                                <p><strong>Page:</strong> {{CustomerOrderTableParams.page()}}</p>
+                                <p><strong>Count per page:</strong> {{CustomerOrderTableParams.count()}}</p>                        
+                            </div>
+                                <div class="modal fade" id="StaffROModal" style="color:black">
+                                    <div class="modal-dialog ">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                                        <address>
+                                                            <strong>{{ViewStaffRO.BillingName}}</strong>
+                                                            <br>
+                                                            {{ViewStaffRO.BillingAddress}}
+                                                            <br>
+                                                            <br>
+                                                            {{ViewStaffRO.BillingSubDistrict.SubDistrict}}, {{ViewStaffRO.BillingDistrict.District}} 
+                                                            <br>
+                                                            {{ViewStaffRO.BillingProvince.Province}}, {{ViewStaffRO.BillingSubDistrict.ZipCode}}
+                                                            <br>
+                                                            <abbr title="Phone"> </abbr> 
+                                                        </address>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                                        <p>
+                                                            <img src="/images/CSK_icon_black.png" height="100" width="100">
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                                                        <p>
+                                                            <em>Date: {{ViewStaffRO.RODate | date :'medium'}}</em>
+                                                        </p>
+                                                        <p>
+                                                            <em>Receipt #: {{ViewStaffRO.RONo}}</em>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="text-center">
+                                                        <h1>Receipt</h1>
+                                                    </div>
+                                                    </span>
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th>#</th>
+                                                                <th class="text-center">Price</th>
+                                                                <th class="text-center">Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="roLine in ViewStaffRO.ROLineList">
+                                                                <td class="col-md-9"><em>{{roLine.ProductNameTh}}</em></h4></td>
+                                                                <td class="col-md-1" style="text-align: center"> {{roLine.Quantity}} </td>
+                                                                <td class="col-md-1 text-center">{{roLine.Price | number :2}}</td>
+                                                                <td class="col-md-1 text-center">{{roLine.Amount | number :2}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>   </td>
+                                                                <td>   </td>
+                                                                <td class="text-right">
+                                                                    <p>
+                                                                        <strong>Subtotal: </strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Tax: </strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Discount: </strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Weight: </strong>
+                                                                    </p>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <p>
+                                                                        <strong>{{ViewStaffRO.SumAmount | number :2}}</strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>{{ViewStaffRO.SumVatAmount | number :2}}</strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>{{ViewStaffRO.SumDiscountAmount | number :2}}</strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>{{ViewStaffRO.SumWeightAmount | number :2}}</strong>
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>   </td>
+                                                                <td>   </td>
+                                                                <td class="text-right"><h4><strong>Total: </strong></h4></td>
+                                                                <td class="text-center text-danger"><h4><strong>{{ViewStaffRO.NetAmount | number :2}}</strong></h4></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    </td>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="text-center">
+                                                        <h1>{{'BODY.SECTION.VIEW_RO_MODAL.IMAGE_PAYMENT_DOCUMENT' | translate}}</h1>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <div id="ThumbnailStaffViewReceiptPayment" ></div>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <button type="submit" class="btn btn-success btn-lg" ng-disabled="ViewStaffRO.StaffApprovePaymentStatus === 'Y'" ng-click="PerformValidatePaymentDocument('Y')">
+                                                            <span class="glyphicon glyphicon glyphicon-ok"  aria-hidden="true"></span> {{'BODY.SECTION.VIEW_RO_MODAL.APPROVE_BUTTON' | translate}}
+                                                        </button> 
+                                                        <button type="submit" class="btn btn-danger btn-lg" ng-disabled="ViewStaffRO.StaffApprovePaymentStatus === 'Y'" ng-click="PerformValidatePaymentDocument('N')">
+                                                            <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span> {{'BODY.SECTION.VIEW_RO_MODAL.REJECT_BUTTON' | translate}}
+                                                        </button> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                        <!-- /.modal -->
+                                    </div>
+                                </div>
+                                <table ng-table="CustomerOrderTableParams" class="table">
+                                    <tr ng-repeat="roHead in SearchCustomerOrders">
+                                        <td data-title="'View'" class="text-center">
+                                            <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#StaffROModal" ng-click="ViewRO(roHead._id, 'Customer')">
+                                                    <span class="glyphicon glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                                            </button>                                        
+                                        </td>
+                                        <td data-title="'#'" class="text-center">{{$index+1}}</td>
+                                        <td data-title="'RONo'" class="text-center" >{{roHead.RONo}}</td>
+                                        <td data-title="'RODate'" class="text-center">{{roHead.RODate | date:'dd/MM/yyyy'}}</td>
+                                        <td data-title="'Customer'" class="text-left"></td>
+                                        <td data-title="'NetAmount'" class="text-right">{{roHead.NetAmount | number :2}}</td>
+                                        <td data-title="'Bank'" class="text-center">
+                                            <img src="images/bbl.png" ng-show="roHead.PaymentBank == 'bbl'" width="32" height="32">
+                                            <img src="images/kbank.png" ng-show="roHead.PaymentBank == 'kbank'" width="32" height="32">
+                                            <img src="images/ktb.png" ng-show="roHead.PaymentBank == 'ktb'" width="32" height="32">
+                                            <img src="images/kcc.png" ng-show="roHead.PaymentBank == 'kcc'" width="32" height="32">
+                                            <img src="images/scb.png" ng-show="roHead.PaymentBank == 'scb'" width="32" height="32">
+                                            <img src="images/tmb.png" ng-show="roHead.PaymentBank == 'tmb'" width="32" height="32">
+                                            <img src="images/uob.png" ng-show="roHead.PaymentBank == 'uob'" width="32" height="32">
+                                        </td>
+                                        <td data-title="'Payment'" class="text-center">
+                                            <img src="images/dpay_stat.png" ng-show="roHead.PaymentStatus == 'N'" title="No Payment">
+                                            <img src="images/pay_stat.png" ng-show="roHead.PaymentStatus == 'Y'" title="Paid">
+                                        </td>                        
+                                        <td data-title="'Shipping'" class="text-center">
+                                            <img src="images/dship_stat.png" ng-show="roHead.ShippingStatus == 'N'" title="No Shipping">
+                                            <img src="images/ship_stat.png" ng-show="roHead.ShippingStatus == 'Y'" title="Shipped">
+                                        </td>
+                                    </tr>
+                                </table>
+                                <script type="text/ng-template" id="custom/pager">
+                                    <ul class="pager ng-cloak">
+                                      <li ng-repeat="page in pages"
+                                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                                        <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo; Previous</a>
+                                        <a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next &raquo;</a>
+                                      </li>
+                                        <li> 
+                                        <div class="btn-group">
+                                            <button type="button" ng-class="{'active':params.count() == 10}" ng-click="params.count(10)" class="btn btn-default">10</button>
+                                            <button type="button" ng-class="{'active':params.count() == 25}" ng-click="params.count(25)" class="btn btn-default">25</button>
+                                            <button type="button" ng-class="{'active':params.count() == 50}" ng-click="params.count(50)" class="btn btn-default">50</button>
+                                            <button type="button" ng-class="{'active':params.count() == 100}" ng-click="params.count(100)" class="btn btn-default">100</button>
+                                        </div>
+                                        </li>
+                                    </ul>
+                                </script>
+                        </div>
+                    </div>   
+                </div>        
+            </div>            
+        </div>
+        </div>
+        <hr class="featurette-divider">
         <div class="container marketing">
+          <div class="row featurette">
+            <div class="col-md-7">
+              <h2 class="featurette-heading">{{'MARKETING.CONTENT_1.TITLE' | translate}}
+              <span class="text-muted">{{'MARKETING.CONTENT_1.SUB_TITLE' | translate}}</span></h2>
+              <p class="lead">{{'MARKETING.CONTENT_1.MESSAGE' | translate}}</p>
+            </div>
+            <div class="col-md-5">
+              <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzUwMHg1MDAvYXV0bwpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1MmIwOGIwODk4IHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTUyYjA4YjA4OTgiPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRUVFRUVFIi8+PGc+PHRleHQgeD0iMTg1LjEyNSIgeT0iMjYxLjEiPjUwMHg1MDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
+              <img src="https://s3-us-west-2.amazonaws.com/cskwebcaramelsrikho/1fff1a23-23be-40dd-9ac3-4f03cb1d2d09-large.png"><br>
+              <img src="https://s3-us-west-2.amazonaws.com/cskwebcaramel/50442-200.png">
+            </div>
+        </div>
 
-      <!-- Three columns of text below the carousel -->
-   <!--   <div class="row">
-        <div class="col-lg-4">
-          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-        </div>
-        <div class="col-lg-4">
-          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-          <h2>Heading</h2>
-          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-        </div>
-        <div class="col-lg-4">
-          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-        </div>
-      </div>
--->
-
-      <!-- START THE FEATURETTES -->
-
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading">{{'MARKETING.CONTENT_1.TITLE' | translate}}
-          <span class="text-muted">{{'MARKETING.CONTENT_1.SUB_TITLE' | translate}}</span></h2>
-          <p class="lead">{{'MARKETING.CONTENT_1.MESSAGE' | translate}}</p>
-        </div>
-        <div class="col-md-5">
-          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzUwMHg1MDAvYXV0bwpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1MmIwOGIwODk4IHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTUyYjA4YjA4OTgiPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRUVFRUVFIi8+PGc+PHRleHQgeD0iMTg1LjEyNSIgeT0iMjYxLjEiPjUwMHg1MDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
+        <hr class="featurette-divider">
 
       <div class="row featurette">
         <div class="col-md-7 col-md-push-5">
@@ -1277,15 +2034,80 @@
           <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzUwMHg1MDAvYXV0bwpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1MmIwOGE5MGYzIHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTUyYjA4YTkwZjMiPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRUVFRUVFIi8+PGc+PHRleHQgeD0iMTg1LjEyNSIgeT0iMjYxLjEiPjUwMHg1MDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
         </div>
       </div>
+        
 
       <hr class="featurette-divider">
+    <div class="row featurette">
+        <div class="col-md-4">
+          <div id="fb-root"></div>
+            <script>(function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=1574570156202685";
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+            </script>
+    
 
+        <div class="fb-page" data-href="https://www.facebook.com/Caramel-Srikho-กาละแม-ศีขรภูมิ-609797899172988/" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"></div>
+        </div>
+        <div class="col-md-4">
+           <a class="twitter-timeline" href="https://twitter.com/CSrikho" data-widget-id="712263893624619008">Tweets by @CSrikho</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+        </div>
+        <div class="col-md-4">
+          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; height:500px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:8px;"> <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:50.0% 0; text-align:center; width:100%;"> <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAGFBMVEUiIiI9PT0eHh4gIB4hIBkcHBwcHBwcHBydr+JQAAAACHRSTlMABA4YHyQsM5jtaMwAAADfSURBVDjL7ZVBEgMhCAQBAf//42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB/lQPb79drWOyJVa/DAvg9B/rLB4cC+Nqgdz/TvBbBnr6GBReqn/nRmDgaQEej7WhonozjF+Y2I/fZou/qAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div></div> <p style=" margin:8px 0 0 0; padding:0 4px;"> <a href="https://www.instagram.com/p/BDQZjy-GADZ/" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none; word-wrap:break-word;" target="_blank">ร้อนนน มากๆ</a></p> <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">A photo posted by Caramel Srikho (@caramelsrikho) on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2016-03-22T13:01:37+00:00">Mar 22, 2016 at 6:01am PDT</time></p></div></blockquote>
+<script async defer src="//platform.instagram.com/en_US/embeds.js"></script>
+        </div>
+      </div>
+      <hr class="featurette-divider">
       <!-- /END THE FEATURETTES -->
     </div>
         <!-- Footer -->
         <footer>
+            <div class="row"> 
+                <div class="col-lg-3 text-center">
+                    <img src="/images/line-thumbs-up.png"/><br><br>
+                    <center>
+                        <blockquote class="no-border">
+                            {{'FOOTER.THUMB_UPS' | translate}}
+                            
+                        </blockquote>
+                    </center>
+                </div>
+                <div class="col-lg-3 text-center">
+                    <img src="/images/line-file.png"/><br><br>
+                    <center>
+                        <blockquote class="no-border">
+                            {{'FOOTER.FILE' | translate}}
+                           
+                        </blockquote>
+                    </center>
+                </div>
+                <div class="col-lg-3 text-center">
+                    <img src="/images/line-badge.png"/><br><br>
+                    <center>
+                        <blockquote class="no-border">
+                            {{'FOOTER.BADGE' | translate}}
+                           
+                        </blockquote>
+                    </center>
+                </div>
+                <div class="col-lg-3 text-center">
+                    <img src="/images/line-heart.png"/><br><br>
+                    <center>
+                        <blockquote class="no-border">
+                            {{'FOOTER.HEART' | translate}}
+                           
+                        </blockquote>
+                    </center>
+                </div>
+            </div>
             <div class="row">
-                <div class="col-lg-12">
+                
+                <div class="col-lg-12 text-center">
                     <p>Copyright &copy; Your Website 2014</p>
                 </div>
             </div>

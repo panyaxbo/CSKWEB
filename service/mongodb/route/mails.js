@@ -28,31 +28,41 @@ router.post('/SendEmailConfirmation', function (req, res) {
 	});
 
 	var mailOptions = {
-		  from: "KZH Parts <kzh.parts@gmail.com>", // sender address
+		  from: "Caramel Srikho - กาละแม ศีขรภูมิ <caramel.srikho@gmail.com>", // sender address
 		  to: email,
-		  subject: "Email Confirm Activation ✔", // Subject line
+		  subject: "ยืนยันการลงทะเบียน ✔", // Subject line
 		  generateTextFromHTML: true,
-		  html : mailConfig.MAIL_CONTENT_TITLE +
+		  html : mailConfig.MAIL_CONTENT_TITLE +		  
+'<tr><td align="center" bgcolor="#fbfcfd">'+
+        '<table width="90%" border="0" cellspacing="0" cellpadding="0">'+
+            '<tr><td align="center">'+
+                '<!-- padding --><div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+                '<div style="line-height: 44px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="5" color="#57697e" style="font-size: 34px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; color: #57697e;">'+
+                        'การลงทะเบียนของท่านใกล้เสร็จสมบูรณ์'+
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="4" color="#57697e" style="font-size: 15px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #57697e;">'+
+                        'กรุณากดปุ่มข้างล่างเพื่อการลงทะเบียนที่สมบูรณ์'+
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">' +
+                   '<a href="' + activateLink + '" style="background-color:#F64747;border-radius:4px;color:#ffffff;display:inline-block;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:240px;align:center; " target="_blank">เปิดใช้งานบัญชี</a>'+
+                '</div>'+
+                '<div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+        '</table> '+       
+    '</td></tr>'+
 
-'<table style="background-color:#fff">'+
-	'<tbody>'+
-		'<tr>'+
-			'<td style="border-top:#e41f28 solid 6px;font:normal 13px/18px Arial,Helvetica,sans-serif;padding:45px 17px 30px 17px" valign="top">'+
-			'<h2 style="font:normal"><img height="15" src="cid:email@kzh.parts.co.th" style="margin-right:10px" width="21" >&nbsp;&nbsp;Email Confirm Activation </h2>'+
-			'<p>Dear Valued Customer ,<br>'+
-			'<br>'+
-			'Please be informed that your email is completely registered from our system, but it\'s required you to activate your account by click this link below.<br><br>'+
-			'<br>'+
-			'<a href="' + activateLink + '" style="background-color:#F64747;border-radius:4px;color:#ffffff;display:inline-block;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:240px;align:center; " target="_blank">Activate your account</a>'+
-			'<br>'+
-			'</p>'+
-			'<p>&nbsp;</p>'+
-			'<p><strong>Sincerely yours.&nbsp;</strong></p>'+
-			'<p><strong>KZH Staff&nbsp;</strong></p>'+
-			'</td>'+
-		'</tr>'+
-	'</tbody>'+
-'</table>'+
 mailConfig.MAIL_CONTENT_FOOTER,
 attachments : mailConfig.MAIL_ATTACHMENTS
 		}
@@ -85,33 +95,41 @@ router.get('/SendEmailCustomerNewOrder/:CustomerEmail/:RONo', function (req, res
 	  }
 	});
 	var mailOptions = {
-		  from: "KZH Parts <kzh.parts@gmail.com>", // sender address
+		  from: "Caramel Srikho - กาละแม ศีขรภูมิ <caramel.srikho@gmail.com>", // sender address
 		  to: email,
-		  subject: "New order no." +roNo, // Subject line
+		  subject: "ยืนยันคำสั่งซื้อเลขที่ " +roNo, // Subject line
 		  generateTextFromHTML: true,
 		  html : mailConfig.MAIL_CONTENT_TITLE +
 
-'<table style="background-color:#fff">'+
-'	<tbody>'+
-'		<tr>'+
-'			<td style="border-top:#e41f28 solid 6px;font:normal 13px/18px Arial,Helvetica,sans-serif;padding:45px 17px 30px 17px" valign="top">'+
-'			<h2 style="font:normal"><img height="20" src="cid:receipt@kzh.parts.co.th" style="margin-right:10px" width="20" >&nbsp;&nbsp;Your order number ' +roNo+ '</h2>'+
-''+
-'			<p>Dear Valued Customer ,<br>'+
-'			<br>'+
-'			Our system\'s already received your order. You can track your order status after you make a payment for order.<br><br>'+
-''+
-'			By navigate to your setting and history order.'+
-'			<br>'+
-'			</p>'+
-'			<p>&nbsp;</p>'+
-'			<p><strong>Sincerely yours.&nbsp;</strong></p>'+
-'			<p><strong>Customer&nbsp;</strong></p>'+
-'			</td>'+
-'		</tr>'+
-'		'+
-'	</tbody>'+
-'</table>'+
+'<tr><td align="center" bgcolor="#fbfcfd">'+
+        '<table width="90%" border="0" cellspacing="0" cellpadding="0">'+
+            '<tr><td align="center">'+
+                '<!-- padding --><div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+                '<div style="line-height: 44px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="5" color="#57697e" style="font-size: 34px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; color: #57697e;">'+
+                        'ขอบคุณสำหรับคำสั่งซื้อของท่าน'+
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="4" color="#57697e" style="font-size: 15px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #57697e;">'+
+                        'ระบบของเราได้รับคำสั่งซื้อของท่านเรียบร้อย ท่านสามารถติดตามสถานะคำสั่งซื้อของท่าน โดยไปที่เมนูประวัติการสั่งซื้อ'+
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">'+
+                   
+                '</div>'+
+                '<div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+        '</table> '+       
+    '</td></tr>'+
 mailConfig.MAIL_CONTENT_FOOTER,
 attachments : mailConfig.MAIL_ATTACHMENTS_CUSTOMER
 	}
@@ -148,30 +166,42 @@ router.get('/SendEmailStaffNewOrder/:RONo', function (req, res) {
 	});
 
 	var mailOptions = {
-		  from: "KZH Parts <kzh.parts@gmail.com>", // sender address
-		  to: "KZH Parts <kzh.parts@gmail.com>",
-		  subject: "Customer create invoice No." + roNo, // Subject line
+		  from: "Caramel Srikho - กาละแม ศีขรภูมิ <caramel.srikho@gmail.com>", // sender address
+		  to: "Caramel Srikho - กาละแม ศีขรภูมิ <caramel.srikho@gmail.com>",
+		  subject: "ลูกค้าสร้างคำสั่งซื้อ หมายเลข " + roNo, // Subject line
 		  generateTextFromHTML: true,
 		  html : mailConfig.MAIL_CONTENT_TITLE +
 
-'<table style="background-color:#fff">'+
-'	<tbody>'+
-'		<tr>'+
-'			<td style="border-top:#e41f28 solid 6px;font:normal 13px/18px Arial,Helvetica,sans-serif;padding:45px 17px 30px 17px" valign="top">'+
-'			<h2 style="font:normal"><img height="20" src="cid:create@kzh.parts.co.th" style="margin-right:10px" width="21" >&nbsp;&nbsp;Customer created receipt no. ' +roNo+ '</h2>'+
-'			<p>Customer has been created new order ,<br>'+
-'			<br>'+
-'			Hello, I\'ve made new order with amount ,please investigate my order for product in stock and shipping.<br><br>'+
-'			<br>'+
-'			</p>'+
-'			<p>&nbsp;</p>'+
-'			<p><strong>Sincerely yours.&nbsp;</strong></p>'+
-'			<p><strong>KZH Staff&nbsp;</strong></p>'+
-'			</td>'+
-'		</tr>'+
-'		'+
-'	</tbody>'+
-'</table>'+
+'<tr><td align="center" bgcolor="#fbfcfd">'+
+        '<table width="90%" border="0" cellspacing="0" cellpadding="0">'+
+            '<tr><td align="center">'+
+                '<!-- padding --><div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+                '<div style="line-height: 44px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="5" color="#57697e" style="font-size: 34px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; color: #57697e;">'+
+                        'ลูกค้าสร้างคำสั่งซื้อ หมายเลข '+ roNo +
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="4" color="#57697e" style="font-size: 15px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #57697e;">'+
+                        'กรุณาตรวจสอบรายการสั่งซื้อ '+
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">'+
+                   
+                '</div>'+
+                '<div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+        '</table> '+       
+    '</td></tr>'+
+
 mailConfig.MAIL_CONTENT_FOOTER,
 attachments : mailConfig.MAIL_ATTACHMENTS_STAFF
 	}
@@ -212,29 +242,41 @@ router.post('/SendEmailForgetPassword', function (req, res) {
 	});
 
 	var mailOptions = {
-		  from: "KZH Parts <kzh.parts@gmail.com>", // sender address
+		  from: "Caramel Srikho - กาละแม ศีขรภูมิ <caramel.srikho@gmail.com>", // sender address
 		  to: CustomerEmail,
 		  subject: "การเรียกคืนรหัสผ่านของท่าน", // Subject line
 		  generateTextFromHTML: true,
 		  html : mailConfig.MAIL_CONTENT_TITLE +
-'<table style="background-color:#fff"  width="650">'+
-'	<tbody>'+
-'		<tr>'+
-'			<td style="border-top:#e41f28 solid 6px;font:normal 13px/18px Arial,Helvetica,sans-serif;padding:45px 17px 30px 17px" valign="top">'+
-'			<h2 style="font:normal"><img height="20" src="cid:recovery@kzh.parts.co.th" style="margin-right:10px" width="21" >&nbsp;&nbsp;Recovery your password</h2>'+
-'			<p>การเรียกคืนรหัสผ่าน ,<br>'+
-'			<br>'+
-'<a href="' + forgetPasswordLink + '" type="application/x-www-form-urlencoded" style="background-color:#F64747;border-radius:4px;color:#ffffff;display:inline-block;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:240px;align:center; " target="_blank">Recovery Password</a>'+
-'			<br>'+
-'			</p>'+
-'			<p>&nbsp;</p>'+
-'			<p><strong>Sincerely yours.&nbsp;</strong></p>'+
-'			<p><strong>KZH Staff&nbsp;</strong></p>'+
-'			</td>'+
-'		</tr>'+
-'		'+
-'	</tbody>'+
-'</table>'+
+
+'<tr><td align="center" bgcolor="#fbfcfd">'+
+        '<table width="90%" border="0" cellspacing="0" cellpadding="0">'+
+            '<tr><td align="center">'+
+                '<!-- padding --><div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+                '<div style="line-height: 44px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="5" color="#57697e" style="font-size: 34px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; color: #57697e;">'+
+                        'การเรียกคืนรหัสผ่านใหม่ ' +
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="4" color="#57697e" style="font-size: 15px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #57697e;">'+
+                        'กดปุ่มข้างล่างเพื่อเรียกคืนรหัสผ่าน , '+
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">'+
+                   '<a href="' + forgetPasswordLink + '" type="application/x-www-form-urlencoded" style="background-color:#F64747;border-radius:4px;color:#ffffff;display:inline-block;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:240px;align:center; " target="_blank">Recovery Password</a>'+
+                '</div>'+
+                '<div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+        '</table> '+       
+    '</td></tr>'+
 mailConfig.MAIL_CONTENT_FOOTER,
 attachments : mailConfig.MAIL_ATTACHMENTS_FORGET_PASSWORD
 	}
@@ -287,28 +329,41 @@ router.get('/ApprovePaymentDocument/:UserId', function (req, res) {
 		});
 
 		var mailOptions = {
-			  from: "KZH Parts <kzh.parts@gmail.com>", // sender address
+			  from: "Caramel Srikho - กาละแม ศีขรภูมิ <caramel.srikho@gmail.com>", // sender address
 			  to: CustomerUser.Email,
 			  subject: "✔ การชำระเงินของท่านได้รับการอนุมัติ", // Subject line
 			  generateTextFromHTML: true,
 			  html : mailConfig.MAIL_CONTENT_TITLE +
-			'<table style="background-color:#fff"  width="650">'+
-			'	<tbody>'+
-			'		<tr>'+
-			'			<td style="border-top:#e41f28 solid 6px;font:normal 13px/18px Arial,Helvetica,sans-serif;padding:45px 17px 30px 17px" valign="top">'+
-			'			<h2 style="font:normal"><img height="24" src="cid:approve@kzh.parts.co.th" style="margin-right:10px" width="24" >&nbsp;&nbsp;เรียนลูกค้าที่มีค่า</h2>'+
-			'			<p>การชำระเงินของท่านได้รับการอนุมัติ<br>'+
-			'			<br>'+
-			'			<br>'+
-			'			</p>'+
-			'			<p>&nbsp;</p>'+
-			'			<p><strong>Sincerely yours.&nbsp;</strong></p>'+
-			'			<p><strong>KZH Staff&nbsp;</strong></p>'+
-			'			</td>'+
-			'		</tr>'+
-			'		'+
-			'	</tbody>'+
-			'</table>'+
+
+			'<tr><td align="center" bgcolor="#fbfcfd">'+
+        '<table width="90%" border="0" cellspacing="0" cellpadding="0">'+
+            '<tr><td align="center">'+
+                '<!-- padding --><div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+                '<div style="line-height: 44px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="5" color="#57697e" style="font-size: 34px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; color: #57697e;">'+
+                        'ระบบได้รับการจ่ายเงินของท่านเรียบร้อย '+ 
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="4" color="#57697e" style="font-size: 15px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #57697e;">'+
+                        'ระบบกำลังดำเนินการผลิต และส่งสินค้าให้กับท่าน ตามลำดับ '+
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">'+
+                   
+                '</div>'+
+                '<div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+        '</table> '+       
+    '</td></tr>'+
 			mailConfig.MAIL_CONTENT_FOOTER,
 			attachments : mailConfig.MAIL_ATTACHMENTS_APPROVE
 		}
@@ -371,31 +426,42 @@ router.post('/RejectPaymentDocument', function (req, res) {
 		});
 
 		var mailOptions = {
-			  from: "KZH Parts <kzh.parts@gmail.com>", // sender address
+			  from: "Caramel Srikho - กาละแม ศีขรภูมิ <caramel.srikho@gmail.com>", // sender address
 			  to: CustomerUser.Email,
 			  subject: "✗ เอกสารการชำระเงินไม่ถูกต้อง", // Subject line
 			  generateTextFromHTML: true,
 			  html : 
 			  mailConfig.MAIL_CONTENT_TITLE +
-			'<table style="background-color:#fff"  width="650">'+
-			'	<tbody>'+
-			'		<tr>'+
-			'			<td style="border-top:#e41f28 solid 6px;font:normal 13px/18px Arial,Helvetica,sans-serif;padding:45px 17px 30px 17px" valign="top">'+
-			'			<h2 style="font:normal"><img height="24" src="cid:reject@kzh.parts.co.th" style="margin-right:10px" width="24" >&nbsp;&nbsp;'+
-			'เรียน ท่านลูกค้าที่มีค่า</h2>'+
 			
-			'			<p>การชำระเงินของท่านไม่ได้รับการอนุมัติ เนื่องจาก <br>'+ RejectReason +
-			'			<br>'+
-			'			<br>'+
-			'			</p>'+
-			'			<p>&nbsp;</p>'+
-			'			<p><strong>Sincerely yours.&nbsp;</strong></p>'+
-			'			<p><strong>KZH Staff&nbsp;</strong></p>'+
-			'			</td>'+
-			'		</tr>'+
-			'		'+
-			'	</tbody>'+
-			'</table>'+
+			'<tr><td align="center" bgcolor="#fbfcfd">'+
+        '<table width="90%" border="0" cellspacing="0" cellpadding="0">'+
+            '<tr><td align="center">'+
+                '<!-- padding --><div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+                '<div style="line-height: 44px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="5" color="#57697e" style="font-size: 34px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; color: #57697e;">'+
+                        'เรียน ท่านลูกค้าที่มีค่า '+ 
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">'+
+                    '<font face="Arial, Helvetica, sans-serif" size="4" color="#57697e" style="font-size: 15px;">'+
+                    '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #57697e;">'+
+                        'การชำระเงินของท่านไม่ได้รับการอนุมัติ เนื่องจาก <br>'+ RejectReason +
+                    '</span></font>'+
+                '</div>'+
+                '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+            '<tr><td align="center">'+
+                '<div style="line-height: 24px;">'+
+                   
+                '</div>'+
+                '<div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>'+
+            '</td></tr>'+
+        '</table> '+       
+    '</td></tr>'+
 			mailConfig.MAIL_CONTENT_FOOTER,
 			attachments : mailConfig.MAIL_ATTACHMENTS_REJECT
 		}

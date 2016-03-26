@@ -1,16 +1,17 @@
 app.controller("MainController", 
-  ["$scope","$http", "ENV","$q", "$timeout", "$translate", "$cookies","CredentialService", "LocaleService", "CurrencyService" , "ProductService", 
-  "CompanyService", "EmailService", "blockUI","ProvinceService", "DistrictService", "SubDistrictService", "WeightRateService", 
-  "UserService", "CryptoService", "ReceiptOrderService", "AppConfigService", 
-  function ($scope,$http, ENV, $q, $timeout, $translate, $cookies, CredentialService, LocaleService, CurrencyService , ProductService, 
-    CompanyService, EmailService, blockUI, ProvinceService, DistrictService, SubDistrictService, WeightRateService, 
-    UserService, CryptoService, ReceiptOrderService, AppConfigService) {
+  ["$scope","$http", "ENV","$q", "$timeout", "$translate", "$cookies", "$location", "$filter", "CredentialService", "LocaleService", "CurrencyService" , 
+  "ProductService", "CompanyService", "EmailService", "blockUI","ProvinceService", "DistrictService", "SubDistrictService", "WeightRateService", 
+  "UserService", "CryptoService", "ReceiptOrderService", "AppConfigService", "MenuService",
+  function ($scope,$http, ENV, $q, $timeout, $translate, $cookies, $location, $filter, CredentialService, LocaleService, CurrencyService , 
+    ProductService, CompanyService, EmailService, blockUI, ProvinceService, DistrictService, SubDistrictService, WeightRateService, 
+    UserService, CryptoService, ReceiptOrderService, AppConfigService,MenuService) {
 
 
     // paypal 4N2L5B22JU3W6
   	$scope.Locale = "th";
     $scope.SelectedCurrency = "thb";
     $scope.SelectedLocale = "th";
+    $scope.SelectedMenu = "";
     $scope.CurrencySymbol = "฿";
     $scope.Multiplier = 1;
     $scope.IsAdmin = false;
@@ -52,19 +53,211 @@ app.controller("MainController",
     $scope.IsAcceptCondition = false;
     $scope.IsHuman = false;
 
+    $scope.StartDate = new Date().getDate() +"/" + (new Date().getMonth() + 1) +"/" + new Date().getFullYear() ;
+            $scope.EndDate = new Date().getDate() +"/" + (new Date().getMonth() + 1) +"/" + new Date().getFullYear();
+            $scope.SearchPaymentStatus = "N";
+            $scope.SearchShippingStatus = "N";
+            $scope.SearchCustomerOrderStartDate = new Date().getDate() +"/" + (new Date().getMonth() + 1) +"/" + new Date().getFullYear() ;
+            $scope.SearchCustomerOrderEndDate = new Date().getDate() +"/" + (new Date().getMonth() + 1) +"/" + new Date().getFullYear();
+            $scope.SearchCustomerOrderPaymentStatus = "N";
+            $scope.SearchCustomerOrderShippingStatus = "N";
+            $scope.SearchCustomerRONo = '';
+            $scope.SearchCustomerName = '';
+    $scope.$on('handleHeadMenuBroadcast', function (event, args) {
+    //    console.log('broadcast from head to body '+args.SelectedMenu);
+        $scope.SelectedMenu = args.SelectedMenu;
+        if ($scope.SelectedMenu == 'history') {
+            $scope.StartDate = new Date().getDate() +"/" + (new Date().getMonth() + 1) +"/" + new Date().getFullYear() ;
+            $scope.EndDate = new Date().getDate() +"/" + (new Date().getMonth() + 1) +"/" + new Date().getFullYear();
+            $scope.SearchPaymentStatus = "N";
+            $scope.SearchShippingStatus = "N";
+        }
+        else if ($scope.SelectedMenu == 'customer-order') {
+            $scope.SearchCustomerOrderStartDate = new Date().getDate() +"/" + (new Date().getMonth() + 1) +"/" + new Date().getFullYear() ;
+            $scope.SearchCustomerOrderEndDate = new Date().getDate() +"/" + (new Date().getMonth() + 1) +"/" + new Date().getFullYear();
+            $scope.SearchCustomerOrderPaymentStatus = "N";
+            $scope.SearchCustomerOrderShippingStatus = "N";
+            $scope.SearchCustomerRONo = '';
+            $scope.SearchCustomerName = '';
+        }
+        
+    });
+    $scope.SelectedHeadMenu = function (menu) {
+        console.log(menu);
+        $scope.SelectedMenu = menu;
+        if (menu == "product") {
+            MenuService.Menu.SelectedMenu = "product";
+            $scope.SelectedMenu = "product";
+        } else if (menu == "webboard") {
+            MenuService.Menu.SelectedMenu = "webboard";
+            $scope.SelectedMenu = "webboard";
+        } else if (menu == "payment") {
+            MenuService.Menu.SelectedMenu = "payment";
+            $scope.SelectedMenu = "payment";
+        } else if (menu == "about") {
+            MenuService.Menu.SelectedMenu = "about";
+            $scope.SelectedMenu = "about";
+        } else if (menu == "shipment") {
+            MenuService.Menu.SelectedMenu = "shipment";
+            $scope.SelectedMenu = "shipment";
+        } else if (menu == "history") {
+            MenuService.Menu.SelectedMenu = "history";
+            $scope.SelectedMenu = "history";
+            $('#HistoryModal').modal('show');
+        } else if (menu == "setting") {
+            MenuService.Menu.SelectedMenu = "setting";
+            $scope.SelectedMenu = "setting";
+        } else if (menu == "account") {
+            MenuService.Menu.SelectedMenu = "account";
+            $scope.SelectedMenu = "account";
+        } else if (menu == "customer-order") {
+            MenuService.Menu.SelectedMenu = "customer-order";
+            $scope.SelectedMenu = "customer-order";
+            $('#CustomerOrderModal').modal('show');
+        } 
+
+        $scope.$emit('handleHeadMenuEmit', {
+            SelectedMenu: menu
+        });
+    }
+    var UserBackFromEmailUrl = $location.url();
+    if (UserBackFromEmailUrl.indexOf("confirm=") > -1 ) {
+        blockUI.start("Please wait ...");
+      //  console.log('UserBackFromEmailUrl ', UserBackFromEmailUrl);
+        var asciiString = ReplaceASCIICharacter(UserBackFromEmailUrl);
+       // console.log('after  ', asciiString);
+        UserService.ActivateAppUser(asciiString)
+        .then(function(data, status) {
+            blockUI.message("100%");
+            blockUI.stop();
+            swal("Sign up Success", "Your account is now activated.", "success");
+        }, function(error, status) {
+            blockUI.stop();
+            swal("Error", "Cannot find your account.", "error");
+        });
+    } else if (UserBackFromEmailUrl.indexOf("forget=") > -1 ) {
+      var asciiString = ReplaceASCIICharacter(UserBackFromEmailUrl);
+        UserService.UpdateEmailForgetPassword(asciiString)
+        .then(function(data, status) {
+            $scope.ForgetPasswordEmail = data;
+            $('#InputPasswordModal').modal('show');
+        }, function(error, status) {
+            console.log('error ', error);
+        });
+    }
+    function ReplaceASCIICharacter(encodeUrl) {
+        var asciiString = encodeUrl
+                            .replace(/%2F/g, "/")
+                            .replace(/%2B/g,"+")
+                            .replace(/%3D/g ,"=")
+                            .replace(/%24/g, "$")
+                            .replace(/%26/g,"&")
+                            .replace(/%2C/g ,",")
+                            .replace(/%3A/g ,":")
+                            .replace(/%3B/g, ";")
+                            .replace(/%3F/g,"?")
+                            .replace(/%20/g,"+")
+                            .replace(/%40/g ,"@");
+        return asciiString;
+    }
     $scope.$on('UpdateROHeadROLineFromBodyBroadcast', function (event, args) {
         $scope.ROHead = args;
         $scope.ROLineList = $scope.ROHead.ROLineList;
         console.log('main arg ', args);
     });
 
-    $scope.TrySendEmail = function() {
-      EmailService.TestSend()
-      .then(function(data, status) {
+    $scope.ForgetPassword = function () {
+      $("#LoginModal").modal('toggle');
+      $("#ForgetPasswordModal").modal('show');
+    }
+    $scope.SendEmailForgetPassword = function () {
+      var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      if (filter.test($scope.ForgetPasswordEmail) && $scope.ForgetPasswordEmail.length > 0) {
+        //check is email exist in system
+        UserService.IsExistEmail($scope.ForgetPasswordEmail)
+        .then(function(data, status) {
+            blockUI.message("25%");
+            if(data) {
+              return CryptoService.GenerateForgetPasswordHashLink($scope.ForgetPasswordEmail)
+            } else {
+              swal("Error", "Cannot find your account.", "error");
+            }
+        },function (error, status) {
+            swal("Error", "The error has occur please contact admin", "error");
+        })
+        .then(function(data, status){
+            var hostWithPort = $location.host() + ':' +$location.port();
+            blockUI.message("75%");
+            var mailForget = {
+              Email : $scope.ForgetPasswordEmail,
+              Host : hostWithPort,
+              BacktoUrl : data
+            };
+            EmailService.SendEmailForgetPassword(mailForget)
+        })
 
-      }, function (error, status) {
+        var IsExistEmail = ENV.apiEndpoint + "/users/IsExistEmail/" + $scope.ForgetPasswordEmail;
+        $http.get(IsExistEmail)
+        .success(function(data, status, headers, config) {
+          // exist email ,then send email
+            blockUI.message("25%");
+            if(data) {
+              var genforgetLink = ENV.apiEndpoint + '/cryptojs/GenerateForgetPasswordHashLink/' + $scope.ForgetPasswordEmail;
+              $http.get(genforgetLink)
+              .success(function(data, status, headers, config) { 
+                  var hostWithPort = $location.host() + ':' +$location.port();
+                  var forgetPasswordEmailUrl = ENV.apiEndpoint + "/mails/SendEmailForgetPassword";
+                  blockUI.message("75%");
+                  var mailForget = {
+                    Email : $scope.ForgetPasswordEmail,
+                    Host : hostWithPort,
+                    BacktoUrl : data
+                  };
+                  $http.post(forgetPasswordEmailUrl, mailForget)
+                  .success(function(data, status, headers, config) {
+                    blockUI.stop();
+                    var type = $filter('translate')('MESSAGE.TYPE_SUCCESS');
+                    var title = $filter('translate')('MESSAGE.TITLE_SUCCESS_DEFAULT');
+                    swal(title, "Please check your email", type);
 
-      });
+                    $('#ForgetPasswordModal').modal('toggle');
+                  })
+                  .error(function(data, status, headers, config) {
+                      swal("Error", "Cannot sign up this time", "error");
+                  });
+              })
+              .error(function (data, status, headers, config) {
+
+              });
+              
+            } else {
+              swal("Error", "Cannot find your account.", "error");
+            }
+        })
+        .error(function(data, status, headers, config) {
+           swal("Error", "The error has occur please contact admin", "error");
+        })
+        
+      } else {
+        // Not valid
+        console.log('not valid');
+        swal("Warning", "Not valid Email", "warning");
+      }
+    }
+
+    $scope.ChangePassword = function() {
+      if ($scope.ChangeForgetPassword === $scope.ConfirmChangeForgetPassword) {
+
+        UserService.PerformChangePassword($scope.ForgetPasswordEmail, $scope.ChangeForgetPassword)
+        .then(function(data, status) {
+            swal("Change Password Success", "Your password has changed successfully.", "success");
+            $('#InputPasswordModal').modal('toggle');
+        }, function(error, status) {
+            swal("Error", "Cannot find your account.", "error");
+        });
+      } else {
+        swal("Warning", "Password and Confirm Password must be the same.", "warning");
+      }
     }
     $scope.SelectedMenuCurrency = function (currency) {
         $scope.SelectedCurrency = currency;
@@ -498,7 +691,7 @@ app.controller("MainController",
       });
     }
     $scope.Login = function () {
-      console.log($scope.username, $scope.password);
+    //  console.log($scope.username, $scope.password);
       var appuser = {};
       UserService.LoginWithUsernameAndPassword($scope.username, $scope.password)
       .then(function(data, status) {
@@ -525,8 +718,6 @@ app.controller("MainController",
       .then(function (isActivate, status) {
           if (!isActivate || isActivate === undefined) {
           } else {
-
-              $scope.User = appuser;
               $scope.User.Id = appuser._id;
               $scope.User.Username = appuser.Username;
               $scope.User.Password = appuser.Password;
@@ -550,9 +741,6 @@ app.controller("MainController",
               console.log('IsGuest', $scope.IsGuest);
               console.log('IsLogin', $scope.IsLogin);
               console.log('User ', $scope.User);
-
-        //      alert($scope.IsLogin);
-
               if ($scope.RememberMe) {
                 var now = new Date();
                 now.setDate(now.getDate() + 1);
@@ -571,6 +759,9 @@ app.controller("MainController",
             $('#UserProfileImage').append(profile_image);
           }
           $('#LoginModal').modal('toggle');
+          $scope.$emit('handleUserEmit', {
+              User: $scope.User
+          });
       }, function(error, status) {
           console.log('error', error);
           console.log("Log in Not found");
@@ -606,6 +797,8 @@ app.controller("MainController",
                 $scope.IsLogin = false;
                 $scope.IsAdmin = false;
                 $scope.IsGuest = true;
+                $scope.username = '';
+                $scope.password = '';
                 $scope.AddNoProfileUserImage();
                 $cookies.remove('User');
               } else {
@@ -1123,4 +1316,5 @@ app.controller("MainController",
         var re =/\d\-/g;
         return re.test(telNo);
     }
+
 }]);

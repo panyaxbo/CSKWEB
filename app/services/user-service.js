@@ -16,8 +16,12 @@ app.service("UserService", ["$q", "$http", "ENV", function ($q, $http, ENV) {
     	ActivateAppUser: function(UserBackFromEmailUrl) {
     		var defer = $q.defer();
     		var url = UserBackFromEmailUrl.substr(UserBackFromEmailUrl.indexOf("confirm=") + 8);
-	        var updateActivateUrl = ENV.apiEndpoint + "/users/ActivateAppUser/" + url;
-	        $http.get(updateActivateUrl)
+            console.log(url);
+	        var updateActivateUrl = ENV.apiEndpoint + "/users/ActivateAppUser";
+            var ActivateForm = {
+                ActivateUrl : url
+            };
+	        $http.post(updateActivateUrl, ActivateForm)
 	        .success(function(data, status) {
 	        	defer.resolve(data);
 	        })
@@ -34,8 +38,6 @@ app.service("UserService", ["$q", "$http", "ENV", function ($q, $http, ENV) {
 	        $http.get(getemailfromencode)
 	        .success(function(data, status, headers, config ) {
 	          
-	      //    $scope.ForgetPasswordEmail = data;
-	      //    $('#InputPasswordModal').modal('show');
 	          	defer.resolve(data);
 	        })
 	        .error(function(error, status, headers, config) {

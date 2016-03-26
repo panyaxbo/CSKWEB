@@ -552,10 +552,11 @@ function ReplaceASCIICharacter(encodeUrl) {
     return asciiString;
 }
 // Update AppUser Activate from EMail
-router.get("/ActivateAppUser/:EncodeUrl", function (req, res) {
-    var encodeUrl = req.params.EncodeUrl;
-    console.log(encodeUrl);
-    var asciiString = ReplaceASCIICharacter(encodeUrl.toString());
+router.post("/ActivateAppUser", function (req, res) {
+    var ActivateForm = req.body;
+  //  var encodeUrl = req.params.EncodeUrl;
+    console.log(ActivateForm);
+    var asciiString = ReplaceASCIICharacter(ActivateForm.ActivateUrl.toString());
 
     var de_ciphertext = cryptojs.AES.decrypt(asciiString, serverConfig.app.passphrase, 256);
     

@@ -41,17 +41,30 @@ config.MAIL_CONTENT_TITLE = '<meta charset="utf-8" http-equiv="imagetoolbar" con
                             '<table width="100%" border="0" cellspacing="0" cellpadding="0" >' +
                                 '<tr><td align="right">' +
                                     '<!--social -->' +
-                                    '<div class="mob_center_bl" style="width: 88px;">' +
+                                    '<div class="mob_center_bl" style="width: 150px;">' +
                                     '<table border="0" cellspacing="0" cellpadding="0">' +
-                                        '<tr><td width="30" align="center" style="line-height: 19px;">' +
+                                        '<tr>'+
+                                            '<td width="32" align="center" style="line-height: 32px;">' +
                                             '<a href="#" target="_blank" style="color: #596167; font-family: Arial, Helvetica, sans-serif; font-size: 12px;">' +
                                             '<font face="Arial, Helvetica, sans-serif" size="2" color="#596167">' +
-                                            '<img src="http://artloglab.com/metromail/images/facebook.gif" width="10" height="19" alt="Facebook" border="0" style="display: block;" /></font></a>' +
-                                        '</td><td width="39" align="center" style="line-height: 19px;">' +
+                                            '<img src="cid:circle-facebook@caramel.srikho.com" width="32" height="32" alt="Facebook" border="0" style="display: block;" /></font></a>' +
+                                            '</td>'+
+
+                                            '<td width="32" align="center" style="line-height: 32px;">' +
                                             '<a href="#" target="_blank" style="color: #596167; font-family: Arial, Helvetica, sans-serif; font-size: 12px;">' +
                                             '<font face="Arial, Helvetica, sans-serif" size="2" color="#596167">' +
-                                            '<img src="http://artloglab.com/metromail/images/twitter.gif" width="19" height="16" alt="Twitter" border="0" style="display: block;" /></font></a>' +
-                                        '</td>' +
+                                            '<img src="cid:circle-google@caramel.srikho.com" width="32" height="32" alt="Google Plus" border="0" style="display: block;" /></font></a>' +
+                                            '</td>' +
+                                            '<td width="32" align="center" style="line-height: 32px;">' +
+                                            '<a href="#" target="_blank" style="color: #596167; font-family: Arial, Helvetica, sans-serif; font-size: 12px;">' +
+                                            '<font face="Arial, Helvetica, sans-serif" size="2" color="#596167">' +
+                                            '<img src="cid:circle-twitter@caramel.srikho.com" width="32" height="32" alt="Twitter" border="0" style="display: block;" /></font></a>' +
+                                            '</td>' +
+                                            '<td width="32" align="center" style="line-height: 32px;">' +
+                                            '<a href="#" target="_blank" style="color: #596167; font-family: Arial, Helvetica, sans-serif; font-size: 12px;">' +
+                                            '<font face="Arial, Helvetica, sans-serif" size="2" color="#596167">' +
+                                            '<img src="cid:circle-linkedin@caramel.srikho.com" width="32" height="32" alt="Linkedin" border="0" style="display: block;" /></font></a>' +
+                                            '</td>' +
                                         '</tr>' +
                                     '</table>' +
                                     '</div>' +
@@ -68,19 +81,20 @@ config.MAIL_CONTENT_FOOTER = '<tr><td align="center" bgcolor="#ffffff" style="bo
         '<table width="94%" border="0" cellspacing="0" cellpadding="0">'+
             '<tr><td align="center">'+
                 '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
-                '<div class="mob_100" style="float: left; display: inline-block; width: 33%;">'+
+                '<div class="mob_100" style="float: left; display: inline-block; width: 25%;">'+
                     '<table class="mob_100" width="100%" border="0" cellspacing="0" cellpadding="0" align="left" style="border-collapse: collapse;">'+
                         '<tr><td align="center" style="line-height: 14px; padding: 0 27px;">'+
                             '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
                             '<div style="line-height: 14px;">'+
+                                '<img src="cid:line-thumbs-up@caramel.srikho.com" /><br><br>'+
                                 '<font face="Arial, Helvetica, sans-serif" size="3" color="#4db3a4" style="font-size: 14px;">'+
-                                '<strong style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #4db3a4;">'+
+                                '<strong style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #4db3a4;">'+
                                     '<a href="#1" target="_blank" style="color: #4db3a4; text-decoration: none;">สะอาด ถูกหลักอนามัย</a>'+
                                 '</strong></font>'+
                             '</div>'+
                             '<!-- padding --><div style="height: 18px; line-height: 18px; font-size: 10px;"> </div>'+
                             '<div style="line-height: 21px;">'+
-                                '<font face="Arial, Helvetica, sans-serif" size="3" color="#98a7b9" style="font-size: 14px;">'+
+                                '<font face="Arial, Helvetica, sans-serif" size="3" color="#98a7b9" style="font-size: 18px;">'+
                                 '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #98a7b9;">'+
                                     '<!-- Description go here -->'+
                                 '</span></font>'+
@@ -88,11 +102,12 @@ config.MAIL_CONTENT_FOOTER = '<tr><td align="center" bgcolor="#ffffff" style="bo
                         '</td></tr>'+
                     '</table>'+
                 '</div>'+
-                '<div class="mob_100" style="float: left; display: inline-block; width: 33%;">'+
+                '<div class="mob_100" style="float: left; display: inline-block; width: 25%;">'+
                     '<table class="mob_100" width="100%" border="0" cellspacing="0" cellpadding="0" align="left" style="border-collapse: collapse;">'+
                         '<tr><td align="center" style="line-height: 14px; padding: 0 27px;">'+
                             '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
                             '<div style="line-height: 14px;">'+
+                                 '<img src="cid:line-file@caramel.srikho.com" /><br><br>'+
                                 '<font face="Arial, Helvetica, sans-serif" size="3" color="#4db3a4" style="font-size: 14px;">'+
                                 '<strong style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #4db3a4;">'+
                                     '<a href="#2" target="_blank" style="color: #4db3a4; text-decoration: none;">ส่วนผสมที่ลงตัว</a>'+
@@ -100,7 +115,7 @@ config.MAIL_CONTENT_FOOTER = '<tr><td align="center" bgcolor="#ffffff" style="bo
                             '</div>'+
                             '<!-- padding --><div style="height: 18px; line-height: 18px; font-size: 10px;"> </div>'+
                             '<div style="line-height: 21px;">'+
-                                '<font face="Arial, Helvetica, sans-serif" size="3" color="#98a7b9" style="font-size: 14px;">'+
+                                '<font face="Arial, Helvetica, sans-serif" size="3" color="#98a7b9" style="font-size: 18px;">'+
                                 '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #98a7b9;">'+
                                     '<!-- Description go here -->'+
                                 '</span></font>'+
@@ -108,11 +123,33 @@ config.MAIL_CONTENT_FOOTER = '<tr><td align="center" bgcolor="#ffffff" style="bo
                         '</td></tr>'+
                     '</table>'+
                 '</div>'+
-                '<div class="mob_100" style="float: left; display: inline-block; width: 33%;">'+
+                '<div class="mob_100" style="float: left; display: inline-block; width: 25%;">'+
                     '<table class="mob_100" width="100%" border="0" cellspacing="0" cellpadding="0" align="left" style="border-collapse: collapse;">'+
                         '<tr><td align="center" style="line-height: 14px; padding: 0 27px;">'+
                             '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
                             '<div style="line-height: 14px;">'+
+                             '<img src="cid:line-badge@caramel.srikho.com" /><br><br>'+
+                                '<font face="Arial, Helvetica, sans-serif" size="3" color="#4db3a4" style="font-size: 14px;">'+
+                                '<strong style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #4db3a4;">'+
+                                    '<a href="#2" target="_blank" style="color: #4db3a4; text-decoration: none;">เป็นที่รู้จักของคนในพื้นที่</a>'+
+                                '</strong></font>'+
+                            '</div>'+
+                            '<!-- padding --><div style="height: 18px; line-height: 18px; font-size: 10px;"> </div>'+
+                            '<div style="line-height: 21px;">'+
+                                '<font face="Arial, Helvetica, sans-serif" size="3" color="#98a7b9" style="font-size: 18px;">'+
+                                '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #98a7b9;">'+
+                                    '<!-- Description go here -->'+
+                                '</span></font>'+
+                            '</div>'+
+                        '</td></tr>'+
+                    '</table>'+
+                '</div>'+
+                '<div class="mob_100" style="float: left; display: inline-block; width: 25%;">'+
+                    '<table class="mob_100" width="100%" border="0" cellspacing="0" cellpadding="0" align="left" style="border-collapse: collapse;">'+
+                        '<tr><td align="center" style="line-height: 14px; padding: 0 27px;">'+
+                            '<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>'+
+                            '<div style="line-height: 14px;">'+
+                             '<img src="cid:line-heart@caramel.srikho.com" /><br><br>'+
                                 '<font face="Arial, Helvetica, sans-serif" size="3" color="#4db3a4" style="font-size: 14px;">'+
                                 '<strong style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #4db3a4;">'+
                                     '<a href="#3" target="_blank" style="color: #4db3a4; text-decoration: none;">ใส่ใจในการทำ</a>'+
@@ -120,7 +157,7 @@ config.MAIL_CONTENT_FOOTER = '<tr><td align="center" bgcolor="#ffffff" style="bo
                             '</div>'+
                             '<!-- padding --><div style="height: 18px; line-height: 18px; font-size: 10px;"> </div>'+
                             '<div style="line-height: 21px;">'+
-                                '<font face="Arial, Helvetica, sans-serif" size="3" color="#98a7b9" style="font-size: 14px;">'+
+                                '<font face="Arial, Helvetica, sans-serif" size="3" color="#98a7b9" style="font-size: 18px;">'+
                                 '<span style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #98a7b9;">'+
                                     '<!-- Description go here -->'+ 
                                 '</span></font>'+
@@ -165,7 +202,46 @@ config.MAIL_ATTACHMENTS = [
 				filePath : appRoot + '/service/mail/CSK_icon_black.png',
 				cid: 'CSK_icon_black@caramel.srikho.com'
 			},
-			
+			{
+                fileName : 'circle-facebook.png',
+                filePath : appRoot + '/service/mail/circle-facebook.png',
+                cid: 'circle-facebook@caramel.srikho.com'
+            },
+            {
+                fileName : 'circle-google.png',
+                filePath : appRoot + '/service/mail/circle-google.png',
+                cid: 'circle-google@caramel.srikho.com'
+            },
+            {
+                fileName : 'circle-twitter.png',
+                filePath : appRoot + '/service/mail/circle-twitter.png',
+                cid: 'circle-twitter@caramel.srikho.com'
+            },
+            {
+                fileName : 'circle-linkedin.png',
+                filePath : appRoot + '/service/mail/circle-linkedin.png',
+                cid: 'circle-linkedin@caramel.srikho.com'
+            },
+            {
+                fileName : 'line-thumbs-up.png',
+                filePath : appRoot + '/service/mail/line-thumbs-up.png',
+                cid: 'line-thumbs-up@caramel.srikho.com'
+            },
+            {
+                fileName : 'line-file.png',
+                filePath : appRoot + '/service/mail/line-file.png',
+                cid: 'line-file@caramel.srikho.com'
+            },
+            {
+                fileName : 'line-heart.png',
+                filePath : appRoot + '/service/mail/line-heart.png',
+                cid: 'line-heart@caramel.srikho.com'
+            },
+            {
+                fileName : 'line-badge.png',
+                filePath : appRoot + '/service/mail/line-badge.png',
+                cid: 'line-badge@caramel.srikho.com'
+            }
 ];
 
 config.MAIL_ATTACHMENTS_FORGET_PASSWORD = [
@@ -174,298 +250,237 @@ config.MAIL_ATTACHMENTS_FORGET_PASSWORD = [
                 filePath : appRoot + '/service/mail/CSK_icon_black.png',
                 cid: 'CSK_icon_black@caramel.srikho.com'
             },
-            
+            {
+                fileName : 'circle-facebook.png',
+                filePath : appRoot + '/service/mail/circle-facebook.png',
+                cid: 'circle-facebook@caramel.srikho.com'
+            },
+            {
+                fileName : 'circle-google.png',
+                filePath : appRoot + '/service/mail/circle-google.png',
+                cid: 'circle-google@caramel.srikho.com'
+            },
+            {
+                fileName : 'circle-twitter.png',
+                filePath : appRoot + '/service/mail/circle-twitter.png',
+                cid: 'circle-twitter@caramel.srikho.com'
+            },
+            {
+                fileName : 'circle-linkedin.png',
+                filePath : appRoot + '/service/mail/circle-linkedin.png',
+                cid: 'circle-linkedin@caramel.srikho.com'
+            },
+            {
+                fileName : 'line-thumbs-up.png',
+                filePath : appRoot + '/service/mail/line-thumbs-up.png',
+                cid: 'line-thumbs-up@caramel.srikho.com'
+            },
+            {
+                fileName : 'line-file.png',
+                filePath : appRoot + '/service/mail/line-file.png',
+                cid: 'line-file@caramel.srikho.com'
+            },
+            {
+                fileName : 'line-heart.png',
+                filePath : appRoot + '/service/mail/line-heart.png',
+                cid: 'line-heart@caramel.srikho.com'
+            },
+            {
+                fileName : 'line-badge.png',
+                filePath : appRoot + '/service/mail/line-badge.png',
+                cid: 'line-badge@caramel.srikho.com'
+            }
 ];	
 
 config.MAIL_ATTACHMENTS_CUSTOMER = [
             {
-                fileName : 'KZH Logo.png',
-                filePath : appRoot + '/service/mail/KZH Logo.png',
-                cid: 'KZHLogo@kzh.parts.co.th'
+                fileName : 'CSK_icon_black.png',
+                filePath : appRoot + '/service/mail/CSK_icon_black.png',
+                cid: 'CSK_icon_black@caramel.srikho.com'
             },
             {
-                fileName : 'battery.png',
-                filePath : appRoot + '/service/mail/battery.png',
-                cid: 'battery@kzh.parts.co.th'
+                fileName : 'circle-facebook.png',
+                filePath : appRoot + '/service/mail/circle-facebook.png',
+                cid: 'circle-facebook@caramel.srikho.com'
             },
             {
-                fileName : 'brake.png',
-                filePath: appRoot + '/service/mail/brake.png',
-                cid: 'brake@kzh.parts.co.th'
+                fileName : 'circle-google.png',
+                filePath : appRoot + '/service/mail/circle-google.png',
+                cid: 'circle-google@caramel.srikho.com'
             },
             {
-                fileName : 'facebook.png',
-                filePath: appRoot + '/service/mail/facebook.png',
-                cid: 'facebook@kzh.parts.co.th'
+                fileName : 'circle-twitter.png',
+                filePath : appRoot + '/service/mail/circle-twitter.png',
+                cid: 'circle-twitter@caramel.srikho.com'
             },
             {
-                fileName : 'g+.png',
-                filePath: appRoot + '/service/mail/g+.png',
-                cid: 'g+@kzh.parts.co.th'
+                fileName : 'circle-linkedin.png',
+                filePath : appRoot + '/service/mail/circle-linkedin.png',
+                cid: 'circle-linkedin@caramel.srikho.com'
             },
             {
-                fileName : 'instagram.png',
-                filePath: appRoot + '/service/mail/instagram.png',
-                cid: 'instagram@kzh.parts.co.th'
+                fileName : 'line-thumbs-up.png',
+                filePath : appRoot + '/service/mail/line-thumbs-up.png',
+                cid: 'line-thumbs-up@caramel.srikho.com'
             },
             {
-                fileName : 'line.png',
-                filePath: appRoot + '/service/mail/line.png',
-                cid: 'line@kzh.parts.co.th'
+                fileName : 'line-file.png',
+                filePath : appRoot + '/service/mail/line-file.png',
+                cid: 'line-file@caramel.srikho.com'
             },
             {
-                fileName : 'lubricant.png',
-                filePath: appRoot + '/service/mail/lubricant.png',
-                cid: 'lubricant@kzh.parts.co.th'
+                fileName : 'line-heart.png',
+                filePath : appRoot + '/service/mail/line-heart.png',
+                cid: 'line-heart@caramel.srikho.com'
             },
             {
-                fileName : 'shock.png',
-                filePath : appRoot + '/service/mail/shock.png',
-                cid: 'shock@kzh.parts.co.th'
-            },
-            {
-                fileName : 'tel.png',
-                filePath : appRoot + '/service/mail/tel.png',
-                cid: 'tel@kzh.parts.co.th'
-            },
-            {
-                fileName : 'twitter.png',
-                filePath : appRoot + '/service/mail/twitter.png',
-                cid: 'twitter@kzh.parts.co.th'
-            },
-            {
-                fileName : 'tyre.png',
-                filePath : appRoot + '/service/mail/tyre.png',
-                cid: 'tyre@kzh.parts.co.th'
-            },
-            {
-                fileName : 'wrench.png',
-                filePath : appRoot + '/service/mail/wrench.png',
-                cid: 'wrench@kzh.parts.co.th'
-            },
-            {
-                fileName : 'receipt.png',
-                filePath : appRoot + '/service/mail/receipt.png',
-                cid: 'receipt@kzh.parts.co.th'
+                fileName : 'line-badge.png',
+                filePath : appRoot + '/service/mail/line-badge.png',
+                cid: 'line-badge@caramel.srikho.com'
             }
 ];  
 // Attachment for staff
 config.MAIL_ATTACHMENTS_STAFF = [
             {
-                fileName : 'KZH Logo.png',
-                filePath : appRoot + '/service/mail/KZH Logo.png',
-                cid: 'KZHLogo@kzh.parts.co.th'
+                fileName : 'CSK_icon_black.png',
+                filePath : appRoot + '/service/mail/CSK_icon_black.png',
+                cid: 'CSK_icon_black@caramel.srikho.com'
             },
             {
-                fileName : 'battery.png',
-                filePath : appRoot + '/service/mail/battery.png',
-                cid: 'battery@kzh.parts.co.th'
+                fileName : 'circle-facebook.png',
+                filePath : appRoot + '/service/mail/circle-facebook.png',
+                cid: 'circle-facebook@caramel.srikho.com'
             },
             {
-                fileName : 'brake.png',
-                filePath: appRoot + '/service/mail/brake.png',
-                cid: 'brake@kzh.parts.co.th'
+                fileName : 'circle-google.png',
+                filePath : appRoot + '/service/mail/circle-google.png',
+                cid: 'circle-google@caramel.srikho.com'
             },
             {
-                fileName : 'facebook.png',
-                filePath: appRoot + '/service/mail/facebook.png',
-                cid: 'facebook@kzh.parts.co.th'
+                fileName : 'circle-twitter.png',
+                filePath : appRoot + '/service/mail/circle-twitter.png',
+                cid: 'circle-twitter@caramel.srikho.com'
             },
             {
-                fileName : 'g+.png',
-                filePath: appRoot + '/service/mail/g+.png',
-                cid: 'g+@kzh.parts.co.th'
+                fileName : 'circle-linkedin.png',
+                filePath : appRoot + '/service/mail/circle-linkedin.png',
+                cid: 'circle-linkedin@caramel.srikho.com'
             },
             {
-                fileName : 'instagram.png',
-                filePath: appRoot + '/service/mail/instagram.png',
-                cid: 'instagram@kzh.parts.co.th'
+                fileName : 'line-thumbs-up.png',
+                filePath : appRoot + '/service/mail/line-thumbs-up.png',
+                cid: 'line-thumbs-up@caramel.srikho.com'
             },
             {
-                fileName : 'line.png',
-                filePath: appRoot + '/service/mail/line.png',
-                cid: 'line@kzh.parts.co.th'
+                fileName : 'line-file.png',
+                filePath : appRoot + '/service/mail/line-file.png',
+                cid: 'line-file@caramel.srikho.com'
             },
             {
-                fileName : 'lubricant.png',
-                filePath: appRoot + '/service/mail/lubricant.png',
-                cid: 'lubricant@kzh.parts.co.th'
+                fileName : 'line-heart.png',
+                filePath : appRoot + '/service/mail/line-heart.png',
+                cid: 'line-heart@caramel.srikho.com'
             },
             {
-                fileName : 'shock.png',
-                filePath : appRoot + '/service/mail/shock.png',
-                cid: 'shock@kzh.parts.co.th'
-            },
-            {
-                fileName : 'tel.png',
-                filePath : appRoot + '/service/mail/tel.png',
-                cid: 'tel@kzh.parts.co.th'
-            },
-            {
-                fileName : 'twitter.png',
-                filePath : appRoot + '/service/mail/twitter.png',
-                cid: 'twitter@kzh.parts.co.th'
-            },
-            {
-                fileName : 'tyre.png',
-                filePath : appRoot + '/service/mail/tyre.png',
-                cid: 'tyre@kzh.parts.co.th'
-            },
-            {
-                fileName : 'wrench.png',
-                filePath : appRoot + '/service/mail/wrench.png',
-                cid: 'wrench@kzh.parts.co.th'
-            },
-            {
-                fileName : 'create.png',
-                filePath : appRoot + '/service/mail/create.png',
-                cid: 'create@kzh.parts.co.th'
+                fileName : 'line-badge.png',
+                filePath : appRoot + '/service/mail/line-badge.png',
+                cid: 'line-badge@caramel.srikho.com'
             }
 ];  	
 // Attachment for Approve
 config.MAIL_ATTACHMENTS_APPROVE = [
             {
-                fileName : 'KZH Logo.png',
-                filePath : appRoot + '/service/mail/KZH Logo.png',
-                cid: 'KZHLogo@kzh.parts.co.th'
+                fileName : 'CSK_icon_black.png',
+                filePath : appRoot + '/service/mail/CSK_icon_black.png',
+                cid: 'CSK_icon_black@caramel.srikho.com'
             },
             {
-                fileName : 'battery.png',
-                filePath : appRoot + '/service/mail/battery.png',
-                cid: 'battery@kzh.parts.co.th'
+                fileName : 'circle-facebook.png',
+                filePath : appRoot + '/service/mail/circle-facebook.png',
+                cid: 'circle-facebook@caramel.srikho.com'
             },
             {
-                fileName : 'brake.png',
-                filePath: appRoot + '/service/mail/brake.png',
-                cid: 'brake@kzh.parts.co.th'
+                fileName : 'circle-google.png',
+                filePath : appRoot + '/service/mail/circle-google.png',
+                cid: 'circle-google@caramel.srikho.com'
             },
             {
-                fileName : 'facebook.png',
-                filePath: appRoot + '/service/mail/facebook.png',
-                cid: 'facebook@kzh.parts.co.th'
+                fileName : 'circle-twitter.png',
+                filePath : appRoot + '/service/mail/circle-twitter.png',
+                cid: 'circle-twitter@caramel.srikho.com'
             },
             {
-                fileName : 'g+.png',
-                filePath: appRoot + '/service/mail/g+.png',
-                cid: 'g+@kzh.parts.co.th'
+                fileName : 'circle-linkedin.png',
+                filePath : appRoot + '/service/mail/circle-linkedin.png',
+                cid: 'circle-linkedin@caramel.srikho.com'
             },
             {
-                fileName : 'instagram.png',
-                filePath: appRoot + '/service/mail/instagram.png',
-                cid: 'instagram@kzh.parts.co.th'
+                fileName : 'line-thumbs-up.png',
+                filePath : appRoot + '/service/mail/line-thumbs-up.png',
+                cid: 'line-thumbs-up@caramel.srikho.com'
             },
             {
-                fileName : 'line.png',
-                filePath: appRoot + '/service/mail/line.png',
-                cid: 'line@kzh.parts.co.th'
+                fileName : 'line-file.png',
+                filePath : appRoot + '/service/mail/line-file.png',
+                cid: 'line-file@caramel.srikho.com'
             },
             {
-                fileName : 'lubricant.png',
-                filePath: appRoot + '/service/mail/lubricant.png',
-                cid: 'lubricant@kzh.parts.co.th'
+                fileName : 'line-heart.png',
+                filePath : appRoot + '/service/mail/line-heart.png',
+                cid: 'line-heart@caramel.srikho.com'
             },
             {
-                fileName : 'shock.png',
-                filePath : appRoot + '/service/mail/shock.png',
-                cid: 'shock@kzh.parts.co.th'
-            },
-            {
-                fileName : 'tel.png',
-                filePath : appRoot + '/service/mail/tel.png',
-                cid: 'tel@kzh.parts.co.th'
-            },
-            {
-                fileName : 'twitter.png',
-                filePath : appRoot + '/service/mail/twitter.png',
-                cid: 'twitter@kzh.parts.co.th'
-            },
-            {
-                fileName : 'tyre.png',
-                filePath : appRoot + '/service/mail/tyre.png',
-                cid: 'tyre@kzh.parts.co.th'
-            },
-            {
-                fileName : 'wrench.png',
-                filePath : appRoot + '/service/mail/wrench.png',
-                cid: 'wrench@kzh.parts.co.th'
-            },
-            {
-                fileName : 'approve.png',
-                filePath : appRoot + '/service/mail/approve.png',
-                cid: 'approve@kzh.parts.co.th'
+                fileName : 'line-badge.png',
+                filePath : appRoot + '/service/mail/line-badge.png',
+                cid: 'line-badge@caramel.srikho.com'
             }
 ];      
 
 config.MAIL_ATTACHMENTS_REJECT = [
             {
-                fileName : 'KZH Logo.png',
-                filePath : appRoot + '/service/mail/KZH Logo.png',
-                cid: 'KZHLogo@kzh.parts.co.th'
+                fileName : 'CSK_icon_black.png',
+                filePath : appRoot + '/service/mail/CSK_icon_black.png',
+                cid: 'CSK_icon_black@caramel.srikho.com'
             },
             {
-                fileName : 'battery.png',
-                filePath : appRoot + '/service/mail/battery.png',
-                cid: 'battery@kzh.parts.co.th'
+                fileName : 'circle-facebook.png',
+                filePath : appRoot + '/service/mail/circle-facebook.png',
+                cid: 'circle-facebook@caramel.srikho.com'
             },
             {
-                fileName : 'brake.png',
-                filePath: appRoot + '/service/mail/brake.png',
-                cid: 'brake@kzh.parts.co.th'
+                fileName : 'circle-google.png',
+                filePath : appRoot + '/service/mail/circle-google.png',
+                cid: 'circle-google@caramel.srikho.com'
             },
             {
-                fileName : 'facebook.png',
-                filePath: appRoot + '/service/mail/facebook.png',
-                cid: 'facebook@kzh.parts.co.th'
+                fileName : 'circle-twitter.png',
+                filePath : appRoot + '/service/mail/circle-twitter.png',
+                cid: 'circle-twitter@caramel.srikho.com'
             },
             {
-                fileName : 'g+.png',
-                filePath: appRoot + '/service/mail/g+.png',
-                cid: 'g+@kzh.parts.co.th'
+                fileName : 'circle-linkedin.png',
+                filePath : appRoot + '/service/mail/circle-linkedin.png',
+                cid: 'circle-linkedin@caramel.srikho.com'
             },
             {
-                fileName : 'instagram.png',
-                filePath: appRoot + '/service/mail/instagram.png',
-                cid: 'instagram@kzh.parts.co.th'
+                fileName : 'line-thumbs-up.png',
+                filePath : appRoot + '/service/mail/line-thumbs-up.png',
+                cid: 'line-thumbs-up@caramel.srikho.com'
             },
             {
-                fileName : 'line.png',
-                filePath: appRoot + '/service/mail/line.png',
-                cid: 'line@kzh.parts.co.th'
+                fileName : 'line-file.png',
+                filePath : appRoot + '/service/mail/line-file.png',
+                cid: 'line-file@caramel.srikho.com'
             },
             {
-                fileName : 'lubricant.png',
-                filePath: appRoot + '/service/mail/lubricant.png',
-                cid: 'lubricant@kzh.parts.co.th'
+                fileName : 'line-heart.png',
+                filePath : appRoot + '/service/mail/line-heart.png',
+                cid: 'line-heart@caramel.srikho.com'
             },
             {
-                fileName : 'shock.png',
-                filePath : appRoot + '/service/mail/shock.png',
-                cid: 'shock@kzh.parts.co.th'
-            },
-            {
-                fileName : 'tel.png',
-                filePath : appRoot + '/service/mail/tel.png',
-                cid: 'tel@kzh.parts.co.th'
-            },
-            {
-                fileName : 'twitter.png',
-                filePath : appRoot + '/service/mail/twitter.png',
-                cid: 'twitter@kzh.parts.co.th'
-            },
-            {
-                fileName : 'tyre.png',
-                filePath : appRoot + '/service/mail/tyre.png',
-                cid: 'tyre@kzh.parts.co.th'
-            },
-            {
-                fileName : 'wrench.png',
-                filePath : appRoot + '/service/mail/wrench.png',
-                cid: 'wrench@kzh.parts.co.th'
-            },
-            {
-                fileName : 'reject.png',
-                filePath : appRoot + '/service/mail/reject.png',
-                cid: 'reject@kzh.parts.co.th'
+                fileName : 'line-badge.png',
+                filePath : appRoot + '/service/mail/line-badge.png',
+                cid: 'line-badge@caramel.srikho.com'
             }
 ];      
 module.exports = config;
