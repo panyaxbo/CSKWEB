@@ -222,12 +222,14 @@ app.config(function ($translateProvider) {
         BODY: {
             SECTION : {
                 PRODUCT : {
+                    HEADER: 'เมนู กาละแม หอม หวาน',
                     PRICE : 'ราคา',
                     QUANTITY : 'จำนวน',
                     BUY : 'ซื้อ',
                     WEIGHT: 'น้ำหนัก',
                     WEIGHT_GRAM: 'กรัม',
-                    WEIGHT_KILOGRAM: 'กิโลกรัม'
+                    WEIGHT_KILOGRAM: 'กิโลกรัม',
+                    WORTH: 'คุ้มค่า!!'
                 },
                 HISTORY : {
                     HEAD : "ประวัติการสั่งซื้อ",
@@ -286,18 +288,18 @@ app.config(function ($translateProvider) {
         },
         MARKETING : {
             CONTENT_1 : {
-                TITLE : 'เพื่อ',
-                SUB_TITLE:'',
+                TITLE : 'ขนมของฝากขึ้นชื่อจากอีสาน',
+                SUB_TITLE: 'เป็นของฝากหรือซื้อเพื่อทานเล่น',
                 MESSAGE : ''
             },
             CONTENT_2 : {
-                TITLE : 'เพื่อ',
+                TITLE : 'รูปลักษณ์ภายนอกไม่สำคัญเท่ารสชาติ',
                 SUB_TITLE:'',
                 MESSAGE : ''
             },
             CONTENT_3 : {
-                TITLE : 'เพื่อ',
-                SUB_TITLE:'',
+                TITLE : 'สิ่งที่สำคัญไม่แพ้กัน คือ "ใจ"',
+                SUB_TITLE:'มุ่งมั่นเพื่อหารสชาติที่อร่อย ถูกปากลูกค้า',
                 MESSAGE : ''
             }
         },
@@ -490,12 +492,14 @@ app.config(function ($translateProvider) {
         BODY: {
             SECTION : {
                 PRODUCT : {
+                    HEADER: 'The Sweet Caramel Menu',
                     PRICE : 'Price',
                     QUANTITY : 'Qty.',
                     BUY : 'Buy',
                     WEIGHT:'Weight',
                     WEIGHT_GRAM: 'g',
-                    WEIGHT_KILOGRAM: 'kg'
+                    WEIGHT_KILOGRAM: 'kg',
+                    WORTH: 'Worth!!'
                 },
                 HISTORY : {
                     HEAD : "Purchase History",
@@ -741,12 +745,14 @@ app.config(function ($translateProvider) {
         BODY: {
            SECTION : {
                 PRODUCT : {
+                    HEADER: 'キャラメルの甘いです',
                     PRICE : '価格',
                     QUANTITY : '量',
                     BUY : '購入',
                     WEIGHT:'重量',
                     WEIGHT_GRAM: 'グラム',
-                    WEIGHT_KILOGRAM: 'キログラム'
+                    WEIGHT_KILOGRAM: 'キログラム',
+                    WORTH: '価値!!'
                 },
                 HISTORY : {
                     HEAD : "購入履歴",
@@ -992,12 +998,14 @@ app.config(function ($translateProvider) {
         BODY: {
             SECTION : {
                 PRODUCT : {
+                    HEADER: '焦糖甜味',
                     PRICE : '價格',
                     QUANTITY : '數量',
                     BUY : '購買',
                     WEIGHT: '重量',
                     WEIGHT_GRAM: '公克',
-                    WEIGHT_KILOGRAM: '公斤'
+                    WEIGHT_KILOGRAM: '公斤',
+                    WORTH: '值得!!'
                 },
                 HISTORY : {
                     HEAD : "購買記錄",

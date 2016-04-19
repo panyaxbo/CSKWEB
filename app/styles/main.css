@@ -187,3 +187,23 @@ div.product-thumbnail:hover
 blockquote.no-border {
   border:none;
 }
+
+.seperator {
+  margin-bottom: 3em;
+}
+.reason-price {
+  top: -2em;
+    position: absolute;
+    right: 10.5em;
+}
+.price-label {
+  position: absolute;
+  padding: 23px;
+  margin-top: 10px;
+  color: whitesmoke;
+}
+
+.img-shop {
+  max-height: 230px;
+  max-width: 500px;
+}

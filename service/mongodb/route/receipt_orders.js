@@ -281,7 +281,7 @@ router.post(mongodbConfig.url.receipt.createReceipt, function (req, res) {
     var CreateROLinePromise = function(ROLineList) {
         var defer = Q.defer();
         var promises = [];
-        ROLineList.forEach(function (roLine) {
+        ROLineList.forEach(function(roLine) {
             delete roline.Uoms;
             db.collection(mongodbConfig.mongodb.roline.name)
             .insert(roline,

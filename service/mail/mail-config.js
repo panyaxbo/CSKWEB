@@ -34,7 +34,7 @@ config.MAIL_CONTENT_TITLE = '<meta charset="utf-8" http-equiv="imagetoolbar" con
                             '</table>  ' +                      
                         '</td></tr>' +
                     '</table></div>' +
-                    '<div class="mob_center_bl" style="float: right; display: inline-block; width: 88px;">' +
+                    '<div class="mob_center_bl" style="float: right; display: inline-block; width: 450px;">' +
                     '<table width="88" border="0" cellspacing="0" cellpadding="0" align="right" style="border-collapse: collapse;">' +
                         '<tr><td align="right" valign="middle">' +
                             '<!-- padding --><div style="height: 20px; line-height: 20px; font-size: 10px;"> </div>' +

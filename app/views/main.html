@@ -1259,14 +1259,14 @@
         </ol>
         <div class="carousel-inner">
             <div class="item active" align="center">
-                <img src="http://placehold.it/1440x700" alt="{{'BODY.CAROUSEL.ONE.TOOLTIP' | translate}}">
+                <img src="/images/csk-crs-01.png" alt="{{'BODY.CAROUSEL.ONE.TOOLTIP' | translate}}">
                 <div class="carousel-caption">
                     <h3>{{'BODY.CAROUSEL.ONE.TITLE' | translate}}</h3>
                     <p>{{'BODY.CAROUSEL.ONE.TEXT' | translate}}</p>
                 </div>
             </div>
             <div class="item" align="center">
-                <img src="http://placehold.it/1440x700" alt="...">
+                <img src="/images/csk-crs-02.png" alt="...">
                 <div class="carousel-caption ">
                     <h3>{{'BODY.CAROUSEL.TWO.TITLE' | translate}}</h3>
                     <p>{{'BODY.CAROUSEL.TWO.TEXT' | translate}}</p>
@@ -1321,17 +1321,20 @@
         <!-- Title -->
         <div class="row">
             <div class="col-lg-12">
-                <h3>Latest Features</h3>
+                <h3 class="seperator">{{'BODY.SECTION.PRODUCT.HEADER' | translate}}</h3>
             </div>
         </div>
-        <!-- /.row -->
-
-        <!-- Page Features -->
         <div id="PurchaseCaramel" class="row">
-            <div class="col-md-4 col-sm-6 hero-feature" ng-repeat="Product in Products">
+             <div class="col-md-4 col-sm-6 hero-feature" ng-repeat="Product in Products">
                 <div class="product-thumbnail">
                     <div class="thumbnail" >
-                        <img src="http://placehold.it/500x500" alt="">
+                    <span class="reason-price animated infinite pulse" ng-show="Product.ProductCode === 'PD0003'">
+                        <div class="price-label">{{'BODY.SECTION.PRODUCT.WORTH' | translate}}</div>
+                        <img src="/images/price.png" width="90" height="90" />
+                    </span>
+                        <img id="{{Product._id}}" src="https://s3-us-west-2.amazonaws.com/cskwebcaramel/caramel-1-bag.jpg" ng-show="Product.ProductCode === 'PD0001'" alt="" class="img-shop">
+                        <img id="{{Product._id}}" src="https://s3-us-west-2.amazonaws.com/cskwebcaramel/caramel-5-bag.png" ng-show="Product.ProductCode === 'PD0002'" class="img-shop">
+                        <img id="{{Product._id}}" src="https://s3-us-west-2.amazonaws.com/cskwebcaramel/caramel-10-bag.png" ng-show="Product.ProductCode === 'PD0003'" class="img-shop">
                         <div class="caption">
                             <h3 ng-show="SelectedLocale === 'th'">{{Product.ProductNameTh}}</h3>
                             <h3 ng-show="SelectedLocale === 'us'">{{Product.ProductNameEn}}</h3>
@@ -1999,15 +2002,23 @@
         <hr class="featurette-divider">
         <div class="container marketing">
           <div class="row featurette">
+            
             <div class="col-md-7">
+            <div class="text-center">
+            <i class="fa fa-quote-left"></i>
+        </div>
+            <br>
               <h2 class="featurette-heading">{{'MARKETING.CONTENT_1.TITLE' | translate}}
               <span class="text-muted">{{'MARKETING.CONTENT_1.SUB_TITLE' | translate}}</span></h2>
               <p class="lead">{{'MARKETING.CONTENT_1.MESSAGE' | translate}}</p>
+              <br>
+              <div class="text-center">
+              <i class="fa fa-quote-right"></i>
+          </div>
             </div>
             <div class="col-md-5">
-              <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzUwMHg1MDAvYXV0bwpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1MmIwOGIwODk4IHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTUyYjA4YjA4OTgiPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRUVFRUVFIi8+PGc+PHRleHQgeD0iMTg1LjEyNSIgeT0iMjYxLjEiPjUwMHg1MDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
-              <img src="https://s3-us-west-2.amazonaws.com/cskwebcaramelsrikho/1fff1a23-23be-40dd-9ac3-4f03cb1d2d09-large.png"><br>
-              <img src="https://s3-us-west-2.amazonaws.com/cskwebcaramel/50442-200.png">
+              <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="/images/csk-mkt-01.png" data-holder-rendered="true">
+             
             </div>
         </div>
 
@@ -2015,11 +2026,19 @@
 
       <div class="row featurette">
         <div class="col-md-7 col-md-push-5">
-          <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        <div class="text-center">
+            <i class="fa fa-quote-left"></i>
+        </div>
+        <br>
+          <h2 class="featurette-heading">{{'MARKETING.CONTENT_2.TITLE' | translate}}<span class="text-muted"> {{'MARKETING.CONTENT_2.SUB_TITLE' | translate}}</span></h2>
+          <p class="lead">{{'MARKETING.CONTENT_2.MESSAGE' | translate}}</p>
+          <br>
+             <div class="text-center">
+              <i class="fa fa-quote-right"></i>
+          </div>
         </div>
         <div class="col-md-5 col-md-pull-7">
-          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzUwMHg1MDAvYXV0bwpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1MmIwOGFiYzY4IHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTUyYjA4YWJjNjgiPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRUVFRUVFIi8+PGc+PHRleHQgeD0iMTg1LjEyNSIgeT0iMjYxLjEiPjUwMHg1MDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
+          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="/images/csk-mkt-02.png" data-holder-rendered="true">
         </div>
       </div>
 
@@ -2027,11 +2046,18 @@
 
       <div class="row featurette">
         <div class="col-md-7">
-          <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        <div class="text-center">
+            <i class="fa fa-quote-left"></i>
+        </div>
+          <h2 class="featurette-heading">{{'MARKETING.CONTENT_3.TITLE' | translate}}<span class="text-muted"> {{'MARKETING.CONTENT_3.SUB_TITLE' | translate}}</span></h2>
+          <p class="lead">{{'MARKETING.CONTENT_3.MESSAGE' | translate}}</p>
+          <br>
+          <div class="text-center">
+              <i class="fa fa-quote-right"></i>
+          </div>
         </div>
         <div class="col-md-5">
-          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzUwMHg1MDAvYXV0bwpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1MmIwOGE5MGYzIHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTUyYjA4YTkwZjMiPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRUVFRUVFIi8+PGc+PHRleHQgeD0iMTg1LjEyNSIgeT0iMjYxLjEiPjUwMHg1MDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
+          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="500x500" src="/images/csk-mkt-03.png" data-holder-rendered="true">
         </div>
       </div>
         
