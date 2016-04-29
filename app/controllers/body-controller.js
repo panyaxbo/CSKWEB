@@ -1,8 +1,12 @@
 app.controller('BodyController', ["$scope","$http", "ENV","$q", "$timeout", "$translate", "$cookies", "$location", "$filter", "CredentialService", "LocaleService", "CurrencyService" , 
-  "ProductService", "CompanyService", "EmailService", "blockUI","ProvinceService", "DistrictService", "SubDistrictService", "WeightRateService", 
+  "ProductService", "CompanyService", "EmailService", 
+  //"blockUI",
+  "ProvinceService", "DistrictService", "SubDistrictService", "WeightRateService", 
   "UserService", "CryptoService", "ReceiptOrderService", "AppConfigService", "ngTableParams", "MenuService",
   function ($scope,$http, ENV, $q, $timeout, $translate, $cookies, $location, $filter, CredentialService, LocaleService, CurrencyService , 
-    ProductService, CompanyService, EmailService, blockUI, ProvinceService, DistrictService, SubDistrictService, WeightRateService, 
+    ProductService, CompanyService, EmailService,
+    // blockUI,
+      ProvinceService, DistrictService, SubDistrictService, WeightRateService, 
     UserService, CryptoService, ReceiptOrderService, AppConfigService, ngTableParams, MenuService) {
 
   	$scope.SelectedLocale = "th";
@@ -23,14 +27,14 @@ app.controller('BodyController', ["$scope","$http", "ENV","$q", "$timeout", "$tr
     $scope.$on('UpdateROHeadROLineBroadcast', function (event, args) {
         $scope.ROHead = args;
         $scope.ROLineList = $scope.ROHead.ROLineList;
-        console.log('body arg ', args);
+   //     console.log('body arg ', args);
     });
   	$scope.$on('UpdateSelectedLocaleBroadcast', function (event, message) {
-      console.log('broad to main app ', message);
+  //    console.log('broad to main app ', message);
       $scope.SelectedLocale = message;
     });
   	$scope.$on('UpdateSelectedCurrencyBroadcast', function (event, currency) {
-      console.log('broad to main app ', currency);
+   //   console.log('broad to main app ', currency);
       if (currency === 'thb') {
         $scope.Multiplier = 1;
         $scope.CurrencySymbol = "฿";
@@ -89,7 +93,7 @@ app.controller('BodyController', ["$scope","$http", "ENV","$q", "$timeout", "$tr
     });
 
     $scope.AddCart = function (SelectedProduct, BuyQty, Index) {
-      console.log('add cart');
+ //     console.log('add cart');
         if (BuyQty > 0) {
             var sumAmt = 0;
             var netAmt = 0;
@@ -122,7 +126,7 @@ app.controller('BodyController', ["$scope","$http", "ENV","$q", "$timeout", "$tr
             ROLine.Amount = (ROLine.Price * BuyQty);
             ROLine.VatAmount = ($scope.Company.VatRate / 100) * ROLine.Amount;
             ROLine.Weight = (SelectedProduct.Weight * BuyQty);
-
+            ROLine.DrWeight = SelectedProduct.Weight;
             ROLine.UomNameTh = SelectedProduct.UomNameTh;
             ROLine.UomNameEn = SelectedProduct.UomNameEn;
             ROLine.UomNameJp = SelectedProduct.UomNameJp;
@@ -130,28 +134,43 @@ app.controller('BodyController', ["$scope","$http", "ENV","$q", "$timeout", "$tr
             
             $scope.ROHead.SumAmount += ROLine.Amount;
             $scope.ROHead.SumWeight += ROLine.Weight;
-            WeightRateService.GetWeightRateByPostTypeAndWeight($scope.ROHead.PostType, $scope.ROHead.SumWeight)
-            .then(function(weightRate , status) {
-              $scope.ROHead.SumWeightAmount = parseInt(weightRate.Rate);
-              $scope.ROHead.SumVatAmount += ROLine.VatAmount;
-              $scope.ROHead.SumDiscountAmount += ROLine.DiscountAmount;
-              $scope.ROHead.NetAmount = $scope.ROHead.SumAmount + $scope.ROHead.SumVatAmount + $scope.ROHead.SumWeightAmount - $scope.ROHead.SumDiscountAmount;
 
-              console.log('sum amt ', $scope.ROHead.SumAmount);
-              console.log('sum disc ',$scope.ROHead.SumDiscountAmount);
-              console.log('sum vat ',$scope.ROHead.SumVatAmount);
-              console.log('sum wt ',$scope.ROHead.SumWeightAmount);
-              console.log('net amt ',$scope.ROHead.NetAmount);
-              $scope.ROLineList.push(ROLine);
-              
-        
-              $scope.ROHead.ROLineList.push(ROLine);
-              
-              $scope.$emit('UpdateROHeadROLineFromBody', $scope.ROHead );
-           
-            }, function(error, status) {
-              console.log(error);
-            });
+            if ($scope.ROHead.PostType === 'Normal') {
+                var weight_rate = WeightRateService.GetWeightRateNormal($scope.ROHead.SumWeight);
+                $scope.ROHead.SumWeightAmount = parseInt(weight_rate); 
+                $scope.ROHead.SumVatAmount += ROLine.VatAmount;
+                $scope.ROHead.SumDiscountAmount += ROLine.DiscountAmount;
+                $scope.ROHead.NetAmount = $scope.ROHead.SumAmount + $scope.ROHead.SumVatAmount + $scope.ROHead.SumWeightAmount - $scope.ROHead.SumDiscountAmount;
+
+                $scope.ROLineList.push(ROLine);
+                $scope.ROHead.ROLineList.push(ROLine);
+                  
+                $scope.$emit('UpdateROHeadROLineFromBody', $scope.ROHead );
+               
+            } else {
+                WeightRateService.GetWeightRateByPostTypeAndWeight($scope.ROHead.PostType, $scope.ROHead.SumWeight)
+                .then(function(weightRate , status) {
+                  $scope.ROHead.SumWeightAmount = parseInt(weightRate.Rate);
+                  $scope.ROHead.SumVatAmount += ROLine.VatAmount;
+                  $scope.ROHead.SumDiscountAmount += ROLine.DiscountAmount;
+                  $scope.ROHead.NetAmount = $scope.ROHead.SumAmount + $scope.ROHead.SumVatAmount + $scope.ROHead.SumWeightAmount - $scope.ROHead.SumDiscountAmount;
+
+                  console.log('sum amt ', $scope.ROHead.SumAmount);
+                  console.log('sum disc ',$scope.ROHead.SumDiscountAmount);
+                  console.log('sum vat ',$scope.ROHead.SumVatAmount);
+                  console.log('sum wt ',$scope.ROHead.SumWeightAmount);
+                  console.log('net amt ',$scope.ROHead.NetAmount);
+                  $scope.ROLineList.push(ROLine);
+                  
+            
+                  $scope.ROHead.ROLineList.push(ROLine);
+                  
+                  $scope.$emit('UpdateROHeadROLineFromBody', $scope.ROHead );
+               
+                }, function(error, status) {
+                  console.log(error);
+                });
+            }
             
             swal({
               title: "สำเร็จ",
@@ -190,8 +209,8 @@ app.controller('BodyController', ["$scope","$http", "ENV","$q", "$timeout", "$tr
 
 
     $scope.SearchHistoryReceipt = function() {
-       console.log($scope.User);
-      console.log($scope.User.Id);
+   //    console.log($scope.User);
+   //   console.log($scope.User.Id);
         ReceiptOrderService.LoadROHeadByUserIdAndStatus($scope.User.Id, $scope.SearchPaymentStatus, $scope.SearchShippingStatus, 
             $scope.StartDate, $scope.EndDate)
         .then(function(data, status) {
@@ -315,7 +334,7 @@ app.controller('BodyController', ["$scope","$http", "ENV","$q", "$timeout", "$tr
     }
 
      $scope.PerformValidatePaymentDocument = function (IsApprove) {
-        console.log($scope.ViewStaffRO.UserId);
+  //      console.log($scope.ViewStaffRO.UserId);
         var UserId = $scope.ViewStaffRO.UserId;
         
         if (IsApprove === 'Y') {
@@ -333,7 +352,7 @@ app.controller('BodyController', ["$scope","$http", "ENV","$q", "$timeout", "$tr
             });
 
         } else if (IsApprove === 'N') {
-            console.log($scope.ViewStaffRO.UserId);
+    //        console.log($scope.ViewStaffRO.UserId);
             swal({   
                 title: "Reject Payment Document",   
                 text: "Reason",   

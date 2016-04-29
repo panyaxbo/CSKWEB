@@ -1,14 +1,19 @@
 app.controller("MainController", 
   ["$scope","$http", "ENV","$q", "$timeout", "$translate", "$cookies", "$location", "$filter", "CredentialService", "LocaleService", "CurrencyService" , 
-  "ProductService", "CompanyService", "EmailService", "blockUI","ProvinceService", "DistrictService", "SubDistrictService", "WeightRateService", 
+  "ProductService", "CompanyService", "EmailService", 
+  //"blockUI",
+  "ProvinceService", "DistrictService", "SubDistrictService", "WeightRateService", 
   "UserService", "CryptoService", "ReceiptOrderService", "AppConfigService", "MenuService",
   function ($scope,$http, ENV, $q, $timeout, $translate, $cookies, $location, $filter, CredentialService, LocaleService, CurrencyService , 
-    ProductService, CompanyService, EmailService, blockUI, ProvinceService, DistrictService, SubDistrictService, WeightRateService, 
+    ProductService, CompanyService, EmailService, 
+    //blockUI, 
+    ProvinceService, DistrictService, SubDistrictService, WeightRateService, 
     UserService, CryptoService, ReceiptOrderService, AppConfigService,MenuService) {
 
 
     // paypal 4N2L5B22JU3W6
-  	$scope.Locale = "th";
+  	$scope.IsCaramelSrikhoReady = false;
+    $scope.Locale = "th";
     $scope.SelectedCurrency = "thb";
     $scope.SelectedLocale = "th";
     $scope.SelectedMenu = "";
@@ -83,7 +88,7 @@ app.controller("MainController",
         
     });
     $scope.SelectedHeadMenu = function (menu) {
-        console.log(menu);
+ //       console.log(menu);
         $scope.SelectedMenu = menu;
         if (menu == "product") {
             MenuService.Menu.SelectedMenu = "product";
@@ -122,17 +127,14 @@ app.controller("MainController",
     }
     var UserBackFromEmailUrl = $location.url();
     if (UserBackFromEmailUrl.indexOf("confirm=") > -1 ) {
-        blockUI.start("Please wait ...");
+    //    blockUI.start("Please wait ...");
       //  console.log('UserBackFromEmailUrl ', UserBackFromEmailUrl);
         var asciiString = ReplaceASCIICharacter(UserBackFromEmailUrl);
        // console.log('after  ', asciiString);
         UserService.ActivateAppUser(asciiString)
         .then(function(data, status) {
-            blockUI.message("100%");
-            blockUI.stop();
             swal("Sign up Success", "Your account is now activated.", "success");
         }, function(error, status) {
-            blockUI.stop();
             swal("Error", "Cannot find your account.", "error");
         });
     } else if (UserBackFromEmailUrl.indexOf("forget=") > -1 ) {
@@ -170,13 +172,17 @@ app.controller("MainController",
       $("#LoginModal").modal('toggle');
       $("#ForgetPasswordModal").modal('show');
     }
+    $scope.ForgetPasswordProgressValue = 0;
     $scope.SendEmailForgetPassword = function () {
+      $scope.ForgetPasswordProgressValue = 15;
+      document.getElementById('ForgetPasswordProgress').style.display = 'block';
+
       var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (filter.test($scope.ForgetPasswordEmail) && $scope.ForgetPasswordEmail.length > 0) {
-        //check is email exist in system
+        
         UserService.IsExistEmail($scope.ForgetPasswordEmail)
         .then(function(data, status) {
-            blockUI.message("25%");
+            $scope.ForgetPasswordProgressValue = 28;
             if(data) {
               return CryptoService.GenerateForgetPasswordHashLink($scope.ForgetPasswordEmail)
             } else {
@@ -186,8 +192,8 @@ app.controller("MainController",
             swal("Error", "The error has occur please contact admin", "error");
         })
         .then(function(data, status){
+            $scope.ForgetPasswordProgressValue = 47;
             var hostWithPort = $location.host() + ':' +$location.port();
-            blockUI.message("75%");
             var mailForget = {
               Email : $scope.ForgetPasswordEmail,
               Host : hostWithPort,
@@ -199,15 +205,14 @@ app.controller("MainController",
         var IsExistEmail = ENV.apiEndpoint + "/users/IsExistEmail/" + $scope.ForgetPasswordEmail;
         $http.get(IsExistEmail)
         .success(function(data, status, headers, config) {
-          // exist email ,then send email
-            blockUI.message("25%");
+            $scope.ForgetPasswordProgressValue = 69;
             if(data) {
               var genforgetLink = ENV.apiEndpoint + '/cryptojs/GenerateForgetPasswordHashLink/' + $scope.ForgetPasswordEmail;
               $http.get(genforgetLink)
               .success(function(data, status, headers, config) { 
+                  $scope.ForgetPasswordProgressValue = 82;
                   var hostWithPort = $location.host() + ':' +$location.port();
                   var forgetPasswordEmailUrl = ENV.apiEndpoint + "/mails/SendEmailForgetPassword";
-                  blockUI.message("75%");
                   var mailForget = {
                     Email : $scope.ForgetPasswordEmail,
                     Host : hostWithPort,
@@ -215,11 +220,12 @@ app.controller("MainController",
                   };
                   $http.post(forgetPasswordEmailUrl, mailForget)
                   .success(function(data, status, headers, config) {
-                    blockUI.stop();
+                    $scope.ForgetPasswordProgressValue = 100;
+
                     var type = $filter('translate')('MESSAGE.TYPE_SUCCESS');
                     var title = $filter('translate')('MESSAGE.TITLE_SUCCESS_DEFAULT');
-                    swal(title, "Please check your email", type);
-
+                    swal("สำเร็จ", "กรุณาตรวจสอบอีเมลของท่าน", "success");
+                    document.getElementById('ForgetPasswordProgress').style.display = 'none';
                     $('#ForgetPasswordModal').modal('toggle');
                   })
                   .error(function(data, status, headers, config) {
@@ -245,23 +251,30 @@ app.controller("MainController",
       }
     }
 
+    $scope.InputPasswordProgressValue = 0;
     $scope.ChangePassword = function() {
+        $scope.InputPasswordProgressValue = 35;
+      document.getElementById('InputPasswordProgress').style.display = 'block';
       if ($scope.ChangeForgetPassword === $scope.ConfirmChangeForgetPassword) {
-
+        $scope.InputPasswordProgressValue = 69;
         UserService.PerformChangePassword($scope.ForgetPasswordEmail, $scope.ChangeForgetPassword)
         .then(function(data, status) {
             swal("Change Password Success", "Your password has changed successfully.", "success");
+            $scope.InputPasswordProgressValue = 100;
+            document.getElementById('InputPasswordProgress').style.display = 'none';
             $('#InputPasswordModal').modal('toggle');
         }, function(error, status) {
             swal("Error", "Cannot find your account.", "error");
+            document.getElementById('InputPasswordProgress').style.display = 'none';
         });
       } else {
         swal("Warning", "Password and Confirm Password must be the same.", "warning");
+        document.getElementById('InputPasswordProgress').style.display = 'none';
       }
     }
     $scope.SelectedMenuCurrency = function (currency) {
         $scope.SelectedCurrency = currency;
-        console.log('cur ', currency);
+ //       console.log('cur ', currency);
         if (currency == "thb") {
             CurrencyService._SelectedCurrency = "thb";
             $scope.SelectedCurrency = "thb";
@@ -297,7 +310,7 @@ app.controller("MainController",
     }
 
     $scope.SelectedMenuLocale = function (locale) {
-    	console.log('loc ', locale);
+  //  	console.log('loc ', locale);
     	$scope.SelectedLocale = locale;
         if (locale == "th") {
             $scope.Locale = "th";
@@ -328,7 +341,7 @@ app.controller("MainController",
     $scope.LoginWithSocial = function (provider) {
         //Let's say the /me endpoint on the provider API returns a JSON object
         //with the field "name" containing the name "John Doe"
-        blockUI.start("Logging in " +provider + ", please wait");
+        document.getElementById('LoginSocialNotReady').style.display = 'block';
         OAuth.popup(provider)
         .done(function(result) {
             result.me()
@@ -336,21 +349,20 @@ app.controller("MainController",
                 //this will display "John Doe" in the console                
                 $scope.$apply(function() {
                   $scope.PopulateValue(provider, response);
+                  document.getElementById('LoginSocialNotReady').style.display = 'none';
                 });
             })
             .fail(function (err) {
                 //handle error with err
-                console.log(err.message + err.stack);
+  //              console.log(err.message + err.stack);
             });
         })
         .fail(function (err) {
             //handle error with err
-            console.log(err.message + err.stack);
+ //           console.log(err.message + err.stack);
         });
-        blockUI.stop();
     }
     $scope.PopulateValue = function(provider, response) {
-  //      console.log(response);
         if (provider === 'facebook') {
           $scope.User.Id = response.raw.id;
           $scope.User.Firstname = response.firstname;
@@ -557,7 +569,10 @@ app.controller("MainController",
         
         $http.post(createAndCheckLofinSocialUrl, response)
         .success(function (data, status, headers, config) {
-          console.log(data);
+           $scope.User.Id = data._id;
+           $scope.$emit('handleUserEmit', {
+                  User: $scope.User
+              });
         })
         .error(function (data, status, headers, config) {
           console.log(data);
@@ -612,11 +627,11 @@ app.controller("MainController",
          * Send the reCaptcha response to the server and use some of the server side APIs to validate it
          * See https://developers.google.com/recaptcha/docs/verify
          */
-        console.log('sending the captcha response to the server', $scope.response);
+ //       console.log('sending the captcha response to the server', $scope.response);
         if (valid) {
-          console.log('Success');
+  //        console.log('Success');
         } else {
-          console.log('Failed validation');
+  //        console.log('Failed validation');
           // In case of a failed validation you need to reload the captcha
           // because each response can be checked just once
           vcRecaptchaService.reload($scope.widgetId);
@@ -648,12 +663,14 @@ app.controller("MainController",
     $scope.Products = [];
     ProductService.LoadProduct()
     .then(function(data, status) {
+        
       $scope.Products = data;
+      $scope.IsCaramelSrikhoReady = true;
     }, function(error, status) {
 
     })
     $scope.Signup = function () {
-      console.log('sinn up ');
+      document.getElementById('SignupDataNotReady').style.display = 'block';
       var email = $scope.Email;
       $scope.User.Firstname = $scope.Firstname;
       $scope.User.Lastname = $scope.Lastname;
@@ -662,11 +679,12 @@ app.controller("MainController",
       .then(function(data, status) {
           return CryptoService.GenerateHashLink($scope.Username, $scope.Password, email)
       }, function(err, status) {
-          blockUI.stop();
+  //        blockUI.stop();
           console.log('err create app user ', err);
+          document.getElementById('SignupDataNotReady').style.display = 'none';
       })
       .then(function (data, status) {
-          console.log(data);
+//          console.log(data);
           hashLink = data;
           var hostPort = $location.host() + ':' +$location.port();
           var mailActivate = {
@@ -677,9 +695,12 @@ app.controller("MainController",
           return EmailService.SendEmailConfirmation(mailActivate)
       })
       .then(function(data, status){
-         
+         swal("Sign up almost Success", "Please check your email to activate your account", "success");
+          document.getElementById('SignupDataNotReady').style.display = 'none';
+          $("#LoginModal").modal("toggle");
       }, function(error, status) {
           swal("Error", "Cannot sign up this time", "error");
+          document.getElementById('SignupDataNotReady').style.display = 'none';
       })
       .finally(function() {
           //Clear Fields after sign up successfully
@@ -691,11 +712,11 @@ app.controller("MainController",
       });
     }
     $scope.Login = function () {
-    //  console.log($scope.username, $scope.password);
+      document.getElementById('LoginDataNotReady').style.display = 'block';
       var appuser = {};
       UserService.LoginWithUsernameAndPassword($scope.username, $scope.password)
       .then(function(data, status) {
-          console.log('data ' , data);
+  //        console.log('data ' , data);
           if (!data || data === undefined) {
               $scope.User = [];
               $scope.IsAdmin = false;
@@ -706,13 +727,14 @@ app.controller("MainController",
           }
           return UserService.CheckIsUserActivate($scope.username, $scope.password);
       }, function(error, status) {
-          console.log('error', error);
-          console.log("Log in Not found");
+  //        console.log('error', error);
+ //         console.log("Log in Not found");
           $scope.LoginErrorMessage = "Error! Wrong Username or Password";
           $('#LoginErrorAlert').show();
           $scope.IsAdmin = false;
           $scope.IsGuest = true;
           $scope.IsLogin = false; 
+          document.getElementById('LoginDataNotReady').style.display = 'none';
           return $q.reject('error occur');
       })
       .then(function (isActivate, status) {
@@ -746,11 +768,16 @@ app.controller("MainController",
                 now.setDate(now.getDate() + 1);
                 $cookies.putObject('User', $scope.User);
               }
-         
+               $('#LoginModal').modal('toggle');
+              document.getElementById('LoginDataNotReady').style.display = 'none';
+              $scope.$emit('handleUserEmit', {
+                  User: $scope.User
+              });
           }
           return UserService.DownloadUserProfileImage($scope.User.Id, $scope.User.Username);
       }, function(err, status) {
          console.log('not found image no problem');
+         document.getElementById('LoginDataNotReady').style.display = 'none';
       })
       .then(function(profile_image, status) {
           if (profile_image.indexOf('base64') > -1)  {
@@ -758,18 +785,16 @@ app.controller("MainController",
             $('#UserProfileImage').children("img").remove();
             $('#UserProfileImage').append(profile_image);
           }
-          $('#LoginModal').modal('toggle');
-          $scope.$emit('handleUserEmit', {
-              User: $scope.User
-          });
+         
       }, function(error, status) {
-          console.log('error', error);
-          console.log("Log in Not found");
+   //       console.log('error', error);
+  //        console.log("Log in Not found");
           $scope.LoginErrorMessage = "Error! Wrong Username or Password";
           $('#LoginErrorAlert').show();
           $scope.IsAdmin = false;
           $scope.IsGuest = true;
           $scope.IsLogin = false; 
+          document.getElementById('LoginDataNotReady').style.display = 'none';
           return $q.reject('error occur');
       })
     }
@@ -878,8 +903,35 @@ app.controller("MainController",
         });
       }
     }
+    $scope.ClearCart = function () {
+      console.log("ClearCart ..");
+        swal({
+          title: "Are you sure?",
+          text: "คุณต้องการล้างสินค้าในตะกร้า ใช่ หรือ ไม่?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#dd6b55",
+          confirmButtonText: "Yes, clear it!",
+          cancelButtonText: "No, cancel please!",
+          closeOnConfirm: true,
+          closeOnCancel: true
+        },
+        function(isConfirm){
+          $scope.$apply(function() {
+            if (isConfirm) {
+              var list = $scope.ROHead.ROLineList;
+              var len = list.length;
+              $scope.ROHead.ROLineList.length = 0;
+            //    $("#CartModal").reload();
+            //  $scope.ROHead.ROLineList.length = 0;
+            } else {
+                  swal("Cancelled", "Your product data is safe :)", "success");
+            }
+          });
+        });
+    }
     $scope.DeleteCart = function() {
-      console.log('delete cart');
+ //     console.log('delete cart');
       swal({
           title: "Are you sure?",
           text: "คุณต้องการล้างสินค้าในตะกร้า ใช่ หรือ ไม่?",
@@ -909,7 +961,7 @@ app.controller("MainController",
         $('#CartModal').modal('toggle');
     } 
     $scope.CheckoutProcess = function() {
-      console.log("shipment..");
+ //     console.log("shipment..");
       if ($scope.IsUserInSession()) {
           console.log('user lod in ');
           $("#CartModal").modal("toggle");
@@ -950,22 +1002,36 @@ app.controller("MainController",
     }
 
     $scope.ChangePostType = function() {
-      console.log('change post ', $scope.ROHead.PostType);
-      WeightRateService.GetWeightRateByPostTypeAndWeight($scope.ROHead.PostType, $scope.ROHead.SumWeight)
-      .then(function(weightRate , status) {
-        $scope.ROHead.SumWeightAmount = parseInt(weightRate.Rate);
-        $scope.ROHead.NetAmount = $scope.ROHead.SumAmount + $scope.ROHead.SumVatAmount + $scope.ROHead.SumWeightAmount - $scope.ROHead.SumDiscountAmount;
-        console.log('sum amt ', $scope.ROHead.SumAmount);
-        console.log('sum disc ',$scope.ROHead.SumDiscountAmount);
-        console.log('sum vat ',$scope.ROHead.SumVatAmount);
-        console.log('sum wt ',$scope.ROHead.SumWeightAmount);
-        console.log('net amt ',$scope.ROHead.NetAmount);
-        
-        $scope.$emit('UpdateROHeadROLine', $scope.ROHead );
-     
-      }, function(error, status) {
-        console.log(error);
-      });
+  //    console.log('change post ', $scope.ROHead.PostType);
+      if ($scope.ROHead.SumWeight > 20000 && $scope.ROHead.PostType === 'EMS') {
+        $scope.ROHead.PostType = 'Normal';
+        swal("คำเตือน", "น้ำหนัก EMS ต้องไม่เกิน 20kg", "warning");
+      } else {
+        if ($scope.ROHead.PostType === 'Normal') {
+            var weight_rate = WeightRateService.GetWeightRateNormal($scope.ROHead.SumWeight);
+            $scope.ROHead.SumWeightAmount = parseInt(weight_rate); 
+            $scope.ROHead.NetAmount = $scope.ROHead.SumAmount + $scope.ROHead.SumVatAmount + $scope.ROHead.SumWeightAmount - $scope.ROHead.SumDiscountAmount;
+            
+            $scope.$emit('UpdateROHeadROLine', $scope.ROHead );
+        } else {
+              WeightRateService.GetWeightRateByPostTypeAndWeight($scope.ROHead.PostType, $scope.ROHead.SumWeight)
+              .then(function(weightRate , status) {
+                $scope.ROHead.SumWeightAmount = parseInt(weightRate.Rate);
+                $scope.ROHead.NetAmount = $scope.ROHead.SumAmount + $scope.ROHead.SumVatAmount + $scope.ROHead.SumWeightAmount - $scope.ROHead.SumDiscountAmount;
+                
+                
+                $scope.$emit('UpdateROHeadROLine', $scope.ROHead );
+             
+              }, function(error, status) {
+                console.log(error);
+              });
+        }
+      }
+  //    console.log('sum amt ', $scope.ROHead.SumAmount);
+  //      console.log('sum disc ',$scope.ROHead.SumDiscountAmount);
+  //      console.log('sum vat ',$scope.ROHead.SumVatAmount);
+  //      console.log('sum wt ',$scope.ROHead.SumWeightAmount);
+  //      console.log('net amt ',$scope.ROHead.NetAmount);
     }
     $scope.UpdateCartBuyQty = function (index, qty) {
       var regexp = /^\d+(\.\d{1,2})?$/;
@@ -981,7 +1047,7 @@ app.controller("MainController",
       }
     }
     $scope.UpdateCartSummary = function () {
-        console.log("UpdateCartSummary ..");
+   //     console.log("UpdateCartSummary ..");
         var roLineList = $scope.ROHead.ROLineList;
         var roHead = $scope.ROHead;
         var amt = 0;
@@ -994,26 +1060,40 @@ app.controller("MainController",
 
         for (var i = 0 ; i < roLineList.length ; i++) {
           var roline = roLineList[i];
+      //    console.log(roline);
+          roline.Weight = roline.Quantity * roline.DrWeight;
           roline.Amount = roline.Quantity * roline.Price;
-          roline.VatAmount = roline.Amount * 0.07;
+          roline.VatAmount = roline.Amount * $scope.Company.VatRate;
           sumAmt += roline.Amount;
           sumWeight += roline.Weight;
           sumVatAmt += roline.VatAmount;
           sumDiscAmt += roline.DiscountAmount;
         }
-        netAmt = sumAmt - sumDiscAmt + sumVatAmt;
-        WeightRateService.GetWeightRateByPostTypeAndWeight(ROHead.PostType,sumWeight )
-        .then(function(weightRate, status) {
-            sumWeightAmt = parseInt(weightRate.Rate);
-        }, function(error, status) {
 
-        });
-        $scope.ROHead.SumWeight = sumWeight;
-        $scope.ROHead.SumAmount = sumAmt;
-        $scope.ROHead.SumVatAmount = sumVatAmt;
-        $scope.ROHead.SumWeightAmount = sumWeightAmt;
-        $scope.ROHead.SumDiscountAmount = sumDiscAmt;
-        $scope.ROHead.NetAmount = netAmt;
+   //     console.log(sumWeight);
+        if ($scope.ROHead.PostType === 'EMS' && sumWeight > 20000) {
+            $scope.ROHead.PostType = 'Normal';
+            $scope.UpdateCartSummary();
+        } else {
+            if ($scope.ROHead.PostType === 'Normal') {
+                var weight_rate = WeightRateService.GetWeightRateNormal(sumWeight);
+                sumWeightAmt = parseInt(weight_rate);
+            } else {
+                WeightRateService.GetWeightRateByPostTypeAndWeight($scope.ROHead.PostType, sumWeight )
+                .then(function(weightRate, status) {
+                    sumWeightAmt = parseInt(weightRate.Rate);
+                }, function(error, status) {
+
+                });
+            }
+            netAmt = sumAmt - sumDiscAmt + sumVatAmt + sumWeightAmt;
+            $scope.ROHead.SumWeight = sumWeight;
+            $scope.ROHead.SumAmount = sumAmt;
+            $scope.ROHead.SumVatAmount = sumVatAmt;
+            $scope.ROHead.SumWeightAmount = sumWeightAmt;
+            $scope.ROHead.SumDiscountAmount = sumDiscAmt;
+            $scope.ROHead.NetAmount = netAmt;
+        }
     }
 
     $scope.step = 1;
@@ -1080,11 +1160,11 @@ app.controller("MainController",
             swal("เตือน", "คุณต้องใส่หมายเลขมือถือ", "warning");
             return;
         }
-        if (!validateTelNo($scope.ROHead.TelNo)) {
+        if (validateTelNo($scope.ROHead.TelNo)) {
             swal("เตือน", "หมายเลขโทรศัพท์ไม่ถูกต้อง", "warning");
             return;
         }
-        if (!validateTelNo($scope.ROHead.MobileNo)) {
+        if (validateTelNo($scope.ROHead.MobileNo)) {
             swal("เตือน", "่หมายเลขไม่ถูกต้อง", "warning");
             return;
         }
@@ -1142,16 +1222,18 @@ app.controller("MainController",
       $scope.ROHead.Email = $scope.User.Email;
     }
     $scope.UpdateBillingProvince = function() {
-        console.log("ProvinceId " + $scope.ROHead.BillingProvinceId);
+    //    console.log("ProvinceId " + $scope.ROHead.BillingProvinceId);
+        document.getElementById('LoadDistrictDataReady').style.display = 'block';
         DistrictService.LoadDistrictByProvince($scope.ROHead.BillingProvinceId)
         .then(function(districts, status) {
+            document.getElementById('LoadDistrictDataReady').style.display = 'none';
             $scope.SelectBillingDistrictList = districts;
         }, function(err, status) {
             console.log(err);
         });
     }
     $scope.UpdateReceiptProvince = function() {
-        console.log("ProvinceId " + $scope.ROHead.ReceiptProvinceId);
+    //    console.log("ProvinceId " + $scope.ROHead.ReceiptProvinceId);
         DistrictService.LoadDistrictByProvince($scope.ROHead.ReceiptProvinceId)
         .then(function(districts, status) {
             $scope.SelectReceiptDistrictList = districts;
@@ -1160,9 +1242,11 @@ app.controller("MainController",
         });
     }
     $scope.UpdateBillingDistrict = function() {
+        document.getElementById('LoadSubDistrictDataReady').style.display = 'block';
         SubDistrictService.LoadSubDistrictByDistrict($scope.ROHead.BillingDistrictId)
         .then(function(subdistricts, status) {
             $scope.SelectBillingSubDistrictList = subdistricts;
+            document.getElementById('LoadSubDistrictDataReady').style.display = 'none';
         }, function(err, status) {
             console.log(err);
         });
@@ -1179,9 +1263,9 @@ app.controller("MainController",
     $scope.UpdateBillingSubDistrict = function() {
         SubDistrictService.LoadSubDistrictBySubDistrict($scope.ROHead.BillingSubDistrictId)
         .then(function(zipcode, status) {
-            console.log('Bill ' + zipcode);
-            console.log(zipcode);
-            console.log(zipcode.ZipCode);
+        ////    console.log('Bill ' + zipcode);
+         //   console.log(zipcode);
+         //   console.log(zipcode.ZipCode);
             $scope.SelectBillingZipCodeList = zipcode;
             $scope.ROHead.BillingZipCode = zipcode.ZipCode;
         }, function(err, status) {
@@ -1192,8 +1276,8 @@ app.controller("MainController",
     $scope.UpdateReceiptSubDistrict = function() {
         SubDistrictService.LoadSubDistrictBySubDistrict($scope.ROHead.ReceiptSubDistrictId)
         .then(function(zipcode, status) {
-            console.log(zipcode);
-            console.log(zipcode[0].ZipCode);
+       //     console.log(zipcode);
+      //      console.log(zipcode[0].ZipCode);
             $scope.SelectReceiptZipCodeList = zipcode;
             $scope.ROHead.ReceiptZipCode = zipcode._id;
         }, function(err, status) {
@@ -1211,7 +1295,7 @@ app.controller("MainController",
             $scope.UpdateReceiptDistrict();
             $scope.ROHead.ReceiptSubDistrictId = $scope.ROHead.BillingSubDistrictId;
             $scope.UpdateReceiptSubDistrict();
-            console.log($scope.ROHead.BillingZipCode);
+     //       console.log($scope.ROHead.BillingZipCode);
             $scope.ROHead.ReceiptZipCode = $scope.ROHead.BillingZipCode;
         }
     }
@@ -1251,14 +1335,15 @@ app.controller("MainController",
         $scope.ValidateFinish();
     }
 
+    $scope.ProcessingPurchaseOrderValue = 0;
     $scope.ValidateFinish = function() {
       console.log('ValidateFinish');
-        blockUI.start("Processing ...");
+      $scope.ProcessingPurchaseOrderValue = 15;
         var newcode = '';
         AppConfigService.GetNewCode("RO")
         .then(function(data, status) {
-            blockUI.message("25%");
             newcode = data;
+            $scope.ProcessingPurchaseOrderValue = 33;
             $scope.ROHead.RODate = new Date(); //(new Date()).toISOString();
             $scope.ROHead.RONo = newcode;
             $scope.ROHead.ROLineList = $scope.ROLineList;
@@ -1270,36 +1355,37 @@ app.controller("MainController",
             $scope.ROHead.StaffApprovePaymentStatus = "N";
             return ReceiptOrderService.CreateReceiptOrder($scope.ROHead);
         }, function(err, status) {
-            blockUI.stop();
             console.log('err create receipt ', err);
         })
         .then(function(data, status) {
-            blockUI.message("53%");
+            $scope.ProcessingPurchaseOrderValue = 64;
             return EmailService.SendEmailStaffNewOrder(newcode);
         }, function(err, status) {
-            blockUI.stop();
             console.log('create ro head ', err);
         })
         .then(function(data, status) {
-            blockUI.message("74%");
+            $scope.ProcessingPurchaseOrderValue = 89;
             return EmailService.SendEmailCustomerNewOrder($scope.User.Email, newcode);
         }, function(err, status) {
-            blockUI.stop();
             console.log('error sending email staff ', err);
         })
         .then(function(data, status) {
-            blockUI.message("98%");
-            blockUI.stop();
             swal("Thank you for your order", "You can check and track your order in history.", "success");
+            $scope.ProcessingPurchaseOrderValue = 100;
+             $scope.ROHead.ROLineList.length = 0;
+            document.getElementById('ProcessingPurchaseOrder').style.display = 'none';
+            document.getElementById('ProcessedPurchaseOrder').style.display = 'block';
+            $timeout(function() {
+
+            }, 2500);
         }, function(err, status) {
-            blockUI.stop();
             console.log('error sending email customer ', err);
         });
     }
     $scope.Test = function() {
-      console.log('IsExistEmail', $scope.ExistEmail);
+        console.log('IsExistEmail', $scope.ExistEmail);
         console.log('IsExistUsername', $scope.ExistUsername);
-         console.log('ValidEmail', $scope.ValidEmail);
+        console.log('ValidEmail', $scope.ValidEmail);
         console.log('IsHuman', $scope.IsHuman);
         console.log('IsAcceptCondition', $scope.IsAcceptCondition);
     }

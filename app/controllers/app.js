@@ -19,7 +19,9 @@ var app = angular.module('CSKWEB', [
     'ngTouch',
     'ngTable',
     'pascalprecht.translate', 
-      'CONFIG', 'vcRecaptcha', 'ngPasswordStrength','blockUI']);
+      'CONFIG', 'vcRecaptcha', 'ngPasswordStrength'
+    //  ,'blockUI'
+      ]);
 
 app.run(function ($rootScope, $http, $q) {
 

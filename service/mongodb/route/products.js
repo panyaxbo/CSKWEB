@@ -9,7 +9,7 @@ router.get(mongodbConfig.url.product.home, function (req, res, next) {
 
 /* GET users listing. */
 router.get('/LoadProduct', function (req, res) {
-    db.collection(mongodbConfig.mongodb.product.name)
+    db.collection('Product')
         .find({})
         .toArray(function (err, items) {
             if (items) {

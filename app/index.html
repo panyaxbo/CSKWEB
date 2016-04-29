@@ -14,7 +14,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.0.2/css/hover-min.css" rel="stylesheet">
     <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css" />
-    <link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.min.css" />
+    <link rel="stylesheet" href="/bower_components/angular-bootstrap/ui-bootstrap-csp.css" />
+    <!--<link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.min.css" /> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css"/>
     <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.min.css"></script>
     <link rel="stylesheet" href="styles/main.css">
@@ -46,7 +47,6 @@
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angularjs-datepicker/dist/angular-datepicker.min.js"></script>
-    <script src="bower_components/angularjs-recaptcha/release/angularjs-recaptcha.min.js"></script>
     <script src="bower_components/angular-messages/angular-messages.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
@@ -57,16 +57,18 @@
     <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/ng-password-strength/dist/scripts/ng-password-strength.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
     <script src="bower_components/angular-recaptcha/release/angular-recaptcha.js"></script>
-    <script src="bower_components/angularjs-datepicker/dist/angular-datepicker.min.js"></script>
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/angular-block-ui/dist/angular-block-ui.js"></script>
     <script src="bower_components/ng-table/dist/ng-table.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-viewport-checker/1.8.7/jquery.viewportchecker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
     <script src="controllers/app.js"></script>
     <script src="controllers/main-controller.js"></script>
     <script src="controllers/header-controller.js"></script>
@@ -91,10 +93,10 @@
     <script src="services/menu-service.js"></script>
     <script src="constants/constants.js"></script>
     <script src="scripts/paypal-button.min.js"></script>
-    <script async src="//www.paypalobjects.com/api/checkout.js"></script>
     <script src="scripts/main.js"></script>
     <script src="scripts/csk-modal.js"></script>
     <script src="scripts/step.js"></script>
     <!-- endbuild -->
+   
 </body>
 </html>

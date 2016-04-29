@@ -67,3 +67,78 @@ window.paypalCheckoutReady = function() {
         }]
     });
 }
+/*
+$(document).ready(function() {
+    
+    /* Every time the window is scrolled ... 
+    $(window).scroll( function(){
+    
+        /* Check the location of each desired element 
+        $('.marketing').each( function(i){
+            
+            var bottom_of_object = $(this).offset().top + $(this).outerHeight();
+            var bottom_of_window = $(window).scrollTop() + $(window).height();
+            
+            /* If the object is completely visible in the window, fade it it
+            if( bottom_of_window > bottom_of_object ){
+                
+                $(this).animate({"left": "+=50px",'opacity':'1'},'slow' );
+                    
+            }
+            
+        }); 
+    
+    });
+    
+});*/
+    
+$(window).on("load",function() {
+  $(window).scroll(function() {
+    $(".marketing").each(function() {
+      /* Check the location of each desired element */
+      var objectBottom = $(this).offset().top + $(this).outerHeight();
+      var windowBottom = $(window).scrollTop() + $(window).innerHeight();
+      
+      /* If the element is completely within bounds of the window, fade it in */
+      if (objectBottom < windowBottom) { //object comes into view (scrolling down)
+        if ($(this).css("opacity")==0) {$(this).fadeTo(400,1);}
+      } else { //object goes out of view (scrolling up)
+        if ($(this).css("opacity")==1) {$(this).fadeTo(400,0);}
+      }
+    });
+  }); $(window).scroll(); //invoke scroll-handler on page-load
+});
+$(document).ready(function () {
+            var i = 0;
+            var posts = $('#marketing').children();
+        //    console.log('posts ', posts);
+            function animateCircle() {
+                if (i % 2 === 0) {
+                  //  $(posts[i]).addClass('visible animated fadeInUp');
+                    $(posts[i]).viewportChecker({
+                        classToAdd: 'visible animated fadeInUp',
+                        offset: 100
+                    });
+                } else {
+                  
+                  //  $(posts[i]).addClass('visible animated fadeInDown');
+                     $(posts[i]).viewportChecker({
+                        classToAdd: 'visible animated fadeInDown',
+                        offset: 100
+                    });
+                }
+                i++;
+                if (i <= posts.length) {
+                    startAnimation();
+                }
+            }
+
+            function startAnimation() {
+                setTimeout(function () {
+                    animateCircle();
+                }, 1000);
+            }
+
+            posts.addClass('hidden');
+            animateCircle(posts);   
+        });        

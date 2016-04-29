@@ -43,6 +43,7 @@ module.exports = function(config) {
       'bower_components/moment/moment.js',
       'bower_components/angular-block-ui/dist/angular-block-ui.js',
       'bower_components/ng-table/dist/ng-table.min.js',
+      'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       // endbower
       "app/scripts/**/*.js",
       "test/mock/**/*.js",

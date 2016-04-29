@@ -223,8 +223,9 @@ router.post(mongodbConfig.url.receipt.createReceipt, function (req, res) {
     var curDate = new Date ();
     curDate.setHours ( curDate.getHours() + 7 );// GMT Bangkok +7
     ROHead.RODate = curDate; 
-/*    var CreateROLine = function (roline, callback) {
+    var CreateROLine = function (roline, callback) {
         delete roline.Uoms;
+        delete roline.DrWeight;
         db.collection(mongodbConfig.mongodb.roline.name)
         .insert(roline,
             function (error, created_roline) {
@@ -263,7 +264,7 @@ router.post(mongodbConfig.url.receipt.createReceipt, function (req, res) {
                     });
                 }
             });
-    */
+    
 
     var CreateROHeadPromise = function() {
         var defer = Q.defer();
@@ -297,18 +298,7 @@ router.post(mongodbConfig.url.receipt.createReceipt, function (req, res) {
         return Q.all(promises);
     }
 
-    CreateROHeadPromise()
-    .then(function(ROHead, status) {
-        console.log(ROHead);
-        return CreateROLinePromise(ROLineList);
-    })
-    .then(function(data, status) {
-        res.json(ROHead);
-    }, function(err, status) {
-        console.log(err, err.stack.split("\n"));
-        res.sendStatus(500);
-        return;
-    });
+    
 });
 
 // Update ROHead
