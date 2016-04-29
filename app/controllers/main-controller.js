@@ -1382,13 +1382,7 @@ app.controller("MainController",
             console.log('error sending email customer ', err);
         });
     }
-    $scope.Test = function() {
-        console.log('IsExistEmail', $scope.ExistEmail);
-        console.log('IsExistUsername', $scope.ExistUsername);
-        console.log('ValidEmail', $scope.ValidEmail);
-        console.log('IsHuman', $scope.IsHuman);
-        console.log('IsAcceptCondition', $scope.IsAcceptCondition);
-    }
+    
     $scope.ChangePaymentType = function() {
       if ($scope.PaymentType == 'Paypal') {
           $scope.LoadPaypalInformation();
