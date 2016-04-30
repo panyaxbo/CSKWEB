@@ -330,6 +330,8 @@ app.controller("MainController",
             $translate.use(locale);
         }
         $scope.$emit('UpdateSelectedLocale', $scope.SelectedLocale);
+        document.getElementsByTagName('title')[0].text = $filter('translate')('TITLE.NAME');
+        document.getElementsByName('description')[0].content = $filter('translate')('TITLE.DESCRIPTION');
     }
 
     CredentialService.LoadOAuth()

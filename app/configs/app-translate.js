@@ -3,7 +3,7 @@ app.config(function ($translateProvider) {
     $translateProvider.translations('th', {
         TITLE: {
             NAME: 'กาละแมอันดับ 1 อำเภอศีขรภูมิ',
-            DESCRIPTION: ''
+            DESCRIPTION: 'กาละแมที่พัฒนาสูตรอยู่สม่ำเสมอ เพื่อรสชาติที่อร่อยถูกปากลูกค้า หรือซื้อให้เป็นของฝากญาติ พี่น้อง และเพื่อนๆ แม้ทานเล่นก็ได้'
         },
         WEIGHT: 'กรัม',
         WEIGHT_UOM: 'กรัม',
@@ -325,7 +325,7 @@ app.config(function ($translateProvider) {
     $translateProvider.translations('us', {
         TITLE: {
             NAME: 'Caramel Srikho - Sweet, Fresh and Delicious Dessert',
-            DESCRIPTION: ''
+            DESCRIPTION: 'Caramel recipe has always developed for the best delicious dessert. Customers can buy as a souvenir to relatives and friends or as a snacks.'
         },
         WEIGHT_UOM: 'gram',
         HEAD: {
@@ -645,7 +645,7 @@ app.config(function ($translateProvider) {
     $translateProvider.translations('jp', {
         TITLE: {
             NAME: 'キャラメル  - 甘い、新鮮、おいしい、デザート',
-            DESCRIPTION: ''
+            DESCRIPTION: 'キャラメルのレシピは、常に最高のおいしいデザートのために開発しました。お客様は、親戚や友人にまたはスナックなどお土産として購入することができます。'
         },
         WEIGHT_UOM: 'グラム',
         HEAD: {
@@ -964,7 +964,7 @@ app.config(function ($translateProvider) {
     $translateProvider.translations('cn', {
         TITLE: {
             NAME: '興 順 許 - 實施方案 摩托车配件 橡膠 和 润滑剂',
-            DESCRIPTION: ''
+            DESCRIPTION: '佳美配方一直為最佳美味的甜點開發。客戶可以當作紀念品親友或作為零食購買。'
         },
         WEIGHT_UOM: '克',
         HEAD: {
