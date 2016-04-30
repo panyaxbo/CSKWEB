@@ -230,3 +230,7 @@ blockquote.no-border {
 .progress-bar { 
   transition: width 1s ease-in-out; 
 }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
